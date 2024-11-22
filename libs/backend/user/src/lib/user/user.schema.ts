@@ -70,12 +70,6 @@ export class User implements IUser {
     })
     isActive = true;
 
-    @Prop({
-        default: [],
-        type: [MongooseSchema.Types.ObjectId],
-        ref: 'Meal'
-    })
-    meals: IMeal[] = [];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
