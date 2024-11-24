@@ -1,12 +1,9 @@
 {
   "routes": [
     {
-      "route": "/api/*",
-      "allowedMethods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-    },
-    {
       "route": "/*",
-      "rewrite": "/index.html"
+      "serve": "/index.html",
+      "statusCode": 200
     }
   ]
 }

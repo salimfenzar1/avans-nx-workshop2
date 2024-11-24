@@ -1,10 +1,9 @@
 import { IEnvironment } from './environment.interface';
 
 export const environment: IEnvironment = {
-    production: true,
+  production: true,
 
-    ROOT_DOMAIN_URL: 'https://nxworkshop.azurewebsites.net',
-    dataApiUrl: 'https://nxworkshop.azurewebsites.net/api',
-
-    MONGO_DB_CONNECTION_STRING: 'mongodb://remote-host/mongodb'
+  ROOT_DOMAIN_URL: '', 
+  dataApiUrl: '',       
+  MONGO_DB_CONNECTION_STRING: '', 
 };
