@@ -3,3 +3,10 @@
 .active {
     font-style: bold;
 }
+:root {
+    --bs-primary: #ff5733 !important;
+    --bs-btn-bg: var(--bs-primary) !important;
+    --bs-btn-border-color: var(--bs-primary) !important;
+    --bs-btn-hover-bg: #e6492d !important;
+    --bs-btn-hover-border-color: #d43a24 !important;
+}

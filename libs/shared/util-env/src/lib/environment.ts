@@ -1,13 +1,9 @@
 import { IEnvironment } from './environment.interface';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
 
 export const environment: IEnvironment = {
   production: false,
 
-  ROOT_DOMAIN_URL: process.env.ROOT_DOMAIN_URL || 'dummy',
-  dataApiUrl: process.env.DATA_API_URL || 'dummy',
-
-  MONGO_DB_CONNECTION_STRING: process.env.MONGO_DB_CONNECTION_STRING || 'dummy',
+  ROOT_DOMAIN_URL: 'http://localhost:3000',  
+  dataApiUrl: 'http://localhost:3000/api',   
+  MONGO_DB_CONNECTION_STRING: 'mongodb://localhost:27017/recipe'  
 };

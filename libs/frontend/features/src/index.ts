@@ -4,3 +4,4 @@ export * from './lib/users/user-details/user-details.component';
 export * from './lib/users/user-edit/user-edit.component';
 export * from './lib/columns/columns.component'
 export * from './lib/auth/auth.service'
+export * from './lib/recipes/recipe.service'

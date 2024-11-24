@@ -11,6 +11,10 @@ import { FeaturesModule } from '@avans-nx-workshop/features';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent} from './components/register/register.component'
+import { AuthGuard } from '@avans-nx-workshop/backend/auth';
+import { RecipesComponent } from './components/recipe/recipe.component';
+import { RecipeAddComponent } from './components/recipe-add/recipe-add.component';
+import { RecipeDetailComponent } from './components/recipe/recipe_detail.component';
 
 
 @NgModule({
@@ -21,7 +25,10 @@ import { RegisterComponent} from './components/register/register.component'
         HeaderComponent,
         FooterComponent,
         LoginComponent,
-        RegisterComponent
+        RegisterComponent,
+        RecipesComponent,
+        RecipeAddComponent,
+        RecipeDetailComponent
     ],
     imports: [
         BrowserModule,
@@ -29,7 +36,7 @@ import { RegisterComponent} from './components/register/register.component'
             initialNavigation: 'enabledBlocking'
         }),
         FeaturesModule,
-        FormsModule 
+        FormsModule
     ],
     providers: [],
     bootstrap: [AppComponent]

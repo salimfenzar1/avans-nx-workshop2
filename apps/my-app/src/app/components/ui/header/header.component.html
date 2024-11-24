@@ -1,32 +1,31 @@
-<header class="p-3 mb-3 border-bottom">
-    <div class="container">
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
-          Logo
-          <!-- <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-            <use xlink:href="#bootstrap"></use>
-          </svg> -->
-        </a>
+<header class="p-3 bg-light border-bottom shadow-sm">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-between">
+      <!-- Logo -->
+      <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+        <img src="../../../../assets/recipelogo.png" height="60" alt="Logo" class="me-2">
+        <span class="fs-4 fw-bold">Recipe App</span>
+      </a>
 
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a routerLink="" class="nav-link px-2 link-secondary">Home</a></li>
-          <li><a routerLink="users" routerLinkActive="active" class="nav-link px-2 link-body-emphasis">Users</a></li>
-          <li><a routerLink="columns" routerLinkActive="active" class="nav-link px-2 link-body-emphasis">Columns</a></li>
-          <li><a routerLink="about" routerLinkActive="active" class="nav-link px-2 link-body-emphasis">About</a></li>
-        </ul>
+      <!-- Navigation Links -->
+      <ul class="nav me-auto mb-2 justify-content-center mb-lg-0" style="margin-left: 20px;">
+        <li><a  *ngIf="isLoggedIn()" routerLink="users" routerLinkActive="active" class="nav-link text-dark px-3">Users</a></li>
+        <li><a  *ngIf="isLoggedIn()" routerLink="columns" routerLinkActive="active" class="nav-link text-dark px-3">Columns</a></li>
+        <li><a  *ngIf="isLoggedIn()" routerLink="recipes" routerLinkActive="active" class="nav-link text-dark px-3">Recipes</a></li>
+        <li><a routerLink="about" routerLinkActive="active" class="nav-link text-dark px-3">About</a></li>
+      </ul>
 
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-          <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-        </form>
-
-        <div *ngIf="!isLoggedIn(); else loggedIn">
-          <a routerLink="/login" class="btn btn-outline-primary me-2">Login</a>
-          <a routerLink="/register" class="btn btn-primary">Register</a>
+      <!-- Login/Register or Logout -->
+      <div *ngIf="!isLoggedIn(); else loggedIn" class="d-flex align-items-center">
+        <a routerLink="/login" class="btn btn-outline-primary me-2">Login</a>
+        <a routerLink="/register" class="btn btn-primary">Register</a>
       </div>
       <ng-template #loggedIn>
+        <div class="d-flex align-items-center">
+          <span class="me-3 fw-bold text-dark">Welcome</span>
           <button (click)="logout()" class="btn btn-outline-danger">Logout</button>
+        </div>
       </ng-template>
-      
-      </div>
     </div>
-  </header>
+  </div>
+</header>

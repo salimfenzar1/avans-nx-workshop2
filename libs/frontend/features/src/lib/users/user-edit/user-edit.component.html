@@ -28,20 +28,22 @@
       <div class="mb-3">
         <label for="role" class="form-label">Role</label>
         <select id="role" formControlName="role" class="form-select">
-          <option [value]="0">Unknown</option>
-          <option [value]="1">Admin</option>
-          <option [value]="2">User</option>
+            <option value="Guest">Guest</option>
+            <option value="Admin">Admin</option>
+            <option value="Unknown">Unknown</option>
         </select>
-      </div>
-  
-      <div class="mb-3">
+    </div>
+    
+    <div class="mb-3">
         <label for="gender" class="form-label">Gender</label>
         <select id="gender" formControlName="gender" class="form-select">
-          <option [value]="0">Unknown</option>
-          <option [value]="1">Male</option>
-          <option [value]="2">Female</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Unknown">Unknown</option>
         </select>
-      </div>
+    </div>
+    
+      
   
       <div class="form-check mb-3">
         <input

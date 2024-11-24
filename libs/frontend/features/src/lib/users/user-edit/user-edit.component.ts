@@ -94,4 +94,5 @@ export class UserEditComponent implements OnInit {
   cancel(): void {
     this.router.navigate(['/users', this.userId]);
   }
+
 }

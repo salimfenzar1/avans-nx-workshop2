@@ -4,6 +4,9 @@ import { AboutComponent } from './components/about/about.component';
 import { UserDetailsComponent, UserEditComponent, UserListComponent, ColumnsComponent } from '@avans-nx-workshop/features';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { RecipesComponent } from './components/recipe/recipe.component';
+import { RecipeAddComponent } from './components/recipe-add/recipe-add.component';
+import { RecipeDetailComponent } from './components/recipe/recipe_detail.component';
 
 export const appRoutes: Route[] = [
     // Hier komen onze URLs te staan.
@@ -19,7 +22,9 @@ export const appRoutes: Route[] = [
     ] },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
-
+    { path: 'recipes', component: RecipesComponent },
+    { path: 'recipes/add', component: RecipeAddComponent },
+    { path: 'recipes/:id', component: RecipeDetailComponent }, 
 
 
 

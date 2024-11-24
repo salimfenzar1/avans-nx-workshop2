@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UserService } from './users/user.service';
 import { HttpClientModule } from '@angular/common/http'; 
 import { AuthService } from './auth/auth.service';
+import { RecipeService } from './recipes/recipe.service';
 @NgModule({
     imports: [CommonModule, RouterModule,ReactiveFormsModule, HttpClientModule  ],
     declarations: [
@@ -19,7 +20,8 @@ import { AuthService } from './auth/auth.service';
     ],
     providers:[
         UserService,
-        AuthService
+        AuthService,
+        RecipeService
     ]
 })
 export class FeaturesModule {}
