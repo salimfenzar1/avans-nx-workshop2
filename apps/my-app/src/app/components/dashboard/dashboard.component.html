@@ -6,7 +6,7 @@
         <p class="lead text-muted">
           Discover, share, and manage recipes. Explore collections curated by our users or create your own. Let’s make cooking fun and collaborative!
         </p>
-        <p>
+        <p  *ngIf="isLoggedIn()">
           <a routerLink="/recipes" class="btn btn-primary my-2">Explore Recipes</a>
           <a routerLink="/my-recipes" class="btn btn-secondary my-2">My Recipes</a>
         </p>
