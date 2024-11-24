@@ -35,14 +35,14 @@ jobs:
       - name: Upload frontend-app artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
-          name: frontend-app
-          path: frontend-app-release.zip
+          name: my-app
+          path: my-app-release.zip
           
       - name: Upload backend-api artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
-          name: backend-api
-          path: backend-api-release.zip
+          name: data-api
+          path: data-api-release.zip
           
           
   deploy-frontend-app:
@@ -55,7 +55,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: frontend-app
+          name: my-app
 
       - name: Unzip artifact for deployment
         run: unzip frontend-app-release.zip
@@ -83,7 +83,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: backend-api
+          name: data-api
 
       - name: Unzip artifact for deployment
         run: unzip backend-api-release.zip
