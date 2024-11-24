@@ -58,7 +58,7 @@ jobs:
           name: my-app
 
       - name: Unzip artifact for deployment
-        run: unzip frontend-app-release.zip
+        run: unzip my-app-release.zip
         
       - name: Deploy to static azure web app
         id: builddeploy
@@ -86,7 +86,7 @@ jobs:
           name: data-api
 
       - name: Unzip artifact for deployment
-        run: unzip backend-api-release.zip
+        run: unzip data-api-release.zip
 
       - name: Install dependencies
         run: npm install
