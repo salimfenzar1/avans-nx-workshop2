@@ -18,7 +18,7 @@
                 "assets": [
                     "apps/my-app/src/favicon.ico",
                     "apps/my-app/src/assets",
-                    "src/routes.json"
+                    "apps/my-app/src/staticwebapp.config.json"
                 ],
                 "styles": [
                     "node_modules/bootstrap/dist/css/bootstrap.min.css",
