@@ -20,7 +20,7 @@ export enum UserGender {
  * Minimal user information
  */
 
-export interface IUserIdentity { // extends IEntity {
+export interface IUserIdentity {
     name: string;
     emailAddress: string;
     profileImgUrl: string;
@@ -43,7 +43,6 @@ export interface IUserInfo extends IUserRegistration {
  * All user information, incl. domain entities
  */
 export interface IUser extends IUserInfo {
-    meals: IMeal[];
 }
 
 export type ICreateUser = Pick<IUser, 'name' | 'password' | 'emailAddress'>;

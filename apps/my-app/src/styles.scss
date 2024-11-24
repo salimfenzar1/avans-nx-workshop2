@@ -1,0 +1,43 @@
+$primary: #ff5733; // Custom primary color
+$btn-font-size: 1.2rem; // Larger font size for buttons
+$btn-color: #fff; // White text color for buttons
+$btn-bg: $primary; // Set button background to your primary color
+
+@import "node_modules/bootstrap/scss/bootstrap";
+
+// Button customizations
+.btn-primary {
+  color: #fff !important; // Force white text color
+  background-color: $primary;
+
+  &:hover {
+    color: #fff !important; // Ensure text stays white on hover
+    background-color: darken($primary, 10%);
+  }
+
+  &:focus,
+  &:active {
+    color: #fff !important;
+    background-color: darken($primary, 15%);
+    border-color: darken($primary, 20%);
+  }
+}
+
+// Header and navigation customizations
+header .nav-link {
+  font-size: 1rem; // Make the text larger
+  font-weight: 500; // Add weight for emphasis
+  text-transform: uppercase; // Optional: make text uppercase
+  transition: color 0.3s ease, transform 0.3s ease; // Smooth transition effect
+}
+
+header .nav-link:hover {
+  color: $primary; // Use your custom primary color
+  transform: scale(1.05); // Slightly enlarge the link
+}
+
+header .nav-link.active {
+  color: $primary; // Active link color
+  font-weight: 600; // Bold active link
+  border-bottom: 2px solid $primary; // Highlight active link
+}

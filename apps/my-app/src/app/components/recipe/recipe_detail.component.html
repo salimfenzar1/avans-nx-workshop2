@@ -1,0 +1,55 @@
+<div *ngIf="recipe; else loading" class="container mt-5">
+    <!-- Title Section -->
+    <div class="row mb-4">
+      <div class="col">
+        <h1 class="display-4">{{ recipe.title }}</h1>
+        <p class="lead text-muted">{{ recipe.description }}</p>
+      </div>
+    </div>
+  
+    <!-- Recipe Image -->
+    <div class="row mb-4">
+      <div class="col">
+        <img *ngIf="recipe.imageUrl" [src]="recipe.imageUrl" alt="Recipe Image" class="img-fluid rounded shadow-sm" style="height: 15rem;">
+      </div>
+    </div>
+  
+    <!-- Ingredients Section -->
+    <div class="row mb-4">
+      <div class="col">
+        <h3 class="h4 text-primary">Ingredienten</h3>
+        <ul class="list-group">
+          <li *ngFor="let ingredient of recipe.ingredients" class="list-group-item">{{ ingredient }}</li>
+        </ul>
+      </div>
+    </div>
+  
+    <!-- Steps Section -->
+    <div class="row mb-4">
+      <div class="col">
+        <h3 class="h4 text-primary">Stappen</h3>
+        <ol class="list-group list-group-numbered">
+          <li *ngFor="let step of recipe.steps" class="list-group-item">{{ step }}</li>
+        </ol>
+      </div>
+    </div>
+  
+    <!-- Cooking Time Section -->
+    <div class="row mb-4">
+      <div class="col">
+        <h3 class="h4 text-primary">Cooking Time</h3>
+        <p>{{ recipe.cookingTime }} minuten</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Loading Indicator -->
+  <ng-template #loading>
+    <div class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Loading recipe details...</p>
+    </div>
+  </ng-template>
+  

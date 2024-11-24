@@ -61,9 +61,32 @@ export class UpsertUserDto implements IUpsertUser {
 }
 
 export class UpdateUserDto implements IUpdateUser {
-    _id?: string | undefined;
+    @IsString()
+    @IsNotEmpty()
+    _id!: string; 
+    
+    @IsString()
+    @IsOptional()
+    name?: string;
 
     @IsString()
     @IsOptional()
-    name!: string;
+    emailAddress?: string;
+
+    @IsBoolean()
+    @IsOptional()
+    isActive?: boolean;
+
+    @IsString()
+    @IsOptional()
+    profileImgUrl?: string;
+
+    @IsString()
+    @IsOptional()
+    role?: UserRole;
+
+    @IsString()
+    @IsOptional()
+    gender?: UserGender;
 }
+

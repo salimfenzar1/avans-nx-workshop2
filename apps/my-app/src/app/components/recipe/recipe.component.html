@@ -1,0 +1,48 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1>Recipes</h1>
+      <a routerLink="/recipes/add" class="btn btn-primary mb-3">Add Recipe</a>
+    </div>
+    
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <!-- Search Bar -->
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search Recipes..."
+          [(ngModel)]="searchQuery"
+          (ngModelChange)="filterRecipes()"
+        />
+      </div>
+      <div class="col-md-6">
+        <!-- Filters (example filter for cooking time) -->
+        <select class="form-select" [(ngModel)]="selectedTimeFilter" (ngModelChange)="filterRecipes()">
+          <option value="">All Times</option>
+          <option value="30">Tot 30 minutes</option>
+          <option value="60">Tot 60 minuten</option>
+          <option value="120">Tot 120 minuten</option>
+        </select>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div *ngFor="let recipe of filteredRecipes" class="col-md-4">
+        <div class="card mb-3 shadow-sm">
+          <img
+            *ngIf="recipe.imageUrl"
+            [src]="recipe.imageUrl"
+            class="card-img-top"
+            alt="{{ recipe.title }}"
+            style="height: 200px; object-fit: cover;"
+          />
+          <div class="card-body">
+            <h5 class="card-title">{{ recipe.title }}</h5>
+            <p class="card-text">{{ recipe.description | slice: 0:100 }}...</p>
+            <a [routerLink]="['/recipes', recipe._id]" class="btn btn-primary btn-sm">View</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
