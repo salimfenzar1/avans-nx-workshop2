@@ -19,7 +19,7 @@ async function bootstrap() {
     app.setGlobalPrefix(globalPrefix);
 
     const corsOptions: CorsOptions = {
-        origin: ['https://orange-grass-044ab5703.5.azurestaticapps.net'], // Frontend-domein
+        origin: true, // Frontend-domein
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         allowedHeaders: ['Content-Type', 'Authorization'],
         credentials: true,
