@@ -19,9 +19,9 @@ async function bootstrap() {
     app.setGlobalPrefix(globalPrefix);
 
     app.enableCors({
-        origin: true, // Toegestaan voor alle origins
-        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Toegestane HTTP-methoden
-        allowedHeaders: ['Content-Type', 'Authorization'], // Toegestane headers
+        origin: true, 
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization'], 
     });
 
 
