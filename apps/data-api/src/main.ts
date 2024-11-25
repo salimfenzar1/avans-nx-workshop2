@@ -18,14 +18,16 @@ async function bootstrap() {
     const globalPrefix = 'api';
     app.setGlobalPrefix(globalPrefix);
 
-    const corsOptions: CorsOptions = {};
+    const corsOptions: CorsOptions = {
+        origin: ['https://orange-grass-044ab5703.5.azurestaticapps.net'], // Frontend-domein
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+        credentials: true,
+    };
     app.enableCors(corsOptions);
 
     app.useGlobalInterceptors(new ApiResponseInterceptor());
     app.useGlobalPipes(new ValidationPipe());
-
-    // General exception handling
-    // app.useGlobalFilters(new HttpExceptionFilter());
 
     const port = process.env.PORT || 3000;
     await app.listen(port);

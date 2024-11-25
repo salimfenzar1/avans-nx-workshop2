@@ -25,6 +25,9 @@ export class Recipe {
 
   @Prop({ required: false })
   imageUrl?: string; // Optional recipe image
+
+  @Prop( {required: true})
+  userId: string = '';
 }
 
 export const RecipeSchema = SchemaFactory.createForClass(Recipe);
