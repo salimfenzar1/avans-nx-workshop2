@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IRecipe, IRecipeResponse, RecipeListResponse } from '@avans-nx-workshop/shared/api';
+import { environment } from '@avans-nx-workshop/shared/util-env';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class RecipeService {
-  private apiUrl = 'http://localhost:3000/api/recipe'; // Backend API URL
+  private apiUrl = `${environment.dataApiUrl}/recipe`;
 
   constructor(private http: HttpClient) {}
 
