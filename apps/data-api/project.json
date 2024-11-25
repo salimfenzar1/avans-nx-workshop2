@@ -39,7 +39,7 @@
             }
         },
         "serve": {
-            "executor": "@nx/js:node",
+            "executor": "@nx/nest:serve",
             "defaultConfiguration": "development",
             "options": {
                 "buildTarget": "data-api:build"
