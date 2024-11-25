@@ -1,28 +1,8 @@
 const { composePlugins, withNx } = require('@nx/webpack');
-const path = require('path');
-const nodeExternals = require('webpack-node-externals');
 
+// Nx plugins for webpack.
 module.exports = composePlugins(withNx(), (config) => {
-  return {
-    ...config,
-    entry: './apps/data-api/src/main.ts', // De entrypoint van je NestJS-app
-    target: 'node', // Specifiek voor een Node.js-applicatie
-    externals: [nodeExternals()], // Zorgt ervoor dat Node-modules niet worden gebundeld
-    output: {
-      path: path.resolve(__dirname, '../../dist/apps/data-api'), // Uitvoermap
-      filename: 'main.js', // Naam van de gebundelde uitvoer
-    },
-    resolve: {
-      extensions: ['.ts', '.js'], // Zorg dat TypeScript-bestanden correct worden verwerkt
-    },
-    module: {
-      rules: [
-        {
-          test: /\.ts$/,
-          use: 'ts-loader', // Gebruik TypeScript loader
-          exclude: /node_modules/, // Sluit node_modules uit
-        },
-      ],
-    },
-  };
+  // Update the webpack config as needed here.
+  // e.g. `config.plugins.push(new MyPlugin())`
+  return config;
 });
