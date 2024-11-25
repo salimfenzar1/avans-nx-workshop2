@@ -18,13 +18,12 @@ async function bootstrap() {
     const globalPrefix = 'api';
     app.setGlobalPrefix(globalPrefix);
 
-    const corsOptions: CorsOptions = {
-        origin: true, // Frontend-domein
-        methods: ['GET', 'POST', 'PUT', 'DELETE'],
-        allowedHeaders: ['Content-Type', 'Authorization'],
-        credentials: true,
-    };
-    app.enableCors(corsOptions);
+    app.enableCors({
+        origin: true, // Toegestaan voor alle origins
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Toegestane HTTP-methoden
+        allowedHeaders: ['Content-Type', 'Authorization'], // Toegestane headers
+    });
+
 
     app.useGlobalInterceptors(new ApiResponseInterceptor());
     app.useGlobalPipes(new ValidationPipe());
