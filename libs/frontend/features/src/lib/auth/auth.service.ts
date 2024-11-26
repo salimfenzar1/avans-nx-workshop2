@@ -3,14 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IUserCredentials } from '@avans-nx-workshop/shared/api';
 import { IUserIdentity } from '@avans-nx-workshop/shared/api';
+import { environment } from '@avans-nx-workshop/shared/util-env';
 
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthService {
-    private apiUrl = 'http://localhost:3000/api/auth'; // Backend URL
-
+    private apiUrl = `${environment.dataApiUrl}/auth`;
     constructor(private http: HttpClient) {}
 
     login(credentials: IUserCredentials): Observable<IUserIdentity> {
