@@ -8,7 +8,6 @@ import {
     UserGender,
     UserRole
 } from '@avans-nx-workshop/shared/api';
-import { Meal } from '@avans-nx-workshop/backend/features';
 
 export class CreateUserDto implements IUserRegistration {
     @IsString()
@@ -47,9 +46,6 @@ export class UpsertUserDto implements IUpsertUser {
     @IsNotEmpty()
     profileImgUrl = '';
 
-    @IsString()
-    @IsNotEmpty()
-    meals: Meal[] = [];
 
     @IsString()
     @IsNotEmpty()

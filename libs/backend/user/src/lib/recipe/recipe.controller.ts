@@ -1,31 +1,24 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards, Request } from '@nestjs/common';
 import { RecipeService } from './recipe.service';
 import { Recipe } from './recipe.schema';
+import { AuthGuard } from '@avans-nx-workshop/backend/auth';
+import { AuthenticatedRequest } from '@avans-nx-workshop/backend/auth'; 
 
 @Controller('recipe')
 export class RecipeController {
   constructor(private readonly recipeService: RecipeService) {}
 
   @Post()
-  async create(@Body() recipeData: Partial<Recipe>): Promise<Recipe> {
-    try {
-      // Controleer of de data valide is
-      if (!recipeData.title || !recipeData.description) {
-        throw new Error('Title and description are required.');
-      }
-  
-      // Sla het recept op
-      const newRecipe = await this.recipeService.create(recipeData);
-      if (!newRecipe) {
-        throw new Error('Error creating the recipe.');
-      }
-      return newRecipe;
-    } catch (error: any) { // Cast de error als 'any'
-      throw new Error(`Failed to create recipe: ${error.message}`);
-    }
+  @UseGuards(AuthGuard) 
+  async create(
+    @Body() recipeData: Partial<Recipe>,
+    @Request() req: AuthenticatedRequest 
+  ): Promise<Recipe> {
+    const userId = req.user.user_id; 
+    recipeData.userid = userId; 
+    console.log('Recipe data being sent to the service:', recipeData);
+    return this.recipeService.create(recipeData);
   }
-  
-  
 
   @Get()
   async findAll(): Promise<Recipe[]> {
@@ -33,26 +26,28 @@ export class RecipeController {
   }
 
   @Get(':id')
-  async findById(@Param('id') id: string): Promise<Recipe | null>  {
+  async findById(@Param('id') id: string): Promise<Recipe | null> {
     return this.recipeService.findById(id);
   }
 
   @Put(':id')
+  @UseGuards(AuthGuard) // Beveilig de update-methode
   async update(
     @Param('id') id: string,
-    @Body() recipeData: Partial<Recipe>
+    @Body() recipeData: Partial<Recipe>,
+    @Request() req: AuthenticatedRequest // Gebruik het aangepaste request-type
   ): Promise<Recipe | null> {
-    const updatedRecipe = await this.recipeService.update(id, recipeData);
-    if (!updatedRecipe) {
-      throw new Error(`Recipe with ID ${id} not found`);
-    }
-    return updatedRecipe;
+    const userId = req.user.user_id;
+    return this.recipeService.update(id, recipeData, userId);
   }
-  
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<boolean> {
-    return this.recipeService.delete(id);
+  @UseGuards(AuthGuard) // Beveilig de delete-methode
+  async delete(
+    @Param('id') id: string,
+    @Request() req: AuthenticatedRequest // Gebruik het aangepaste request-type
+  ): Promise<boolean> {
+    const userId = req.user.user_id;
+    return this.recipeService.delete(id, userId);
   }
-  
 }

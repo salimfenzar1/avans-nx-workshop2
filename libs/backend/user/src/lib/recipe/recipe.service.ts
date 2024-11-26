@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Recipe, RecipeDocument } from './recipe.schema';
@@ -19,13 +19,22 @@ export class RecipeService {
   async findById(id: string): Promise<Recipe | null> {
     return this.recipeModel.findById(id).exec();
   }
-
-  async update(id: string, recipeData: Partial<Recipe>): Promise<Recipe | null> {
+  async update(id: string, recipeData: Partial<Recipe>, userId: string): Promise<Recipe | null> {
+    const recipe = await this.findById(id);
+    if (!recipe || recipe.userid !== userId) {
+      throw new UnauthorizedException('Not authorized to edit this recipe');
+    }
     return this.recipeModel.findByIdAndUpdate(id, recipeData, { new: true }).exec();
   }
+  
 
-  async delete(id: string): Promise<boolean> {
+  async delete(id: string, userId: string): Promise<boolean> {
+    const recipe = await this.findById(id);
+    if (!recipe || recipe.userid !== userId) {
+      throw new UnauthorizedException('Not authorized to delete this recipe');
+    }
     const result = await this.recipeModel.findByIdAndDelete(id).exec();
     return result !== null;
   }
+  
 }

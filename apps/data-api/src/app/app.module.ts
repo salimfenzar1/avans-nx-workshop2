@@ -1,7 +1,6 @@
 import { Module, Logger } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { BackendFeaturesMealModule } from '@avans-nx-workshop/backend/features';
 import { UsersModule } from '@avans-nx-workshop/backend/user';
 import { AuthModule } from '@avans-nx-workshop/backend/auth';
 import { RecipeModule } from '@avans-nx-workshop/backend/user';
@@ -15,7 +14,6 @@ import { environment } from '@avans-nx-workshop/shared/util-env';
       load: [() => environment],
       isGlobal: true, 
     }),
-    BackendFeaturesMealModule,
     AuthModule,
     MongooseModule.forRootAsync({
       imports: [ConfigModule],

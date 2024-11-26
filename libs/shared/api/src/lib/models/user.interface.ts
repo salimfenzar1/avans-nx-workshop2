@@ -25,7 +25,7 @@ export interface IUserIdentity {
     emailAddress: string;
     profileImgUrl: string;
     role: UserRole;
-    token?: string;
+    token: string;
 }
 
 /**

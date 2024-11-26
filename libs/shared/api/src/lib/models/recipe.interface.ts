@@ -6,6 +6,7 @@ export interface IRecipe {
     steps: string[];
     cookingTime: number;
     imageUrl?: string;
+    userid?: string;
   }
   export interface IRecipeResponse {
     results: IRecipe;

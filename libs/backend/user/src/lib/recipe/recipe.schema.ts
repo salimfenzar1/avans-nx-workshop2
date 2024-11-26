@@ -22,9 +22,13 @@ export class Recipe {
 
   @Prop({ default: Date.now })
   createdAt: Date = new Date();
+  
+  @Prop({ required: true })
+  userid: string = '';
 
   @Prop({ required: false })
   imageUrl?: string; // Optional recipe image
+ // User ID of the owner
 }
 
 export const RecipeSchema = SchemaFactory.createForClass(Recipe);
