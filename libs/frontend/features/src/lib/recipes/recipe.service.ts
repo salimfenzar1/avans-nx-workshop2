@@ -22,6 +22,7 @@ export class RecipeService {
   }
 
   createRecipe(recipe: IRecipe): Observable<IRecipe> {
+    console.log('Sending recipe to backend:', recipe);
     return this.http.post<IRecipe>(this.apiUrl, recipe);
   }
 
