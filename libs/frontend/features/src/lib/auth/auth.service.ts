@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IUserCredentials, IUserIdentity } from '@avans-nx-workshop/shared/api';
 import { environment } from '@avans-nx-workshop/shared/util-env';
+import {jwtDecode} from 'jwt-decode'; 
 
 @Injectable({
   providedIn: 'root',
@@ -56,5 +57,19 @@ export class AuthService {
   clearToken(): void {
     localStorage.removeItem(this.tokenKey);
     console.log('Token verwijderd uit localStorage');
+  }
+
+  getLoggedInUserId(): string | null {
+    const token = this.getToken();
+    if (token) {
+      try {
+        const decoded: any = jwtDecode(token); 
+        return decoded.user_id || null; 
+      } catch (error) {
+        console.error('Fout bij het decoderen van het token:', error);
+        return null;
+      }
+    }
+    return null;
   }
 }

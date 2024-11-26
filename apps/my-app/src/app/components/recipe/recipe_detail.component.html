@@ -5,6 +5,11 @@
         <h1 class="display-4">{{ recipe.title }}</h1>
         <p class="lead text-muted">{{ recipe.description }}</p>
       </div>
+      <div class="col text-end" *ngIf="isOwner">
+        <!-- Edit and Delete Buttons -->
+        <button class="btn btn-warning me-2" (click)="editRecipe()">Edit</button>
+        <button class="btn btn-danger" (click)="deleteRecipe()">Delete</button>
+      </div>
     </div>
   
     <!-- Recipe Image -->

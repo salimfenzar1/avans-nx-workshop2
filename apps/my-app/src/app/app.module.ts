@@ -15,6 +15,7 @@ import { AuthGuard } from '@avans-nx-workshop/backend/auth';
 import { RecipesComponent } from './components/recipe/recipe.component';
 import { RecipeAddComponent } from './components/recipe-add/recipe-add.component';
 import { RecipeDetailComponent } from './components/recipe/recipe_detail.component';
+import { RecipeEditComponent } from './components/recipe/recipe_edit.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { RecipeDetailComponent } from './components/recipe/recipe_detail.compone
         RegisterComponent,
         RecipesComponent,
         RecipeAddComponent,
-        RecipeDetailComponent
+        RecipeDetailComponent,
+        RecipeEditComponent
     ],
     imports: [
         BrowserModule,

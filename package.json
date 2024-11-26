@@ -9,7 +9,10 @@
         "test": "nx run-many -t test"
     },
     "private": true,
-    "engines": {"node": "~20.0.0", "npm": "~10.5.0"},
+    "engines": {
+        "node": "~20.0.0",
+        "npm": "~10.5.0"
+    },
     "dependencies": {
         "@angular/animations": "~16.2.0",
         "@angular/common": "~16.2.0",
@@ -38,6 +41,7 @@
         "dotenv": "^16.4.5",
         "flowbite": "^2.0.0",
         "jsonwebtoken": "^9.0.2",
+        "jwt-decode": "^4.0.0",
         "mongoose": "^8.0.0",
         "nest-neo4j": "^0.3.1",
         "ng-bootstrap": "^1.6.3",

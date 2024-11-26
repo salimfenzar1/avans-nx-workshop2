@@ -7,6 +7,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { RecipesComponent } from './components/recipe/recipe.component';
 import { RecipeAddComponent } from './components/recipe-add/recipe-add.component';
 import { RecipeDetailComponent } from './components/recipe/recipe_detail.component';
+import { RecipeEditComponent } from './components/recipe/recipe_edit.component';
 
 export const appRoutes: Route[] = [
     // Hier komen onze URLs te staan.
@@ -25,6 +26,8 @@ export const appRoutes: Route[] = [
     { path: 'recipes', component: RecipesComponent },
     { path: 'recipes/add', component: RecipeAddComponent },
     { path: 'recipes/:id', component: RecipeDetailComponent }, 
+    { path: 'recipes/edit/:id', component: RecipeEditComponent }, 
+
 
 
 
