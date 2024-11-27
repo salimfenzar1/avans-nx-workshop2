@@ -8,10 +8,12 @@ import { UserService } from '../user.service';
 })
 export class UserListComponent implements OnInit {
   users: IUserInfo[] = []; // Houd hier de gebruikers bij
+  isLoading: boolean = true;
 
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
+    this.isLoading = true; 
     this.userService.getUsers().subscribe({
       next: (response: any) => {
         // Controleer of de data een object is met een 'results'-eigenschap
@@ -22,9 +24,11 @@ export class UserListComponent implements OnInit {
         } else {
           console.error('Unexpected API response format:', response);
         }
+        this.isLoading = false;
       },
       error: (err) => {
         console.error('Error fetching users:', err);
+        this.isLoading = false;
       },
     });
   }

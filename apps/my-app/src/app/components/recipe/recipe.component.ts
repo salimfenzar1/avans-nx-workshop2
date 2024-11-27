@@ -13,6 +13,7 @@ export class RecipesComponent implements OnInit {
   filteredRecipes: IRecipe[] = [];
   searchQuery: string = '';
   selectedTimeFilter: string = '';
+  isLoading: boolean = true;
 
   constructor(private recipeService: RecipeService, private router: Router) {}
 
@@ -21,14 +22,16 @@ export class RecipesComponent implements OnInit {
   }
 
   loadRecipes(): void {
+    this.isLoading = true; 
     this.recipeService.getRecipes().subscribe((data: RecipeListResponse) => {
       console.log('Fetched recipes:', data);
       if (data && data.results && Array.isArray(data.results)) {
-        this.recipes = data.results;  // We gebruiken de array binnen 'results'
+        this.recipes = data.results; 
         this.filteredRecipes = [...this.recipes]; 
       } else {
         console.error('Geen recepten gevonden of verkeerde structuur');
       }
+      this.isLoading = false;
     });
   }
   filterRecipes(): void {
