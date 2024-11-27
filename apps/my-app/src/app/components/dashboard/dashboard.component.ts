@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
     this.recipeService.getRecipes().subscribe((data: RecipeListResponse) => {
       console.log('Fetched recipes:', data);
       if (data && data.results && Array.isArray(data.results)) {
-        this.recipes = data.results;  // We gebruiken de array binnen 'results'
+        this.recipes = data.results.slice(-6);  
       } else {
         console.error('Geen recepten gevonden of verkeerde structuur');
       }
