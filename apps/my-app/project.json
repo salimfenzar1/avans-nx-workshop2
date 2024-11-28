@@ -23,7 +23,8 @@
                 "styles": [
                     "node_modules/bootstrap/dist/css/bootstrap.min.css",
                     "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",
-                    "apps/my-app/src/styles.scss"],
+                    "apps/my-app/src/styles.scss"
+                ],
                 "scripts": [
                     "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
                 ]
@@ -42,18 +43,30 @@
                             "maximumError": "4kb"
                         }
                     ],
-                    "outputHashing": "all"
+                    "outputHashing": "all",
+                    "fileReplacements": [
+                        {
+                            "replace": "libs/shared/util-env/src/lib/environment.ts",
+                            "with": "libs/shared/util-env/src/lib/environment.production.ts"
+                        }
+                    ]
                 },
                 "development": {
-                    "buildOptimizer": false,
+                    "outputHashing": "none",
+                    "sourceMap": true,
                     "optimization": false,
                     "vendorChunk": true,
                     "extractLicenses": false,
-                    "sourceMap": true,
-                    "namedChunks": true
+                    "namedChunks": true,
+                    "fileReplacements": [
+                        {
+                            "replace": "libs/shared/util-env/src/lib/environment.ts",
+                            "with": "libs/shared/util-env/src/lib/environment.development.ts"
+                        }
+                    ]
                 }
             },
-            "defaultConfiguration": "production"
+            "defaultConfiguration": "development"
         },
         "serve": {
             "executor": "@angular-devkit/build-angular:dev-server",
