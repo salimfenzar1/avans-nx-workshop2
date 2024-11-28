@@ -46,7 +46,9 @@ export class AuthService {
             .then((user) => {
                 if (user && user.password === credentials.password) {
                     const payload = {
-                        user_id: user._id
+                        user_id: user._id,
+                        name: user.name, // Voeg de naam toe
+                        profileImgUrl: user.profileImgUrl || '', 
                     };
                     return {
                         _id: user._id,
@@ -81,7 +83,7 @@ export class AuthService {
         const createdUser = await this.userModel.create(user);
     
         // Generate a JWT token for the user
-        const payload = { user_id: createdUser._id.toString() }; // Ensure the ObjectID is converted to a string
+        const payload = { user_id: createdUser._id.toString(), name: createdUser.name, profileImgUrl: createdUser.profileImgUrl }; // Ensure the ObjectID is converted to a string
         const token = this.jwtService.sign(payload);
     
         // Return the created user with the token
