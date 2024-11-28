@@ -21,7 +21,6 @@ export class AuthService {
           const token = response.results?.token; // Haal het token uit de "results" object
           if (token) {
             this.setToken(token); // Sla het token op
-            console.log('Token opgeslagen:', token);
             observer.next(response); // Geef alleen "results" door aan de observer
           } else {
             console.error('Geen token ontvangen in de respons');
@@ -42,21 +41,18 @@ export class AuthService {
 
   // Opslaan van het token
   private setToken(token: string): void {
-    console.log('Token opslaan in localStorage:', token);
     localStorage.setItem(this.tokenKey, token);
   }
 
   // Ophalen van het token
   getToken(): string | null {
     const token = localStorage.getItem(this.tokenKey);
-    console.log('Ophalen van token uit localStorage:', token);
     return token;
   }
 
   // Verwijderen van het token (bijvoorbeeld bij uitloggen)
   clearToken(): void {
     localStorage.removeItem(this.tokenKey);
-    console.log('Token verwijderd uit localStorage');
   }
 
   getLoggedInUserId(): string | null {
@@ -72,4 +68,23 @@ export class AuthService {
     }
     return null;
   }
+
+  getLoggedInUser(): { name: string; profileImgUrl: string; user_id: string } | null {
+    const token = this.getToken();
+    if (token) {
+      try {
+        const decoded: any = jwtDecode(token);
+  
+        return {
+          name: decoded.name || 'Onbekend', 
+          profileImgUrl: decoded.profileImgUrl || '../../../../assets/recipelogo.png',
+          user_id: decoded.user_id || '',
+        };
+      } catch (error) {
+        console.error('Fout bij het decoderen van het token:', error);
+        return null;
+      }
+    }
+    return null;
+  }  
 }
