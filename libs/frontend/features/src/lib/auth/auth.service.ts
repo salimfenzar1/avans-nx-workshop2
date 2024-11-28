@@ -74,7 +74,7 @@ export class AuthService {
     if (token) {
       try {
         const decoded: any = jwtDecode(token);
-  
+        console.log("user decoded: " + decoded.name + ", id: " + decoded.user_id)
         return {
           name: decoded.name || 'Onbekend', 
           profileImgUrl: decoded.profileImgUrl || '../../../../assets/recipelogo.png',
