@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '@avans-nx-workshop/features'; // Zorg dat dit correct is geïmporteerd
+import { AuthService } from '@avans-nx-workshop/features';
 
 @Component({
   selector: 'avans-nx-workshop-header',
@@ -14,12 +14,16 @@ export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    if (this.isLoggedIn()) {
-      // Ophalen van gebruikersinformatie
-      const user = this.authService.getLoggedInUser(); // Methode in AuthService om gebruikersinfo op te halen
-      this.userName = user?.name || 'Gebruiker';
-      this.userProfileImgUrl = user?.profileImgUrl || '../../../../assets/recipelogo.png';
-    }
+    // Abonneer je op wijzigingen in de gebruikersinformatie
+    this.authService.getUserObservable().subscribe((user) => {
+      if (user) {
+        this.userName = user.name || 'Gebruiker';
+        this.userProfileImgUrl = user.profileImgUrl || '../../../../assets/recipelogo.png';
+      } else {
+        this.userName = null;
+        this.userProfileImgUrl = null;
+      }
+    });
   }
 
   // Controleer of de gebruiker is ingelogd

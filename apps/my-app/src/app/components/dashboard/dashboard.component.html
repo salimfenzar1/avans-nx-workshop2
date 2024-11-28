@@ -6,22 +6,25 @@
         <p class="lead text-muted">
           Discover, share, and manage recipes. Explore collections curated by our users or create your own. Let’s make cooking fun and collaborative!
         </p>
-        <p  *ngIf="isLoggedIn()">
+        <p *ngIf="isLoggedIn">
           <a routerLink="/recipes" class="btn btn-primary my-2">Explore Recipes</a>
           <a routerLink="/my-recipes" class="btn btn-secondary my-2">My Recipes</a>
+        </p>
+        <p *ngIf="!isLoggedIn">
+          <a routerLink="/login" class="btn btn-primary my-2">Login to Explore Recipes</a>
         </p>
       </div>
     </div>
   </section>
 
-  <div  *ngIf="isLoggedIn()" class="album py-3 bg-light" >
+  <div *ngIf="isLoggedIn" class="album py-3 bg-light">
     <div class="container">
       <h2 class="text-center mb-4">Featured Recipes</h2>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
         <div class="col" *ngFor="let recipe of recipes">
           <div class="card shadow-sm">
             <img
-              src="{{ recipe.imageUrl }}"
+              [src]="recipe.imageUrl || '../../../../assets/default-recipe.jpg'"
               class="card-img-top"
               alt="{{ recipe.title }}"
               height="200"
@@ -33,13 +36,12 @@
                 {{ recipe.description | slice: 0:100 }}...
               </p>
               <a [routerLink]="['/recipes', recipe._id]" class="btn btn-primary btn-sm">View</a>
-              <br>
-                <small class="text-muted">{{ recipe.cookingTime }} mins</small>
-              </div>
+              <br />
+              <small class="text-muted">{{ recipe.cookingTime }} mins</small>
             </div>
           </div>
         </div>
       </div>
     </div>
-
+  </div>
 </main>

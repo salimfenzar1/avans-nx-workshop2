@@ -1,45 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { RecipeService } from '@avans-nx-workshop/features'; // Zorg ervoor dat je RecipeService importeert
-import { IRecipe, RecipeListResponse } from '@avans-nx-workshop/shared/api'; 
+import { RecipeService } from '@avans-nx-workshop/features';
+import { IRecipe, RecipeListResponse } from '@avans-nx-workshop/shared/api';
+import { AuthService } from '@avans-nx-workshop/features';
 
 @Component({
-    selector: 'avans-nx-workshop-dashboard',
-    templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.css']
+  selector: 'avans-nx-workshop-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-    recipes: IRecipe[] = [];
+  recipes: IRecipe[] = [];
+  isLoggedIn: boolean = false;
 
-  constructor(private recipeService: RecipeService, private router: Router) {}
+  constructor(
+    private recipeService: RecipeService,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.loadRecipes();
+    this.isLoggedIn = this.authService.getToken() !== null; // Controleer de inlogstatus
+    if (this.isLoggedIn) {
+      this.loadRecipes();
+    }
   }
 
   loadRecipes(): void {
     this.recipeService.getRecipes().subscribe((data: RecipeListResponse) => {
-      console.log('Fetched recipes:', data);
       if (data && data.results && Array.isArray(data.results)) {
-        this.recipes = data.results.slice(-6);  
+        this.recipes = data.results.slice(-6); // Laat alleen de laatste 6 recepten zien
       } else {
         console.error('Geen recepten gevonden of verkeerde structuur');
       }
     });
   }
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem('token'); // Controleer of een token in localStorage is opgeslagen
+
+  viewRecipe(id: string): void {
+    this.router.navigate(['/recipes', id]);
   }
-    viewRecipe(id: string): void {
-      this.router.navigate(['/recipes', id]);
-    }
-  
-    editRecipe(id: string): void {
-      this.router.navigate(['/recipes', id, 'edit']);
-    }
-  
-    isAdmin(): boolean {
-      // Replace with your actual admin check logic
-      return localStorage.getItem('role') === 'Admin';
-    }
+
+  editRecipe(id: string): void {
+    this.router.navigate(['/recipes', id, 'edit']);
   }
+}
