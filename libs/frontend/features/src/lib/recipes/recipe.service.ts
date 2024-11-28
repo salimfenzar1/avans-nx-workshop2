@@ -21,7 +21,7 @@ export class RecipeService {
     }
     console.log('found token ' + token)
     return new HttpHeaders({
-      Authorization: `Bearer ${token || ''}`, // Voeg token toe aan de header
+      Authorization: `Bearer ${token || ''}`, // Voeg token toe aan de heade
     }
   );
   }
