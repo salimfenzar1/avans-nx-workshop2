@@ -1,14 +1,14 @@
 export interface IRecipe {
-    _id?: string;
-    title: string;
-    description: string;
-    category: RecipeCategory;
-    ingredients: string[];
-    steps: string[];
-    cookingTime: number;
-    imageUrl?: string;
-    userid?: string;
-  }
+  _id?: string;
+  title: string;
+  description: string;
+  category: RecipeCategory;
+  ingredients: { name: string; amount: string }[]; // Ingrediënten met naam en hoeveelheid
+  steps: { instruction: string }[]; // Stappen met instructies
+  cookingTime: number;
+  imageUrl?: string;
+  userid?: string;
+}
   export interface IRecipeResponse {
     results: IRecipe;
   }

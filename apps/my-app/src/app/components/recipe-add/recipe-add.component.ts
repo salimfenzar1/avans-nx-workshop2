@@ -13,19 +13,77 @@ export class RecipeAddComponent {
     title: '',
     description: '',
     category: undefined,
-    ingredients: [],
-    steps: [],
+    ingredients: [], // Altijd een lege array
+    steps: [], // Altijd een lege array
     cookingTime: 0,
     imageUrl: ''
   };
+  
+  
   categories: string[] = Object.values(RecipeCategory);
   errorMessage: string | null = null;
 
   constructor(private recipeService: RecipeService, private router: Router) {}
 
+  addIngredient(): void {
+    if (!this.recipe.ingredients) {
+      this.recipe.ingredients = []; // Initialiseer als lege array
+    }
+    this.recipe.ingredients.push({ name: '', amount: '' });
+  }
+  
+  removeIngredient(index: number): void {
+    if (this.recipe.ingredients) {
+      this.recipe.ingredients.splice(index, 1);
+    }
+  }
+  
+  addStep(): void {
+    if (!this.recipe.steps) {
+      this.recipe.steps = []; // Initialiseer als lege array
+    }
+    this.recipe.steps.push({ instruction: '' });
+  }
+  
+  removeStep(index: number): void {
+    if (this.recipe.steps) {
+      this.recipe.steps.splice(index, 1);
+    }
+  }
+  
+  
+
   addRecipe(): void {
-    console.log('Recipe data to send:', this.recipe);  // Controleer de gegevens
-    this.recipeService.createRecipe(this.recipe as IRecipe).subscribe({
+    if (!this.recipe.title || !this.recipe.description || !this.recipe.cookingTime) {
+      this.errorMessage = 'Please fill in all required fields.';
+      return;
+    }
+  
+    // Controleer of ingredients en steps aanwezig zijn en formatteer ze correct
+    const formattedIngredients = (this.recipe.ingredients || []).map((ingredient) => ({
+      name: ingredient.name,
+      amount: ingredient.amount,
+    }));
+  
+    const formattedSteps = (this.recipe.steps || []).map((step) => ({
+      instruction: step.instruction,
+    }));
+  
+    // Maak een formattedRecipe dat overeenkomt met de IRecipe interface
+    const formattedRecipe: IRecipe = {
+      ...this.recipe,
+      ingredients: formattedIngredients,
+      steps: formattedSteps,
+      cookingTime: this.recipe.cookingTime!,
+      category: this.recipe.category!,
+      title: this.recipe.title!,
+      description: this.recipe.description!,
+      imageUrl: this.recipe.imageUrl,
+    };
+  
+    console.log('Recipe data to send:', formattedRecipe);
+  
+    this.recipeService.createRecipe(formattedRecipe).subscribe({
       next: (response) => {
         console.log('Recipe added successfully:', response);
         this.router.navigate(['/recipes']);
@@ -36,5 +94,7 @@ export class RecipeAddComponent {
       },
     });
   }
+  
+  
   
 }

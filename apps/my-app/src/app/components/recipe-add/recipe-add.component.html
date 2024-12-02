@@ -1,98 +1,150 @@
 <div class="container mt-4">
-    <h1>Add New Recipe</h1>
-    <form (ngSubmit)="addRecipe()">
-      <div class="mb-3">
-        <label for="title" class="form-label">Title</label>
-        <input
-          type="text"
-          id="title"
-          [(ngModel)]="recipe.title"
-          name="title"
-          class="form-control"
-          required
-        />
-      </div>
-  
-      <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-        <textarea
-          id="description"
-          [(ngModel)]="recipe.description"
-          name="description"
-          class="form-control"
-          rows="3"
-          required
-        ></textarea>
-      </div>
+  <h1>Add New Recipe</h1>
+  <form (ngSubmit)="addRecipe()">
+    <!-- Title -->
+    <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input
+        type="text"
+        id="title"
+        [(ngModel)]="recipe.title"
+        name="title"
+        class="form-control"
+        required
+      />
+    </div>
 
-      <div class="mb-3">
-        <label for="category" class="form-label">Category</label>
-        <select
-          id="category"
-          [(ngModel)]="recipe.category"
-          name="category"
-          class="form-select"
-          required
+    <!-- Description -->
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea
+        id="description"
+        [(ngModel)]="recipe.description"
+        name="description"
+        class="form-control"
+        rows="3"
+        required
+      ></textarea>
+    </div>
+
+    <!-- Category -->
+    <div class="mb-3">
+      <label for="category" class="form-label">Category</label>
+      <select
+        id="category"
+        [(ngModel)]="recipe.category"
+        name="category"
+        class="form-select"
+        required
+      >
+        <option [ngValue]="undefined" disabled selected>Select a category</option>
+        <option *ngFor="let category of categories" [ngValue]="category">
+          {{ category }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Ingredients Section -->
+    <div class="mb-3">
+      <label for="ingredients" class="form-label">Ingredients</label>
+      <div *ngIf="recipe.ingredients; else noIngredients">
+        <div
+          *ngFor="let ingredient of recipe.ingredients; let i = index"
+          class="input-group mb-2"
         >
-          <option [ngValue]="undefined" disabled selected>Select a category</option>
-          <option *ngFor="let category of categories" [ngValue]="category">
-            {{ category }}
-          </option>
-        </select>
+          <input
+            type="text"
+            [(ngModel)]="recipe.ingredients[i].name"
+            name="ingredientName{{ i }}"
+            placeholder="Ingredient Name"
+            class="form-control"
+            required
+          />
+          <input
+            type="text"
+            [(ngModel)]="recipe.ingredients[i].amount"
+            name="ingredientAmount{{ i }}"
+            placeholder="Amount (e.g., 200g)"
+            class="form-control"
+            required
+          />
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="removeIngredient(i)"
+          >
+            Remove
+          </button>
+        </div>
       </div>
-      
-  
-      <div class="mb-3">
-        <label for="ingredients" class="form-label">Ingredients</label>
-        <input
-          type="text"
-          id="ingredients"
-          [(ngModel)]="recipe.ingredients"
-          name="ingredients"
-          class="form-control"
-          placeholder="Comma-separated list (e.g., flour, sugar, butter)"
-          required
-        />
+      <ng-template #noIngredients>
+        <p>No ingredients added yet.</p>
+      </ng-template>
+      <button type="button" class="btn btn-primary" (click)="addIngredient()">
+        Add Ingredient
+      </button>
+    </div>
+
+    <!-- Steps Section -->
+    <div class="mb-3">
+      <label for="steps" class="form-label">Steps</label>
+      <div *ngIf="recipe.steps; else noSteps">
+        <div
+          *ngFor="let step of recipe.steps; let i = index"
+          class="input-group mb-2"
+        >
+          <input
+            type="text"
+            [(ngModel)]="recipe.steps[i].instruction"
+            name="stepInstruction{{ i }}"
+            placeholder="Step Instruction"
+            class="form-control"
+            required
+          />
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="removeStep(i)"
+          >
+            Remove
+          </button>
+        </div>
       </div>
-  
-      <div class="mb-3">
-        <label for="steps" class="form-label">Steps</label>
-        <textarea
-          id="steps"
-          [(ngModel)]="recipe.steps"
-          name="steps"
-          class="form-control"
-          rows="3"
-          placeholder="Step-by-step instructions, separated by new lines"
-          required
-        ></textarea>
-      </div>
-  
-      <div class="mb-3">
-        <label for="cookingTime" class="form-label">Cooking Time (minutes)</label>
-        <input
-          type="number"
-          id="cookingTime"
-          [(ngModel)]="recipe.cookingTime"
-          name="cookingTime"
-          class="form-control"
-          required
-        />
-      </div>
-  
-      <div class="mb-3">
-        <label for="imageUrl" class="form-label">Image URL (optional)</label>
-        <input
-          type="url"
-          id="imageUrl"
-          [(ngModel)]="recipe.imageUrl"
-          name="imageUrl"
-          class="form-control"
-        />
-      </div>
-  
-      <button type="submit" class="btn btn-primary">Add Recipe</button>
-      <p *ngIf="errorMessage" class="text-danger mt-3">{{ errorMessage }}</p>
-    </form>
-  </div>
-  
+      <ng-template #noSteps>
+        <p>No steps added yet.</p>
+      </ng-template>
+      <button type="button" class="btn btn-primary" (click)="addStep()">
+        Add Step
+      </button>
+    </div>
+
+    <!-- Cooking Time -->
+    <div class="mb-3">
+      <label for="cookingTime" class="form-label">Cooking Time (minutes)</label>
+      <input
+        type="number"
+        id="cookingTime"
+        [(ngModel)]="recipe.cookingTime"
+        name="cookingTime"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <!-- Image URL -->
+    <div class="mb-3">
+      <label for="imageUrl" class="form-label">Image URL (optional)</label>
+      <input
+        type="url"
+        id="imageUrl"
+        [(ngModel)]="recipe.imageUrl"
+        name="imageUrl"
+        class="form-control"
+      />
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary">Add Recipe</button>
+    <p *ngIf="errorMessage" class="text-danger mt-3">{{ errorMessage }}</p>
+  </form>
+</div>

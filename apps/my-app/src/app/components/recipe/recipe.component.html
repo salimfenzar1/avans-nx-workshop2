@@ -59,7 +59,7 @@
           <div class="card-body">
             <h5 class="card-title">{{ recipe.title }}</h5>
             <p class="card-text">{{ recipe.description | slice: 0:100 }}...</p>
-            <a [routerLink]="['/recipes', recipe._id]" class="btn btn-primary btn-sm">View</a>
+            <a style [routerLink]="['/recipes', recipe._id]" class="btn btn-primary btn-sm w-100">View</a>
           </div>
         </div>
       </div>
