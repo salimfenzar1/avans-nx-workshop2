@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RecipeService } from '@avans-nx-workshop/features';
-import { IRecipe } from '@avans-nx-workshop/shared/api';
+import { IRecipe, RecipeCategory } from '@avans-nx-workshop/shared/api';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,12 +12,13 @@ export class RecipeAddComponent {
   recipe: Partial<IRecipe> = {
     title: '',
     description: '',
+    category: undefined,
     ingredients: [],
     steps: [],
     cookingTime: 0,
     imageUrl: ''
   };
-
+  categories: string[] = Object.values(RecipeCategory);
   errorMessage: string | null = null;
 
   constructor(private recipeService: RecipeService, private router: Router) {}

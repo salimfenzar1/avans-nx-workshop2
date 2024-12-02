@@ -18,6 +18,14 @@
         <img *ngIf="recipe.imageUrl" [src]="recipe.imageUrl" alt="Recipe Image" class="img-fluid rounded shadow-sm" style="height: 15rem;">
       </div>
     </div>
+    
+    <!-- Category Section -->
+<div class="row mb-4">
+  <div class="col">
+    <h3 class="h4 text-primary">Categorie</h3>
+    <p>{{ recipe.category }}</p>
+  </div>
+</div>
   
     <!-- Ingredients Section -->
     <div class="row mb-4">
@@ -38,6 +46,8 @@
         </ol>
       </div>
     </div>
+
+    
   
     <!-- Cooking Time Section -->
     <div class="row mb-4">

@@ -23,10 +23,22 @@
           (ngModelChange)="filterRecipes()"
         />
       </div>
-      <div class="col-md-6">
+
+      <div class="col-md-3">
+        <select 
+          [(ngModel)]="selectedCategory" 
+          (change)="filterRecipes()" 
+          class="form-select">
+          <option value="">Filter op categorie</option>
+          <option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-3">
         <!-- Filters (example filter for cooking time) -->
         <select class="form-select" [(ngModel)]="selectedTimeFilter" (ngModelChange)="filterRecipes()">
-          <option value="">All Times</option>
+          <option value="">Filter op tijd</option>
           <option value="30">Tot 30 minutes</option>
           <option value="60">Tot 60 minuten</option>
           <option value="120">Tot 120 minuten</option>

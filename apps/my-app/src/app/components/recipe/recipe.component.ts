@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipeService } from '@avans-nx-workshop/features';
-import { IRecipe, RecipeListResponse } from '@avans-nx-workshop/shared/api';
+import { IRecipe, RecipeCategory, RecipeListResponse } from '@avans-nx-workshop/shared/api';
 import { Router } from '@angular/router'; 
 
 @Component({
@@ -13,7 +13,9 @@ export class RecipesComponent implements OnInit {
   filteredRecipes: IRecipe[] = [];
   searchQuery: string = '';
   selectedTimeFilter: string = '';
+  selectedCategory: RecipeCategory | '' = '';
   isLoading: boolean = true;
+  categories: RecipeCategory[] = Object.values(RecipeCategory);
 
   constructor(private recipeService: RecipeService, private router: Router) {}
 
@@ -46,7 +48,10 @@ export class RecipesComponent implements OnInit {
         (this.selectedTimeFilter === '60' && recipe.cookingTime <= 60) ||
         (this.selectedTimeFilter === '120' && recipe.cookingTime <= 120);
 
-      return matchesSearchQuery && matchesTimeFilter;
+        const matchesCategory =
+        !this.selectedCategory || recipe.category === this.selectedCategory;
+
+      return matchesSearchQuery && matchesTimeFilter && matchesCategory;
     });
   }
   

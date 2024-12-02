@@ -34,13 +34,10 @@ export class User implements IUser {
         required: true,
         type: String,
         select: true,
-        unique: true
-        // validate: {
-        //     validator: isEmail,
-        //     message: 'should be a valid email address'
-        // }
-    })
-    emailAddress = '';
+        unique: true,
+        validate: [(value: string) => isEmail(value), 'Invalid email address'],
+      })
+      emailAddress = '';
 
     @Prop({
         required: false,
