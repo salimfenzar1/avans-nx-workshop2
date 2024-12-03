@@ -1,72 +1,86 @@
 <header class="p-3 bg-light border-bottom shadow-sm">
   <div class="container">
-    <div class="d-flex flex-wrap align-items-center justify-content-between">
-      <!-- Logo -->
-      <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand d-flex align-items-center" href="/">
         <img src="../../../../assets/recipelogo.png" height="60" alt="Logo" class="me-2">
         <span class="fs-4 fw-bold">Recipe App</span>
       </a>
 
-      <!-- Navigation Links -->
-      <ul class="nav me-auto mb-2 justify-content-center mb-lg-0" style="margin-left: 20px;">
-        <li>
-          <a *ngIf="isLoggedIn()" routerLink="users" routerLinkActive="active" class="nav-link text-dark px-3">Users</a>
-        </li>
-        <li>
-          <a *ngIf="isLoggedIn()" routerLink="columns" routerLinkActive="active" class="nav-link text-dark px-3">Columns</a>
-        </li>
-        <li>
-          <a *ngIf="isLoggedIn()" routerLink="recipes" routerLinkActive="active" class="nav-link text-dark px-3">Recipes</a>
-        </li>
-        <li>
-          <a routerLink="about" routerLinkActive="active" class="nav-link text-dark px-3">About</a>
-        </li>
-      </ul>
+      <!-- Hamburger Menu -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarContent"
+        aria-controls="navbarContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-      <!-- Login/Register or User Profile -->
-      <div *ngIf="!isLoggedIn(); else loggedIn" class="d-flex align-items-center">
-        <a routerLink="/login" class="btn btn-outline-primary me-2">Login</a>
-        <a routerLink="/register" class="btn btn-primary">Register</a>
-      </div>
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <!-- Navigation Links -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item" *ngIf="isLoggedIn()">
+            <a routerLink="users" routerLinkActive="active" class="nav-link">Users</a>
+          </li>
+          <li class="nav-item" *ngIf="isLoggedIn()">
+            <a routerLink="columns" routerLinkActive="active" class="nav-link">Columns</a>
+          </li>
+          <li class="nav-item" *ngIf="isLoggedIn()">
+            <a routerLink="recipes" routerLinkActive="active" class="nav-link">Recipes</a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="about" routerLinkActive="active" class="nav-link">About</a>
+          </li>
+        </ul>
 
-      <ng-template #loggedIn>
-        <div class="d-flex align-items-center">
-          <!-- Profielfoto en Naam -->
-          <div class="dropdown">
-            <a
-              class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle"
-              id="userDropdown"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              role="button"
-            >
-              <img
-                [src]="userProfileImgUrl || '../../../../assets/recipelogo.png'"
-                alt="User Profile"
-                class="rounded-circle me-2"
-                width="40"
-                height="40"
-                style="object-fit: cover;"
-              />
-              <span class="fw-bold text-truncate" style="max-width: 150px;">{{ userName }}</span>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-              <li>
-                <a class="dropdown-item" routerLink="/profile">Profile</a>
-              </li>
-              <li>
-                <a class="dropdown-item" routerLink="/favorites">My Favorites</a>
-              </li>
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
-              <li>
-                <button class="dropdown-item text-danger" (click)="logout()">Logout</button>
-              </li>
-            </ul>
-          </div>
+        <!-- Login/Register or User Profile -->
+        <div *ngIf="!isLoggedIn(); else loggedIn" class="d-flex align-items-center">
+          <a routerLink="/login" class="btn btn-outline-primary me-2">Login</a>
+          <a routerLink="/register" class="btn btn-primary">Register</a>
         </div>
-      </ng-template>
-    </div>
+
+        <ng-template #loggedIn>
+          <div class="d-flex align-items-center">
+            <!-- Profielfoto en Naam -->
+            <div class="dropdown">
+              <a
+                class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle"
+                id="userDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                role="button"
+              >
+                <img
+                  [src]="userProfileImgUrl || '../../../../assets/recipelogo.png'"
+                  alt="User Profile"
+                  class="rounded-circle me-2"
+                  width="40"
+                  height="40"
+                  style="object-fit: cover;"
+                />
+                <span class="fw-bold text-truncate" style="max-width: 150px;">{{ userName }}</span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                <li>
+                  <a class="dropdown-item" routerLink="/profile">Profile</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" routerLink="/favorites">My Favorites</a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <button class="dropdown-item text-danger" (click)="logout()">Logout</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </nav>
   </div>
 </header>
