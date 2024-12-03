@@ -57,8 +57,26 @@
             style="height: 200px; object-fit: cover;"
           />
           <div class="card-body">
-            <h5 class="card-title">{{ recipe.title }}</h5>
+            <h4 class="card-title">{{ recipe.title }}</h4>
             <p class="card-text">{{ recipe.description | slice: 0:100 }}...</p>
+            <p class="text-warning">
+              <span style="font-size: 1.5rem;" *ngIf="recipe.averageRating !== undefined; else noRating">
+                Rating: {{ recipe.averageRating.toFixed(1) }}/5
+                <span *ngFor="let i of [1, 2, 3, 4, 5]">
+                  <i
+                    class="bi"
+                    [ngClass]="{
+                      'bi-star-fill': i <= (recipe.averageRating || 0),
+                      'bi-star': i > (recipe.averageRating || 0)
+                    }"
+                  ></i>
+                </span>
+              </span>
+              <ng-template #noRating>
+                <span class="text-muted">Nog geen beoordelingen</span>
+              </ng-template>
+            </p>
+            
             <a style [routerLink]="['/recipes', recipe._id]" class="btn btn-primary btn-sm w-100">View</a>
           </div>
         </div>

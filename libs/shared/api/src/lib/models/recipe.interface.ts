@@ -8,6 +8,7 @@ export interface IRecipe {
   cookingTime: number;
   imageUrl?: string;
   userid?: string;
+  averageRating?: number;
 }
   export interface IRecipeResponse {
     results: IRecipe;

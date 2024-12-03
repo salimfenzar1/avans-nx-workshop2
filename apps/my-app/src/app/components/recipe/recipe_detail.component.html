@@ -12,20 +12,17 @@
     </div>
     <div class="col text-end">
       <button
-      class="btn"
-      [ngClass]="{
-        'btn-danger': isFavorite,
-        'btn-primary': !isFavorite
-      }"
-      (click)="toggleFavorite()"
-    >
-      {{ isFavorite ? 'Remove from Favorites' : 'Add to Favorites' }}
-    </button>
-    
-    
+        class="btn"
+        [ngClass]="{
+          'btn-danger': isFavorite,
+          'btn-primary': !isFavorite
+        }"
+        (click)="toggleFavorite()"
+      >
+        {{ isFavorite ? 'Remove from Favorites' : 'Add to Favorites' }}
+      </button>
     </div>
   </div>
-  <!-- Toggle Favorite Button -->
 
   <!-- Recipe Image -->
   <div class="row mb-4">
@@ -35,7 +32,7 @@
         [src]="recipe.imageUrl"
         alt="Recipe Image"
         class="img-fluid rounded shadow-sm"
-        style="height: 15rem;"
+        style="height: 15rem; object-fit: cover;"
       />
     </div>
   </div>
@@ -54,10 +51,7 @@
     <div class="col-md-4">
       <h3 class="h4 text-primary">Ingredienten</h3>
       <ul class="list-group">
-        <li
-          *ngFor="let ingredient of recipe.ingredients"
-          class="list-group-item"
-        >
+        <li *ngFor="let ingredient of recipe.ingredients" class="list-group-item">
           {{ ingredient.amount }} {{ ingredient.name }}
         </li>
       </ul>
@@ -74,16 +68,105 @@
     </div>
   </div>
 
-  <!-- Cooking Time Section -->
+  <!-- Reviews Section -->
   <div class="row mb-4">
     <div class="col">
-      <h3 class="h4 text-primary">Kooktijd</h3>
-      <p>{{ recipe.cookingTime }} minutes</p>
+      <h3 class="h4 text-primary">Beoordelingen</h3>
+
+      <!-- Average Rating Section -->
+      <div class="mb-3 text-center">
+        <h4 class="text-warning">Gemiddelde Beoordeling</h4>
+        <div>
+          <span class="fs-4 text-warning">
+            <!-- Render stars based on average rating -->
+            <ng-container *ngFor="let i of [1, 2, 3, 4, 5]">
+              <i
+                class="bi"
+                [ngClass]="{
+                  'bi-star-fill': i <= averageRating,
+                  'bi-star': i > averageRating
+                }"
+              ></i>
+            </ng-container>
+          </span>
+          <p class="text-muted mt-1">
+            {{ averageRating ? averageRating.toFixed(1) : 'Geen beoordelingen' }} / 5
+          </p>
+        </div>
+      </div>
+
+      <!-- Individual Reviews -->
+      <div *ngIf="reviews.length > 0; else noReviews">
+        <div *ngFor="let review of reviews" class="card mb-3 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title d-flex align-items-center">
+              <i class="bi bi-person-circle me-2"></i>
+              {{ review.user?.name || 'Anonymous' }}
+            </h5>
+            <p class="text-warning mb-1">
+              <!-- Render stars for the review rating -->
+              <ng-container *ngFor="let i of [1, 2, 3, 4, 5]">
+                <i
+                  class="bi"
+                  [ngClass]="{
+                    'bi-star-fill': i <= review.rating,
+                    'bi-star': i > review.rating
+                  }"
+                ></i>
+              </ng-container>
+            </p>
+            <p class="card-text">{{ review.comment }}</p>
+            <p class="text-muted mb-0">
+              <small>Beoordeling: {{ review.rating }}/5</small>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Reviews Template -->
+      <ng-template #noReviews>
+        <p class="text-muted text-center">Er zijn nog geen beoordelingen voor dit recept.</p>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Add Review Section -->
+  <div class="row mb-4">
+    <div class="col">
+      <h3 class="h4 text-primary">Voeg een beoordeling toe</h3>
+      <form (ngSubmit)="addReview()" #reviewForm="ngForm" class="shadow p-4 rounded">
+        <div class="mb-3">
+          <label for="rating" class="form-label">Rating</label>
+          <select
+            id="rating"
+            class="form-select"
+            [(ngModel)]="newReview.rating"
+            name="rating"
+            required
+          >
+            <option value="">Kies een score</option>
+            <option *ngFor="let i of [1, 2, 3, 4, 5]" [value]="i">{{ i }}</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="comment" class="form-label">Commentaar</label>
+          <textarea
+            id="comment"
+            class="form-control"
+            [(ngModel)]="newReview.comment"
+            name="comment"
+            rows="3"
+            required
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!reviewForm.valid">
+          Voeg beoordeling toe
+        </button>
+      </form>
     </div>
   </div>
 </div>
 
-<!-- Loading Indicator -->
 <ng-template #loading>
   <div class="text-center">
     <div class="spinner-border text-primary" role="status">

@@ -6,3 +6,5 @@ export * from './lib/models/auth.interface';
 export * from './lib/models/recipe.interface'
 export * from './lib/models/recipeListResponse.interface'
 export * from './lib/models/userResponse.interface'
+export * from './lib/models/review.interface'
+export * from './lib/models/reviewResponse.interface'

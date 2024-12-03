@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from '@avans-nx-workshop/backend/user';
 import { AuthModule } from '@avans-nx-workshop/backend/auth';
-import { RecipeModule } from '@avans-nx-workshop/backend/user';
+import { RecipeModule, ReviewModule } from '@avans-nx-workshop/backend/user';
 import * as path from 'path';
 import { environment } from '@avans-nx-workshop/shared/util-env'; 
 
@@ -32,7 +32,8 @@ import { environment } from '@avans-nx-workshop/shared/util-env';
       inject: [ConfigService],
     }),
     UsersModule,
-    RecipeModule
+    RecipeModule,
+    ReviewModule
   ],
   controllers: [],
   providers: [],

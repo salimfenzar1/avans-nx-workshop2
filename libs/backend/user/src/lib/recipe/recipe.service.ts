@@ -2,19 +2,36 @@ import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/co
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Recipe, RecipeDocument } from './recipe.schema';
+import { ReviewService } from '../review/review.service';
 
 @Injectable()
 export class RecipeService {
-  constructor(@InjectModel(Recipe.name) private recipeModel: Model<RecipeDocument>) {}
+  constructor(@InjectModel(Recipe.name) private recipeModel: Model<RecipeDocument>,
+  private reviewService: ReviewService) {}
 
   async create(recipeData: Partial<Recipe>): Promise<Recipe> {
     const newRecipe = new this.recipeModel(recipeData);
     return newRecipe.save();
   }
 
-  async findAll(): Promise<Recipe[]> {
-    return this.recipeModel.find().exec();
-  }
+async findAll(): Promise<(Recipe & { averageRating: number })[]> {
+  const recipes = await this.recipeModel.find().exec();
+
+  const recipesWithRatings = await Promise.all(
+    recipes.map(async (recipe: RecipeDocument) => {
+      const recipeId = recipe._id.toString(); 
+      const averageRating = await this.reviewService.getAverageRating(recipeId);
+      return {
+        ...recipe.toObject(),
+        averageRating, // Voeg de gemiddelde beoordeling toe
+      };
+    })
+  );
+
+  return recipesWithRatings;
+}
+
+  
 
   async findById(id: string): Promise<Recipe | null> {
     return this.recipeModel.findById(id).exec();

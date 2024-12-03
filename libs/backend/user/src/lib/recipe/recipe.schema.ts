@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { RecipeCategory } from '@avans-nx-workshop/shared/api';
 
-export type RecipeDocument = Recipe & Document;
+export type RecipeDocument = Recipe & Document & { _id: Types.ObjectId };
 
 class Ingredient {
   @Prop({ required: true })

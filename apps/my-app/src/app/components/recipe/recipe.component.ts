@@ -16,7 +16,7 @@ export class RecipesComponent implements OnInit {
   selectedCategory: RecipeCategory | '' = '';
   isLoading: boolean = true;
   categories: RecipeCategory[] = Object.values(RecipeCategory);
-
+  averageRating: number = 0;
   constructor(private recipeService: RecipeService, private router: Router) {}
 
   ngOnInit(): void {
@@ -28,7 +28,10 @@ export class RecipesComponent implements OnInit {
     this.recipeService.getRecipes().subscribe((data: RecipeListResponse) => {
       console.log('Fetched recipes:', data);
       if (data && data.results && Array.isArray(data.results)) {
-        this.recipes = data.results; 
+        this.recipes = data.results.map((recipe) => ({
+          ...recipe,
+          averageRating: recipe.averageRating || 0, // Voeg de gemiddelde rating toe
+        }));
         this.filteredRecipes = [...this.recipes]; 
       } else {
         console.error('Geen recepten gevonden of verkeerde structuur');
@@ -36,6 +39,7 @@ export class RecipesComponent implements OnInit {
       this.isLoading = false;
     });
   }
+  
   filterRecipes(): void {
     this.filteredRecipes = this.recipes.filter((recipe) => {
       const matchesSearchQuery =

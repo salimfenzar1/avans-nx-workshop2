@@ -13,6 +13,7 @@ import { RecipeService } from './recipes/recipe.service';
 import { AuthGuard } from './auth/auth.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './profile/edit_profile.component';
+import { ReviewService } from './review/review.service';
 @NgModule({
     imports: [CommonModule, RouterModule,ReactiveFormsModule, HttpClientModule  ],
     declarations: [
@@ -28,7 +29,8 @@ import { EditProfileComponent } from './profile/edit_profile.component';
         UserService,
         AuthService,
         RecipeService,
-        AuthGuard
+        AuthGuard,
+        ReviewService
     ]
 })
 export class FeaturesModule {}

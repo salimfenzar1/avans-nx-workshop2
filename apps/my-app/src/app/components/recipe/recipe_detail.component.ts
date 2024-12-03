@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipeService } from '@avans-nx-workshop/features';  // Zorg ervoor dat de service goed is geïmporteerd
-import { IRecipe } from '@avans-nx-workshop/shared/api';
+import { IRecipe, IReviewResponse } from '@avans-nx-workshop/shared/api';
 import { AuthService } from '@avans-nx-workshop/features'; 
+import { ReviewService } from '@avans-nx-workshop/features'; 
 
 @Component({
   selector: 'app-recipe-detail',
@@ -14,13 +15,17 @@ export class RecipeDetailComponent implements OnInit {
   errorMessage: string | null = null;
   isOwner: boolean = false; 
   isFavorite: boolean = false;
+  reviews: any[] = [];
+
+  newReview = { rating: null, comment: '' };
+  averageRating: number = 0;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router, 
     private authService: AuthService ,
-    private recipeService: RecipeService
-
+    private recipeService: RecipeService,
+    private reviewService: ReviewService
   ) {}
 
   ngOnInit(): void {
@@ -28,6 +33,7 @@ export class RecipeDetailComponent implements OnInit {
     const recipeId = this.route.snapshot.paramMap.get('id')!;
     if (recipeId) {
       this.getRecipeDetail(recipeId);
+      this.loadReviews(recipeId);
     } else {
       this.errorMessage = 'Recipe ID is missing';
     }
@@ -135,6 +141,55 @@ export class RecipeDetailComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error refreshing favorites list:', err);
+      },
+    });
+  }
+
+  addReview(): void {
+    const userId = this.authService.getLoggedInUserId();
+    if (!userId || !this.recipe?._id) {
+      console.error('User ID or Recipe ID is missing.');
+      return;
+    }
+  
+    if (this.newReview.rating === null || this.newReview.rating < 1 || this.newReview.rating > 5) {
+      console.error('Invalid rating provided');
+      return;
+    }
+  
+    this.reviewService
+      .addReview(userId, this.recipe._id, this.newReview.rating, this.newReview.comment)
+      .subscribe({
+        next: () => {
+          alert('Added review!');
+          if (this.recipe && this.recipe._id) {
+            this.loadReviews(this.recipe._id); 
+          }
+          this.newReview = { rating: null, comment: '' };
+        },
+        error: (err) => {
+          console.error('Error adding review:', err);
+        },
+      });
+  }
+  
+  
+  
+  loadReviews(recipeId: string): void {
+    this.reviewService.getReviews(recipeId).subscribe({
+      next: (data: IReviewResponse) => {
+        // Zorg dat je toegang hebt tot het `results` object
+        const results = data?.results;
+        if (results) {
+          this.reviews = results.reviews || []; // Haal reviews uit results
+          this.averageRating = results.averageRating || 0; // Haal gemiddelde beoordeling uit results
+        } else {
+          this.reviews = []; // Als results ontbreekt, zet een lege array
+          this.averageRating = 0;
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching reviews:', err);
       },
     });
   }
