@@ -67,6 +67,13 @@ export class User implements IUser {
     })
     isActive = true;
 
+    @Prop({
+        type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Recipe' }], 
+        default: [],
+      })
+      favorites: string[] = []; 
+      
+
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

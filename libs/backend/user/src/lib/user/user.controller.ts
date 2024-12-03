@@ -1,6 +1,7 @@
 import {
     Body,
     Controller,
+    Delete,
     Get,
     Param,
     Post,
@@ -46,4 +47,25 @@ export class UserController {
     ): Promise<IUserInfo | null> {
         return this.userService.update(id, user);
     }
-}
+
+    @Post(':id/favorite/:recipeId')
+    async addFavorite(
+        @Param('id') userId: string,
+        @Param('recipeId') recipeId: string
+    ): Promise<IUserInfo | null> {
+        return this.userService.addFavorite(userId, recipeId);
+    }
+      @Get(':id/favorites')
+      async getFavorites(@Param('id') userId: string): Promise<IUserInfo | null> {
+        return this.userService.getFavorites(userId);
+      }
+      
+      @Delete(':id/favorite/:recipeId')
+      async removeFavorite(
+        @Param('id') userId: string,
+        @Param('recipeId') recipeId: string
+      ): Promise<IUserInfo | null> {
+        return this.userService.removeFavorite(userId, recipeId);
+      }
+      
+    }

@@ -9,6 +9,7 @@ import { RecipeAddComponent } from './components/recipe-add/recipe-add.component
 import { RecipeDetailComponent } from './components/recipe/recipe_detail.component';
 import { RecipeEditComponent } from './components/recipe/recipe_edit.component';
 import { AuthGuard } from '@avans-nx-workshop/features';
+import { FavoritesComponent } from './components/favorite_recipe/favorite_recipe.component';
 
 export const appRoutes: Route[] = [
     // Hier komen onze URLs te staan.
@@ -28,6 +29,7 @@ export const appRoutes: Route[] = [
     { path: 'recipes/add', component: RecipeAddComponent, canActivate: [AuthGuard] },
     { path: 'recipes/:id', component: RecipeDetailComponent, canActivate: [AuthGuard] }, 
     { path: 'recipes/edit/:id', component: RecipeEditComponent, canActivate: [AuthGuard] }, 
+    { path: 'favorites', component: FavoritesComponent },
 
 
 

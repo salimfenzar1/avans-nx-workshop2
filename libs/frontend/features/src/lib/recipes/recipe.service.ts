@@ -51,6 +51,23 @@ export class RecipeService {
     const headers = this.createAuthHeaders();
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });
   }
+
+  addFavorite(userId: string, recipeId: string): Observable<any> {
+    const headers = this.createAuthHeaders();
+    return this.http.post<any>(`${environment.dataApiUrl}/user/${userId}/favorite/${recipeId}`, {}, { headers });
+}
+
+
+getFavorites(userId: string): Observable<RecipeListResponse> {
+  const headers = this.createAuthHeaders();
+  return this.http.get<RecipeListResponse>(`${environment.dataApiUrl}/user/${userId}/favorites`, { headers });
+}
+removeFavorite(userId: string, recipeId: string): Observable<any> {
+  const headers = this.createAuthHeaders();
+  return this.http.delete<any>(`${environment.dataApiUrl}/user/${userId}/favorite/${recipeId}`, { headers });
+}
+
+
 }
 
 export default RecipeService;

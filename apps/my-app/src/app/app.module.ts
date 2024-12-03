@@ -16,6 +16,7 @@ import { RecipesComponent } from './components/recipe/recipe.component';
 import { RecipeAddComponent } from './components/recipe-add/recipe-add.component';
 import { RecipeDetailComponent } from './components/recipe/recipe_detail.component';
 import { RecipeEditComponent } from './components/recipe/recipe_edit.component';
+import { FavoritesComponent } from './components/favorite_recipe/favorite_recipe.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { RecipeEditComponent } from './components/recipe/recipe_edit.component';
         RecipesComponent,
         RecipeAddComponent,
         RecipeDetailComponent,
-        RecipeEditComponent
+        RecipeEditComponent,
+        FavoritesComponent
     ],
     imports: [
         BrowserModule,

@@ -1,0 +1,72 @@
+<div class="container mt-4">
+    <div *ngIf="isLoading" class="text-center my-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-3">Favorieten worden geladen...</p>
+    </div>
+  
+    <div *ngIf="!isLoading">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Your Favorite Recipes</h1>
+      </div>
+    
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <!-- Search Bar -->
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search Favorites..."
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="filterFavorites()"
+          />
+        </div>
+        <div class="col-md-3">
+            <select 
+              [(ngModel)]="selectedCategory" 
+              (change)="filterFavorites()" 
+              class="form-select">
+              <option value="">Filter op categorie</option>
+              <option *ngFor="let category of categories" [value]="category">
+                {{ category }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <!-- Filters (example filter for cooking time) -->
+            <select class="form-select" [(ngModel)]="selectedTimeFilter" (ngModelChange)="filterFavorites()">
+              <option value="">Filter op tijd</option>
+              <option value="30">Tot 30 minutes</option>
+              <option value="60">Tot 60 minuten</option>
+              <option value="120">Tot 120 minuten</option>
+            </select>
+          </div>
+        </div>
+      
+  
+      <div class="row">
+        <div *ngFor="let recipe of filteredRecipes" class="col-md-4">
+          <div class="card mb-3 shadow-sm">
+            <img
+              *ngIf="recipe.imageUrl"
+              [src]="recipe.imageUrl"
+              class="card-img-top"
+              alt="{{ recipe.title }}"
+              style="height: 200px; object-fit: cover;"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ recipe.title }}</h5>
+              <p class="card-text">{{ recipe.description | slice: 0:100 }}...</p>
+              <a [routerLink]="['/recipes', recipe._id]" class="btn btn-primary btn-sm w-100">View</a>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div *ngIf="filteredRecipes.length === 0" class="text-muted text-center mt-4">
+        <p>You have no favorite recipes yet.</p>
+      </div>
+    </div>
+  </div>
+  

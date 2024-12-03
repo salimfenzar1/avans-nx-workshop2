@@ -10,7 +10,22 @@
       <button class="btn btn-warning me-2" (click)="editRecipe()">Edit</button>
       <button class="btn btn-danger" (click)="deleteRecipe()">Delete</button>
     </div>
+    <div class="col text-end">
+      <button
+      class="btn"
+      [ngClass]="{
+        'btn-danger': isFavorite,
+        'btn-primary': !isFavorite
+      }"
+      (click)="toggleFavorite()"
+    >
+      {{ isFavorite ? 'Remove from Favorites' : 'Add to Favorites' }}
+    </button>
+    
+    
+    </div>
   </div>
+  <!-- Toggle Favorite Button -->
 
   <!-- Recipe Image -->
   <div class="row mb-4">

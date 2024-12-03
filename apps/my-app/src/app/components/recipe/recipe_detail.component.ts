@@ -13,6 +13,7 @@ export class RecipeDetailComponent implements OnInit {
   recipe: IRecipe | null = null;
   errorMessage: string | null = null;
   isOwner: boolean = false; 
+  isFavorite: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,10 +36,10 @@ export class RecipeDetailComponent implements OnInit {
   getRecipeDetail(id: string): void {
     this.recipeService.getRecipeById(id).subscribe({
       next: (data) => {
-        // Controleer of 'results' bestaat en zet het in de 'recipe' variabele
         if (data && data.results) {
-          this.recipe = data.results; // Zorg ervoor dat de juiste data wordt toegewezen
-          this.checkOwnership();
+          this.recipe = data.results; // Recept instellen
+          this.checkOwnership(); // Controleer eigendom
+          this.checkIfFavorite(id); // Controleer of het een favoriet is
         } else {
           this.errorMessage = 'Recipe not found';
         }
@@ -49,7 +50,7 @@ export class RecipeDetailComponent implements OnInit {
       },
     });
   }
-
+  
   editRecipe(): void {
     // Navigeer naar de edit-pagina voor dit recept
     if (this.recipe?._id) {
@@ -65,6 +66,99 @@ export class RecipeDetailComponent implements OnInit {
       this.isOwner = this.recipe.userid === loggedInUserId; 
     }
   }
+
+  checkIfFavorite(recipeId: string): void {
+    const userId = this.authService.getLoggedInUserId();
+    if (!userId) return;
+  
+    this.recipeService.getFavorites(userId).subscribe({
+      next: (favoritesResponse) => {
+        if (favoritesResponse && favoritesResponse.results) {
+          this.isFavorite = favoritesResponse.results.some(
+            (recipe) => recipe._id === recipeId
+          );
+          console.log(`Is recipe ${recipeId} a favorite?`, this.isFavorite);
+        } else {
+          console.error('Favorites response heeft geen correcte structuur:', favoritesResponse);
+        }
+      },
+      error: (err) => {
+        console.error('Error checking favorites:', err);
+      },
+    });
+  }
+  
+  
+
+  toggleFavorite(): void {
+    const userId = this.authService.getLoggedInUserId();
+    if (!userId || !this.recipe?._id) return;
+  
+    if (this.isFavorite) {
+      // Verwijder uit favorieten
+      this.recipeService.removeFavorite(userId, this.recipe._id).subscribe({
+        next: () => {
+          this.isFavorite = false;
+          console.log(`Recipe ${this.recipe?._id} removed from favorites`);
+          this.updateFavoritesList(); // Update favorietenlijst
+        },
+        error: (err) => {
+          console.error('Error removing favorite:', err);
+        },
+      });
+    } else {
+      // Voeg toe aan favorieten
+      this.recipeService.addFavorite(userId, this.recipe._id).subscribe({
+        next: () => {
+          this.isFavorite = true;
+          console.log(`Recipe ${this.recipe?._id} added to favorites`);
+          this.updateFavoritesList(); // Update favorietenlijst
+        },
+        error: (err) => {
+          console.error('Error adding favorite:', err);
+        },
+      });
+    }
+  }
+  
+  updateFavoritesList(): void {
+    const userId = this.authService.getLoggedInUserId();
+    if (!userId) return;
+  
+    this.recipeService.getFavorites(userId).subscribe({
+      next: (favoritesResponse) => {
+        if (favoritesResponse && favoritesResponse.results) {
+          console.log('Updated favorites:', favoritesResponse.results);
+        } else {
+          console.error('Favorites response heeft geen correcte structuur:', favoritesResponse);
+        }
+      },
+      error: (err) => {
+        console.error('Error refreshing favorites list:', err);
+      },
+    });
+  }
+  
+
+
+ addToFavorites(): void {
+    const userId = this.authService.getLoggedInUserId(); // Zorg dat je deze methode hebt
+    if (!this.recipe?._id || !userId) {
+        this.errorMessage = 'Recipe ID or User ID is missing.';
+        return;
+    }
+
+    this.recipeService.addFavorite(userId, this.recipe._id).subscribe({
+        next: () => {
+            alert('Recipe has been added to your favorites!');
+        },
+        error: (err) => {
+            console.error('Error adding recipe to favorites:', err);
+            this.errorMessage = 'Failed to add recipe to favorites. Please try again.';
+        },
+    });
+}
+
 
   deleteRecipe(): void {
     if (this.recipe?._id) {
