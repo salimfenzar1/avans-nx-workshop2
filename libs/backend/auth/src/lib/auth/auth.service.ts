@@ -13,11 +13,12 @@ import { IUserCredentials, IUserIdentity } from '@avans-nx-workshop/shared/api';
 import { CreateUserDto } from '@avans-nx-workshop/backend/dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import * as bcrypt from 'bcrypt'; // bcrypt toegevoegd
 
 @Injectable()
 export class AuthService {
-    //
     private readonly logger = new Logger(AuthService.name);
+    private readonly saltRounds = 10; 
 
     constructor(
         @InjectModel(UserModel.name) private userModel: Model<UserDocument>,
@@ -28,10 +29,12 @@ export class AuthService {
         this.logger.log('validateUser');
         const user = await this.userModel.findOne({
             emailAddress: credentials.emailAddress
-        });
-        if (user && user.password === credentials.password) {
+        }).select('+password'); // Zorg ervoor dat het wachtwoord wordt opgehaald
+
+        if (user && await bcrypt.compare(credentials.password, user.password)) { // Vergelijk gehashte wachtwoorden
             return user;
         }
+
         return null;
     }
 
@@ -41,14 +44,14 @@ export class AuthService {
             .findOne({
                 emailAddress: credentials.emailAddress
             })
-            .select('+password')
+            .select('+password') // Haal het wachtwoord op voor vergelijking
             .exec()
-            .then((user) => {
-                if (user && user.password === credentials.password) {
+            .then(async (user) => {
+                if (user && await bcrypt.compare(credentials.password, user.password)) { // Vergelijk gehashte wachtwoorden
                     const payload = {
                         user_id: user._id,
-                        name: user.name, // Voeg de naam toe
-                        profileImgUrl: user.profileImgUrl || '', 
+                        name: user.name,
+                        profileImgUrl: user.profileImgUrl || ''
                     };
                     return {
                         _id: user._id,
@@ -78,12 +81,16 @@ export class AuthService {
             throw new ConflictException('User already exists');
         }
     
+        // Hash het wachtwoord
+        const hashedPassword = await bcrypt.hash(user.password, this.saltRounds);
+        user.password = hashedPassword; // Sla het gehashte wachtwoord op
+    
         // Create the user in the database
         this.logger.debug('User not found, creating new user');
         const createdUser = await this.userModel.create(user);
     
         // Generate a JWT token for the user
-        const payload = { user_id: createdUser._id.toString(), name: createdUser.name, profileImgUrl: createdUser.profileImgUrl }; // Ensure the ObjectID is converted to a string
+        const payload = { user_id: createdUser._id.toString(), name: createdUser.name, profileImgUrl: createdUser.profileImgUrl };
         const token = this.jwtService.sign(payload);
     
         // Return the created user with the token
@@ -92,8 +99,7 @@ export class AuthService {
             emailAddress: createdUser.emailAddress,
             profileImgUrl: createdUser.profileImgUrl,
             role: createdUser.role,
-            token: token, // Include the token
+            token: token
         };
     }
-    
 }

@@ -84,22 +84,22 @@ export class UserService {
             throw new HttpException('Invalid ID format', 400);
         }
     
-        const user = await this.userModel.findById(userId).exec();
-        if (!user) {
+
+        const updatedUser = await this.userModel.findByIdAndUpdate(
+            userId,
+            { $addToSet: { favorites: recipeId } }, 
+            { new: true } 
+        ).exec();
+    
+        if (!updatedUser) {
             this.logger.error(`User with ID ${userId} not found`);
             throw new HttpException(`User with ID ${userId} not found`, 404);
         }
     
-        if (!user.favorites.includes(recipeId)) {
-            user.favorites.push(recipeId);
-            await user.save();
-            this.logger.log(`Recipe ${recipeId} added to favorites`);
-        } else {
-            this.logger.log(`Recipe ${recipeId} already in favorites`);
-        }
-    
-        return user;
+        this.logger.log(`Recipe ${recipeId} added to favorites`);
+        return updatedUser;
     }
+    
     
     async getFavorites(userId: string): Promise<any> {
         this.logger.log(`Fetching favorites for user ${userId}`);
