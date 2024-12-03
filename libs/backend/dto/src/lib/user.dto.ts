@@ -63,10 +63,12 @@ export class UpdateUserDto implements IUpdateUser {
     
     @IsString()
     @IsOptional()
+    @IsNotEmpty()
     name?: string;
 
     @IsString()
     @IsOptional()
+    @IsNotEmpty()
     emailAddress?: string;
 
     @IsBoolean()

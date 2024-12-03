@@ -1,0 +1,21 @@
+<div class="container mt-4" *ngIf="user; else loading">
+    <h1>Hallo {{ user.name}}</h1>
+    <div class="card">
+      <div class="card-body">
+        <p class="card-text"><strong>Email:</strong> {{ user.emailAddress }}</p>
+        <p class="card-text"><strong>Gender:</strong> {{ user.gender }}</p>
+        <p class="card-text"><strong>Role:</strong> {{ user.role }}</p>
+        <a routerLink="/profile/edit" class="btn btn-primary">Edit Profile</a>
+      </div>
+    </div>
+  </div>
+  
+  <ng-template #loading>
+    <div class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p>Loading profile...</p>
+    </div>
+  </ng-template>
+  

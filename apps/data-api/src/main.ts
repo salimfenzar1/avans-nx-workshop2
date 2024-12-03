@@ -3,7 +3,7 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { BadRequestException, Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import {
     AllExceptionsFilter,
@@ -23,8 +23,25 @@ async function bootstrap() {
 
 
     app.useGlobalInterceptors(new ApiResponseInterceptor());
-    app.useGlobalPipes(new ValidationPipe());
 
+    app.useGlobalPipes(
+        new ValidationPipe({
+          whitelist: true,
+          forbidNonWhitelisted: true,
+          transform: true,
+          exceptionFactory: (errors) => {
+            const validationErrors = errors.map((err) => ({
+              field: err.property,
+              errors: Object.values(err.constraints || {}),
+            }));
+            return new BadRequestException({
+              message: 'Validation failed',
+              errors: validationErrors,
+            });
+          },
+        }),
+      );
+    
     const port = process.env.PORT || 3000;
     await app.listen(port);
     Logger.log(

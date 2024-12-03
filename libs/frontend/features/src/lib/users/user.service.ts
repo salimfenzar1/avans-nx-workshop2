@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IUserInfo } from '@avans-nx-workshop/shared/api';
+import { IUserInfo, UserResponse } from '@avans-nx-workshop/shared/api';
 import { environment} from '@avans-nx-workshop/shared/util-env'
 
 @Injectable({
@@ -22,5 +22,8 @@ export class UserService {
 
   updateUser(updatedUser: Partial<IUserInfo>): Observable<boolean> {
     return this.http.put<boolean>(`${this.apiUrl}/${updatedUser._id}`, updatedUser);
+  }
+  getProfile(userId: string): Observable<UserResponse> {
+    return this.http.get<UserResponse>(`${this.apiUrl}/profile/${userId}`);
   }
 }

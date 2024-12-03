@@ -68,4 +68,9 @@ export class UserController {
         return this.userService.removeFavorite(userId, recipeId);
       }
       
+      @Get('profile/:id')
+async getProfile(@Param('id') userId: string): Promise<IUserInfo | null> {
+    return this.userService.findOne(userId);
+}
+
     }

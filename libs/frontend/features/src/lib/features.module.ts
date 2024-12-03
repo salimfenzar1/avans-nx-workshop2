@@ -11,6 +11,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './auth/auth.service';
 import { RecipeService } from './recipes/recipe.service';
 import { AuthGuard } from './auth/auth.guard';
+import { ProfileComponent } from './profile/profile.component';
+import { EditProfileComponent } from './profile/edit_profile.component';
 @NgModule({
     imports: [CommonModule, RouterModule,ReactiveFormsModule, HttpClientModule  ],
     declarations: [
@@ -18,6 +20,8 @@ import { AuthGuard } from './auth/auth.guard';
         UserListComponent,
         UserEditComponent,
         ColumnsComponent,
+        ProfileComponent,
+        EditProfileComponent
         
     ],
     providers:[

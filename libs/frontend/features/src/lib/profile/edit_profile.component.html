@@ -1,0 +1,93 @@
+<div *ngIf="userForm; else loading" class="container mt-4">
+    <h1 class="mb-4">Edit Profile</h1>
+    <form [formGroup]="userForm">
+      <!-- Name -->
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          class="form-control"
+          placeholder="Enter your name"
+        />
+      </div>
+  
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="emailAddress" class="form-label">Email</label>
+        <input
+          type="email"
+          id="emailAddress"
+          formControlName="emailAddress"
+          class="form-control"
+          placeholder="Enter your email"
+        />
+      </div>
+  
+      <!-- Role -->
+      <div class="mb-3">
+        <label for="role" class="form-label">Role</label>
+        <select id="role" formControlName="role" class="form-select">
+          <option value="Guest">Guest</option>
+          <option value="Admin">Admin</option>
+          <option value="Unknown">Unknown</option>
+        </select>
+      </div>
+  
+      <!-- Gender -->
+      <div class="mb-3">
+        <label for="gender" class="form-label">Gender</label>
+        <select id="gender" formControlName="gender" class="form-select">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Unknown">Unknown</option>
+        </select>
+      </div>
+  
+      <!-- Profile Image -->
+      <div class="mb-3">
+        <label for="profileImgUrl" class="form-label">Profile Image URL</label>
+        <input
+          type="url"
+          id="profileImgUrl"
+          formControlName="profileImgUrl"
+          class="form-control"
+          placeholder="Enter profile image URL"
+        />
+      </div>
+  
+      <!-- Is Active -->
+      <div class="form-check mb-3">
+        <input
+          type="checkbox"
+          id="isActive"
+          formControlName="isActive"
+          class="form-check-input"
+        />
+        <label for="isActive" class="form-check-label">Active</label>
+      </div>
+  
+      <!-- Buttons -->
+      <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-primary me-2" (click)="saveChanges()">
+          Save
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cancel()">
+          Cancel
+        </button>
+      </div>
+    </form>
+  
+    <p *ngIf="errorMessage" class="text-danger mt-3">{{ errorMessage }}</p>
+  </div>
+  
+  <ng-template #loading>
+    <div class="text-center mt-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p>Loading user details...</p>
+    </div>
+  </ng-template>
+  

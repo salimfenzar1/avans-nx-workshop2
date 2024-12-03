@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AboutComponent } from './components/about/about.component';
-import { UserDetailsComponent, UserEditComponent, UserListComponent, ColumnsComponent } from '@avans-nx-workshop/features';
+import { UserDetailsComponent, UserEditComponent, UserListComponent, ColumnsComponent, ProfileComponent, EditProfileComponent } from '@avans-nx-workshop/features';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { RecipesComponent } from './components/recipe/recipe.component';
@@ -30,6 +30,8 @@ export const appRoutes: Route[] = [
     { path: 'recipes/:id', component: RecipeDetailComponent, canActivate: [AuthGuard] }, 
     { path: 'recipes/edit/:id', component: RecipeEditComponent, canActivate: [AuthGuard] }, 
     { path: 'favorites', component: FavoritesComponent },
+    { path: 'profile', component: ProfileComponent },
+    { path: 'profile/edit', component: EditProfileComponent },
 
 
 
