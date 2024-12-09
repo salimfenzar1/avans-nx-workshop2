@@ -26,38 +26,21 @@
 
     <div class="mb-3">
       <label class="form-label">Categorieën</label>
-      <div>
+      <div *ngFor="let categorie of availableCategories" class="form-check">
         <input
-          type="text"
-          #categorieInput
-          class="form-control d-inline w-75"
-          placeholder="Nieuwe categorie"
+          class="form-check-input"
+          type="checkbox"
+          [checked]="categorieen.includes(categorie)"
+          (change)="toggleCategorie(categorie)"
+          id="{{ categorie }}"
+          name="categorie"
         />
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="addCategorie(categorieInput.value)"
-        >
-          Toevoegen
-        </button>
-      </div>
-      <ul class="list-group mt-2">
-        <li
-          class="list-group-item"
-          *ngFor="let categorie of categorieen; let i = index"
-        >
+        <label class="form-check-label" for="{{ categorie }}">
           {{ categorie }}
-          <button
-            type="button"
-            class="btn btn-sm btn-danger float-end"
-            (click)="removeCategorie(i)"
-          >
-            Verwijderen
-          </button>
-        </li>
-      </ul>
+        </label>
+      </div>
     </div>
-
+    
     <div class="mb-3">
       <label for="recepten" class="form-label">Recepten</label>
       <select

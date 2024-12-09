@@ -24,10 +24,10 @@ export class KookclubService {
   }
   
 
-  async findById(id: string): Promise<KookclubDocument> {
+  async findById(id: string): Promise<KookclubDocument & { eigenaar: { _id: string; name: string } }> {
     const kookclub = await this.kookclubModel
       .findById(id)
-      .populate('eigenaar', 'name _id') // Populeer eigenaar als object met name en _id
+      .populate('eigenaar', '_id name') // Populeer eigenaar als object met _id en name
       .populate('recepten', 'title description') // Populeer recepten met de gewenste velden
       .exec();
   
@@ -35,8 +35,9 @@ export class KookclubService {
       throw new NotFoundException('Kookclub niet gevonden');
     }
   
-    return kookclub;
+    return kookclub as KookclubDocument & { eigenaar: { _id: string; name: string } };
   }
+  
   
 
   async joinKookclub(kookclubId: string, userId: string): Promise<Kookclub> {
@@ -65,9 +66,36 @@ export class KookclubService {
 
   async deleteKookclub(kookclubId: string, userId: string): Promise<void> {
     const kookclub = await this.findById(kookclubId);
-    if (kookclub.eigenaar.toString() !== userId) {
-      throw new UnauthorizedException('Alleen de eigenaar kan de kookclub verwijderen');
+    if (typeof kookclub.eigenaar === 'object') {
+      if (kookclub.eigenaar._id.toString() !== userId) {
+        throw new UnauthorizedException('Alleen de eigenaar kan de kookclub bewerken');
+      }
+    } else if (kookclub.eigenaar !== userId) {
+      throw new UnauthorizedException('Alleen de eigenaar kan de kookclub bewerken');
     }
     await this.kookclubModel.findByIdAndDelete(kookclubId).exec();
   }
+  async updateKookclub(kookclubId: string, userId: string, data: Partial<Kookclub>): Promise<Kookclub> {
+    const kookclub = await this.findById(kookclubId);
+  
+    // Controleer eigenaarschap
+    if (typeof kookclub.eigenaar === 'object') {
+      if (kookclub.eigenaar._id.toString() !== userId) {
+        throw new UnauthorizedException('Alleen de eigenaar kan de kookclub bewerken');
+      }
+    } else if (kookclub.eigenaar !== userId) {
+      throw new UnauthorizedException('Alleen de eigenaar kan de kookclub bewerken');
+    }
+    
+  
+    // Update de velden
+    if (data.naam !== undefined) kookclub.naam = data.naam;
+    if (data.beschrijving !== undefined) kookclub.beschrijving = data.beschrijving;
+    if (data.categorieen !== undefined) kookclub.categorieen = data.categorieen;
+  
+    return kookclub.save();
+  }
+  
+  
+  
 }

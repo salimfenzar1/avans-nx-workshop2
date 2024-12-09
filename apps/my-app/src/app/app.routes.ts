@@ -13,6 +13,7 @@ import { FavoritesComponent } from './components/favorite_recipe/favorite_recipe
 import { KookclubComponent } from './components/kookclub/kookclub.component';
 import { CreateKookclubComponent } from './components/kookclub/create-kookclub.component';
 import { KookclubDetailComponent } from './components/kookclub/kookclub-detail.component';
+import { KookclubEditComponent } from './components/kookclub/kookclub-edit.component';
 
 export const appRoutes: Route[] = [
     // Hier komen onze URLs te staan.
@@ -38,6 +39,7 @@ export const appRoutes: Route[] = [
     { path: 'kookclubs', component: KookclubComponent },
     { path: 'kookclubs/create', component: CreateKookclubComponent },
     { path: 'kookclubs/:id', component: KookclubDetailComponent },
+    { path: 'kookclubs/:id/edit', component: KookclubEditComponent },
 
 
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { IKookclub, RecipeListResponse } from '@avans-nx-workshop/shared/api'; // Zorg dat dit correct is geïmporteerd
+import { IKookclub, RecipeListResponse, UpdateKookclub } from '@avans-nx-workshop/shared/api'; // Zorg dat dit correct is geïmporteerd
 import { environment } from '@avans-nx-workshop/shared/util-env';
 import { AuthService } from '@avans-nx-workshop/features';
 
@@ -79,4 +79,10 @@ export class KookclubService {
     const headers = this.createAuthHeaders();
     return this.http.delete<void>(`${this.apiUrl}/${kookclubId}`, { headers });
   }
+
+  updateKookclub(kookclubId: string, data: UpdateKookclub): Observable<IKookclub> {
+    const headers = this.createAuthHeaders();
+    return this.http.put<IKookclub>(`${this.apiUrl}/${kookclubId}`, data, { headers });
+  }
+  
 }

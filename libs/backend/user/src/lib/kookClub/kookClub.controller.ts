@@ -56,4 +56,16 @@ export class KookclubController {
     const userId = req.user.user_id;
     return this.kookclubService.deleteKookclub(id, userId);
   }
+
+  @Put(':id')
+  @UseGuards(AuthGuard)
+  async updateKookclub(
+    @Param('id') id: string,
+    @Body() data: Partial<Kookclub>,
+    @Request() req: any
+  ): Promise<Kookclub> {
+    const userId = req.user.user_id;
+    return this.kookclubService.updateKookclub(id, userId, data);
+  }
+
 }

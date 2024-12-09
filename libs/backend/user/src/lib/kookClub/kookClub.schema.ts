@@ -13,7 +13,7 @@ export class Kookclub {
   categorieen: string[] = []; // Een array van categorieën
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User', required: true })
-  eigenaar: string = ''; // Referentie naar de eigenaar (gebruiker)
+  eigenaar: { _id: string; name: string } | string = '';
 
   @Prop({ type: [MongooseSchema.Types.ObjectId], ref: 'User', default: [] })
   leden: string[] = []; // Een array van gebruikers die lid zijn

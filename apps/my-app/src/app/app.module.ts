@@ -20,6 +20,7 @@ import { FavoritesComponent } from './components/favorite_recipe/favorite_recipe
 import { KookclubComponent } from './components/kookclub/kookclub.component';
 import { CreateKookclubComponent } from './components/kookclub/create-kookclub.component';
 import { KookclubDetailComponent } from './components/kookclub/kookclub-detail.component';
+import { KookclubEditComponent } from './components/kookclub/kookclub-edit.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { KookclubDetailComponent } from './components/kookclub/kookclub-detail.c
         FavoritesComponent,
         KookclubComponent,
         CreateKookclubComponent,
-        KookclubDetailComponent
+        KookclubDetailComponent,
+        KookclubEditComponent
     ],
     imports: [
         BrowserModule,

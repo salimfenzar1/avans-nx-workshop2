@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { KookclubService } from '@avans-nx-workshop/features';
-import { IKookclub, IRecipe } from '@avans-nx-workshop/shared/api';
+import { IKookclub, IRecipe, KookclubCategorie } from '@avans-nx-workshop/shared/api';
 
 @Component({
   selector: 'app-create-kookclub',
@@ -10,11 +11,12 @@ import { IKookclub, IRecipe } from '@avans-nx-workshop/shared/api';
 export class CreateKookclubComponent implements OnInit {
   kookclubNaam = '';
   beschrijving = '';
-  categorieen: string[] = [];
+  categorieen: KookclubCategorie[] = []; 
+  availableCategories = Object.values(KookclubCategorie);
   availableRecipes: IRecipe[] = [];
   selectedRecepten: string[] = [];
 
-  constructor(private kookclubService: KookclubService) {}
+  constructor(private kookclubService: KookclubService , private router: Router,) {}
 
   ngOnInit(): void {
     this.loadAvailableRecipes();
@@ -24,10 +26,8 @@ export class CreateKookclubComponent implements OnInit {
     this.kookclubService.getAvailableRecipes().subscribe({
       next: (data) => {
         if (Array.isArray(data)) {
-          // Als data een array is
           this.availableRecipes = data.flatMap((item) => item.results || []);
         } else {
-          // Als data een enkel object is
           this.availableRecipes = data.results || [];
         }
         console.log('Beschikbare recepten:', this.availableRecipes);
@@ -37,16 +37,14 @@ export class CreateKookclubComponent implements OnInit {
       },
     });
   }
-  
 
-  addCategorie(categorie: string): void {
-    if (categorie && !this.categorieen.includes(categorie)) {
+  toggleCategorie(categorie: KookclubCategorie): void {
+    const index = this.categorieen.indexOf(categorie);
+    if (index === -1) {
       this.categorieen.push(categorie);
+    } else {
+      this.categorieen.splice(index, 1);
     }
-  }
-
-  removeCategorie(index: number): void {
-    this.categorieen.splice(index, 1);
   }
 
   toggleRecipeSelection(recipeId: string): void {
@@ -59,34 +57,21 @@ export class CreateKookclubComponent implements OnInit {
   }
 
   createKookclub(): void {
-    const selectedRecipeObjects = this.availableRecipes
-      .filter(
-        (recipe) =>
-          recipe._id !== undefined && this.selectedRecepten.includes(recipe._id)
-      )
-      .map((recipe) => ({
-        _id: recipe._id as string, // Forceer naar string (na filter is _id gegarandeerd een string)
-        title: recipe.title,
-        description: recipe.description,
-      })); // Map naar het verwachte formaat
-  
     const newKookclub: Partial<IKookclub> = {
       naam: this.kookclubNaam,
       beschrijving: this.beschrijving,
-      categorieen: this.categorieen,
-      recepten: selectedRecipeObjects, // Objecten met het juiste type
+      categorieen: this.categorieen, // Gebruik de geselecteerde categorieën
+      recepten: this.selectedRecepten.map((id) => ({ _id: id, title: '', description: '' })), // Alleen IDs
     };
-  
+
     this.kookclubService.createKookclub(newKookclub).subscribe({
       next: () => {
         alert('Kookclub aangemaakt!');
+        this.router.navigate(['/kookclubs']);
       },
       error: (err) => {
         console.error('Error bij het aanmaken van de kookclub:', err);
       },
     });
   }
-  
-  
-  
 }
