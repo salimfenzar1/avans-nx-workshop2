@@ -17,6 +17,9 @@ import { RecipeAddComponent } from './components/recipe-add/recipe-add.component
 import { RecipeDetailComponent } from './components/recipe/recipe_detail.component';
 import { RecipeEditComponent } from './components/recipe/recipe_edit.component';
 import { FavoritesComponent } from './components/favorite_recipe/favorite_recipe.component';
+import { KookclubComponent } from './components/kookclub/kookclub.component';
+import { CreateKookclubComponent } from './components/kookclub/create-kookclub.component';
+import { KookclubDetailComponent } from './components/kookclub/kookclub-detail.component';
 
 
 @NgModule({
@@ -32,7 +35,10 @@ import { FavoritesComponent } from './components/favorite_recipe/favorite_recipe
         RecipeAddComponent,
         RecipeDetailComponent,
         RecipeEditComponent,
-        FavoritesComponent
+        FavoritesComponent,
+        KookclubComponent,
+        CreateKookclubComponent,
+        KookclubDetailComponent
     ],
     imports: [
         BrowserModule,

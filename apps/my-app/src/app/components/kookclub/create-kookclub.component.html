@@ -1,0 +1,81 @@
+<div class="container mt-4">
+  <h2>Kookclub Maken</h2>
+  <form (submit)="createKookclub()">
+    <div class="mb-3">
+      <label for="kookclubNaam" class="form-label">Naam</label>
+      <input
+        type="text"
+        id="kookclubNaam"
+        class="form-control"
+        [(ngModel)]="kookclubNaam"
+        name="naam"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="beschrijving" class="form-label">Beschrijving</label>
+      <textarea
+        id="beschrijving"
+        class="form-control"
+        [(ngModel)]="beschrijving"
+        name="beschrijving"
+        required
+      ></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Categorieën</label>
+      <div>
+        <input
+          type="text"
+          #categorieInput
+          class="form-control d-inline w-75"
+          placeholder="Nieuwe categorie"
+        />
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="addCategorie(categorieInput.value)"
+        >
+          Toevoegen
+        </button>
+      </div>
+      <ul class="list-group mt-2">
+        <li
+          class="list-group-item"
+          *ngFor="let categorie of categorieen; let i = index"
+        >
+          {{ categorie }}
+          <button
+            type="button"
+            class="btn btn-sm btn-danger float-end"
+            (click)="removeCategorie(i)"
+          >
+            Verwijderen
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="mb-3">
+      <label for="recepten" class="form-label">Recepten</label>
+      <select
+        multiple
+        id="recepten"
+        class="form-control"
+        [(ngModel)]="selectedRecepten"
+        name="recepten"
+      >
+        <option
+          *ngFor="let recipe of availableRecipes"
+          [value]="recipe._id"
+        >
+          {{ recipe.title }}
+        </option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Kookclub Maken</button>
+  </form>
+</div>

@@ -1,0 +1,37 @@
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1>Kookclubs</h1>
+      <!-- Alleen tonen als de gebruiker is ingelogd -->
+      <button *ngIf="isLoggedIn()" class="btn btn-primary" (click)="createKookclub()">Kookclub Aanmaken</button>
+    </div>
+  
+    <!-- Lijst van Kookclubs -->
+    <div *ngIf="kookclubs && kookclubs.length > 0; else noKookclubs">
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div *ngFor="let kookclub of kookclubs" class="col">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">{{ kookclub.naam }}</h5>
+              <p class="card-text">{{ kookclub.beschrijving }}</p>
+              <p>
+                <strong>Eigenaar:</strong> {{ getEigenaarNaam(kookclub.eigenaar) }}
+            </p>
+              <p>
+                <strong>Aantal Leden:</strong> {{ kookclub.leden.length }}
+              </p>
+              <!-- Navigeren naar detailpagina -->
+              <button class="btn btn-primary btn-sm" (click)="viewKookclub(kookclub._id)">
+                Bekijk Details
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Geen Kookclubs Beschikbaar -->
+    <ng-template #noKookclubs>
+      <p class="text-muted text-center">Er zijn geen kookclubs beschikbaar.</p>
+    </ng-template>
+  </div>
+  

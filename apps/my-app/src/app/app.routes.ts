@@ -10,6 +10,9 @@ import { RecipeDetailComponent } from './components/recipe/recipe_detail.compone
 import { RecipeEditComponent } from './components/recipe/recipe_edit.component';
 import { AuthGuard } from '@avans-nx-workshop/features';
 import { FavoritesComponent } from './components/favorite_recipe/favorite_recipe.component';
+import { KookclubComponent } from './components/kookclub/kookclub.component';
+import { CreateKookclubComponent } from './components/kookclub/create-kookclub.component';
+import { KookclubDetailComponent } from './components/kookclub/kookclub-detail.component';
 
 export const appRoutes: Route[] = [
     // Hier komen onze URLs te staan.
@@ -32,6 +35,9 @@ export const appRoutes: Route[] = [
     { path: 'favorites', component: FavoritesComponent },
     { path: 'profile', component: ProfileComponent },
     { path: 'profile/edit', component: EditProfileComponent },
+    { path: 'kookclubs', component: KookclubComponent },
+    { path: 'kookclubs/create', component: CreateKookclubComponent },
+    { path: 'kookclubs/:id', component: KookclubDetailComponent },
 
 
 

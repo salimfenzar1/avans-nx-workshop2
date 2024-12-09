@@ -14,6 +14,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './profile/edit_profile.component';
 import { ReviewService } from './review/review.service';
+import { KookclubService } from './kookClub/kookClub.service';
 @NgModule({
     imports: [CommonModule, RouterModule,ReactiveFormsModule, HttpClientModule  ],
     declarations: [
@@ -30,7 +31,8 @@ import { ReviewService } from './review/review.service';
         AuthService,
         RecipeService,
         AuthGuard,
-        ReviewService
+        ReviewService,
+        KookclubService
     ]
 })
 export class FeaturesModule {}

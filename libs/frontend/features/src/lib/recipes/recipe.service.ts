@@ -15,11 +15,9 @@ export class RecipeService {
 
   private createAuthHeaders(): HttpHeaders {
     const token = this.authService.getToken();
-    console.log
     if (!token) {
       console.error('No JWT token found');
     }
-    console.log('found token ' + token)
     return new HttpHeaders({
       Authorization: `Bearer ${token || ''}`, // Voeg token toe aan de heade
     }
