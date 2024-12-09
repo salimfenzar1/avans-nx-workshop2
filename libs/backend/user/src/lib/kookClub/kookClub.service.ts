@@ -51,9 +51,13 @@ export class KookclubService {
 
   async leaveKookclub(kookclubId: string, userId: string): Promise<Kookclub> {
     const kookclub = await this.findById(kookclubId);
-    kookclub.leden = kookclub.leden.filter((lid) => lid !== userId);
+  
+    // Zorg ervoor dat `lid` als string wordt vergeleken
+    kookclub.leden = kookclub.leden.filter((lid) => lid.toString() !== userId);
+  
     return kookclub.save();
   }
+  
 
   async addRecipeToKookclub(kookclubId: string, recipeId: string): Promise<Kookclub> {
     const kookclub = await this.findById(kookclubId);
