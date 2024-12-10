@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose'; // Voor MongoDB
 import { Neo4jModule } from 'nest-neo4j/dist';
+import {ConfigModule} from '@nestjs/config'
 import { Neo4jBackendModule } from '@avans-nx-workshop/backend/neo4j';
 import { RecipeNeo4jModule } from '@avans-nx-workshop/backend/neo4j';
 import { environment } from '@avans-nx-workshop/shared/util-env';
