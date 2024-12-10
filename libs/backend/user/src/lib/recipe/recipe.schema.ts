@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { RecipeCategory } from '@avans-nx-workshop/shared/api';
+import { IsMongoId } from 'class-validator';
 
 export type RecipeDocument = Recipe & Document & { _id: Types.ObjectId };
 
@@ -19,6 +20,10 @@ class Step {
 
 @Schema()
 export class Recipe {
+
+  @IsMongoId()
+  _id!: string;
+
   @Prop({ required: true })
   title: string = '';
 

@@ -37,12 +37,14 @@ export interface IUserInfo extends IUserRegistration {
     role: UserRole;
     gender: UserGender;
     isActive: boolean;
+    favorites: Id[];
 }
 
 /**
  * All user information, incl. domain entities
  */
 export interface IUser extends IUserInfo {
+
 }
 
 export type ICreateUser = Pick<IUser, 'name' | 'password' | 'emailAddress'>;

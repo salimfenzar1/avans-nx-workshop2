@@ -2,7 +2,7 @@
   <section class="py-5 text-center container">
     <div class="row py-lg-5">
       <div class="col-lg-8 col-md-10 mx-auto">
-        <h1 class="fw-bold">Welcome to the Recipe App!</h1>
+        <h1 class="fw-bold display-4">Welcome to the Recipe App!</h1>
         <p class="lead text-muted">
           Discover, share, and manage recipes. Explore collections curated by our users or create your own. Let’s make cooking fun and collaborative!
         </p>
@@ -17,27 +17,108 @@
     </div>
   </section>
 
+  <!-- Featured Recipes Section -->
   <div *ngIf="isLoggedIn" class="album py-3 bg-light">
     <div class="container">
-      <h2 class="text-center mb-4">Featured Recipes</h2>
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-        <div class="col" *ngFor="let recipe of recipes">
-          <div class="card shadow-sm">
-            <img
-              [src]="recipe.imageUrl || '../../../../assets/default-recipe.jpg'"
-              class="card-img-top"
-              alt="{{ recipe.title }}"
-              height="200"
-              style="object-fit: cover;"
-            />
-            <div class="card-body">
-              <h5 class="card-title">{{ recipe.title }}</h5>
-              <p class="card-text text-muted">
-                {{ recipe.description | slice: 0:100 }}...
-              </p>
-              <a [routerLink]="['/recipes', recipe._id]" class="btn btn-primary btn-sm">View</a>
-              <br />
-              <small class="text-muted">{{ recipe.cookingTime }} mins</small>
+      <div class="card shadow-lg mb-5">
+        <div class="card-header bg-primary text-white text-center">
+          <h2 class="mb-0">Featured Recipes</h2>
+        </div>
+        <div class="card-body">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            <div class="col" *ngFor="let recipe of featuredRecipes">
+              <div class="card shadow-sm h-100">
+                <img
+                  [src]="recipe.imageUrl || '../../../../assets/default-recipe.jpg'"
+                  class="card-img-top"
+                  alt="{{ recipe.title }}"
+                  height="200"
+                  style="object-fit: cover;"
+                />
+                <div class="card-body">
+                  <h5 class="card-title">{{ recipe.title }}</h5>
+                  <p class="card-text text-muted">
+                    {{ recipe.description | slice: 0:100 }}...
+                  </p>
+                  <a [routerLink]="['/recipes', recipe._id]" class="btn btn-primary btn-sm w-100">View</a>
+                  <br />
+                  <small class="text-muted d-block mt-2">Cooking Time: {{ recipe.cookingTime }} min</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Best Rated Recipes Section -->
+      <div class="card shadow-lg mb-5">
+        <div class="card-header bg-success text-white text-center">
+          <h2 class="mb-0">Best Rated Recipes</h2>
+        </div>
+        <div class="card-body">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            <div class="col" *ngFor="let recipe of bestRatedRecipes">
+              <div class="card shadow-sm h-100">
+                <img
+                  [src]="recipe.recipe.imageUrl || '../../../../assets/default-recipe.jpg'"
+                  class="card-img-top"
+                  alt="{{ recipe.recipe.title }}"
+                  height="200"
+                  style="object-fit: cover;"
+                />
+                <div class="card-body">
+                  <h4 class="card-title">{{ recipe.recipe.title }}</h4>
+                  <p class="card-text">{{ recipe.recipe.description | slice: 0:100 }}...</p>
+                  <p class="text-warning">
+                    <span style="font-size: 1.2rem;" *ngIf="recipe.recipe.averageRating !== undefined; else noRating">
+                      Rating: {{ recipe.recipe.averageRating.toFixed(1) }}/5
+                      <span *ngFor="let i of [1, 2, 3, 4, 5]">
+                        <i
+                          class="bi"
+                          [ngClass]="{
+                            'bi-star-fill': i <= (recipe.recipe.averageRating || 0),
+                            'bi-star': i > (recipe.recipe.averageRating || 0)
+                          }"
+                        ></i>
+                      </span>
+                    </span>
+                    <ng-template #noRating>
+                      <span class="text-muted">Nog geen beoordelingen</span>
+                    </ng-template>
+                  </p>
+                  <a [routerLink]="['/recipes', recipe.recipe.id]" class="btn btn-primary btn-sm w-100">View</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kookclubs Section -->
+      <div class="card shadow-lg">
+        <div class="card-header bg-info text-white text-center">
+          <h2 class="mb-0">Kookclubs</h2>
+        </div>
+        <div class="card-body">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            <div class="col" *ngFor="let kookclub of kookclubs">
+              <div class="card shadow-sm h-100">
+                <div class="card-body">
+                  <h4 class="card-title">{{ kookclub.naam }}</h4>
+                  <p class="card-text text-muted">
+                    {{ kookclub.beschrijving | slice: 0:100 }}...
+                  </p>
+                  <p>
+                    <strong>Eigenaar:</strong> {{ getEigenaarNaam(kookclub.eigenaar) }}
+                  </p>
+                  <p>
+                    <strong>Leden:</strong> {{ kookclub.leden.length }}
+                  </p>
+                  <button class="btn btn-info btn-sm w-100" (click)="viewKookclub(kookclub._id)">
+                    View
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

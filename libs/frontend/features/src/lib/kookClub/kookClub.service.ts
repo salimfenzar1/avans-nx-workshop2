@@ -10,7 +10,9 @@ import { AuthService } from '@avans-nx-workshop/features';
 })
 export class KookclubService {
   private apiUrl = `${environment.dataApiUrl}/kookclubs`;
-  private recipeApiUrl = `${environment.dataApiUrl}/recipe`; // Endpoint voor recepten
+  private recipeApiUrl = `${environment.dataApiUrl}/recipe`; 
+  private neo4jApiUrl = `${environment.neo4jApiUrl}/kookclubs`; 
+  private neo4jApiUrlSync = `${environment.neo4jApiUrl}/sync`; 
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -35,7 +37,6 @@ export class KookclubService {
     );
   }
   
-
   // Haal details van een specifieke kookclub op
   getKookclubById(id: string): Observable<IKookclub> {
     const headers = this.createAuthHeaders();
@@ -64,6 +65,7 @@ export class KookclubService {
     const headers = this.createAuthHeaders();
     return this.http.get<RecipeListResponse>(this.recipeApiUrl, { headers });
   }
+
   // Voeg een recept toe aan een kookclub
   addRecipeToKookclub(kookclubId: string, recipeId: string): Observable<IKookclub> {
     const headers = this.createAuthHeaders();
@@ -80,9 +82,10 @@ export class KookclubService {
     return this.http.delete<void>(`${this.apiUrl}/${kookclubId}`, { headers });
   }
 
+  // Update een kookclub
   updateKookclub(kookclubId: string, data: UpdateKookclub): Observable<IKookclub> {
     const headers = this.createAuthHeaders();
     return this.http.put<IKookclub>(`${this.apiUrl}/${kookclubId}`, data, { headers });
   }
-  
+
 }
