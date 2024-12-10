@@ -9,5 +9,5 @@ export const environment: IEnvironment = {
 
   NEO4J_USER: '',
   NEO4J_PASSWORD: 'beg9ckdHG15BhSlV7hEVh8SQSKLwHnrQhTlyUlqnGGs',
-  neo4jApiUrl: ''
+  neo4jApiUrl: 'https://neo4japi.azurewebsites.net/api/neo4j'
 };
