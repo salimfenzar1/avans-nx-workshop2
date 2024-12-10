@@ -12,6 +12,7 @@ import {
 } from '@avans-nx-workshop/backend/dto';
 import { AppModule } from './app/app.module';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -41,12 +42,24 @@ async function bootstrap() {
           },
         }),
       );
-    
+
+      const config = new DocumentBuilder()
+      .setTitle('Data API')
+      .setDescription('API voor receptenbeheer')
+      .setVersion('1.0')
+      .addBearerAuth()
+      .build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup(`${globalPrefix}/docs`, app, document);
+  
     const port = process.env.PORT || 3000;
     await app.listen(port);
     Logger.log(
         `🚀 DATA-API server is running on: http://localhost:${port}/${globalPrefix}`
     );
+    Logger.log(
+        `📄 Swagger docs beschikbaar op: http://localhost:${port}/${globalPrefix}/docs`
+      );
 }
 
 bootstrap();
