@@ -10,5 +10,6 @@ import { AuthModule } from '@avans-nx-workshop/backend/auth';
 AuthModule],
   controllers: [KookclubController],
   providers: [KookclubService],
+  exports:[KookclubService]
 })
 export class KookclubModule {}

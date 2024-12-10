@@ -24,6 +24,8 @@ export class CreateUserDto implements IUserRegistration {
 }
 
 export class UpsertUserDto implements IUpsertUser {
+
+    
     _id!: Id;
 
     @IsString()
@@ -54,6 +56,8 @@ export class UpsertUserDto implements IUpsertUser {
     @IsString()
     @IsNotEmpty()
     gender: UserGender = UserGender.Unknown;
+
+    favorites: string[] = [];
 }
 
 export class UpdateUserDto implements IUpdateUser {

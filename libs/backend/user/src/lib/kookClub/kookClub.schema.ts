@@ -1,8 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { IsMongoId } from 'class-validator';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 
 @Schema()
 export class Kookclub {
+  @IsMongoId()
+  _id!: string;
+  
   @Prop({ required: true })
   naam: string = '';
 
@@ -25,5 +29,5 @@ export class Kookclub {
   recepten: string[] = [];
 }
 
-export type KookclubDocument = Kookclub & Document;
+export type KookclubDocument = Kookclub & Document & { _id: string };
 export const KookclubSchema = SchemaFactory.createForClass(Kookclub);
