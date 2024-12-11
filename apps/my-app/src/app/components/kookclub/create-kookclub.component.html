@@ -1,6 +1,7 @@
 <div class="container mt-4">
   <h2>Kookclub Maken</h2>
-  <form (submit)="createKookclub()">
+  <form #form="ngForm" (ngSubmit)="createKookclub(form)" novalidate>
+    <!-- Naam -->
     <div class="mb-3">
       <label for="kookclubNaam" class="form-label">Naam</label>
       <input
@@ -11,8 +12,12 @@
         name="naam"
         required
       />
+      <div *ngIf="form.submitted && !kookclubNaam" class="text-danger">
+        Naam is verplicht.
+      </div>
     </div>
 
+    <!-- Beschrijving -->
     <div class="mb-3">
       <label for="beschrijving" class="form-label">Beschrijving</label>
       <textarea
@@ -22,8 +27,12 @@
         name="beschrijving"
         required
       ></textarea>
+      <div *ngIf="form.submitted && !beschrijving" class="text-danger">
+        Beschrijving is verplicht.
+      </div>
     </div>
 
+    <!-- Categorieën -->
     <div class="mb-3">
       <label class="form-label">Categorieën</label>
       <div *ngFor="let categorie of availableCategories" class="form-check">
@@ -39,8 +48,12 @@
           {{ categorie }}
         </label>
       </div>
+      <div *ngIf="form.submitted && categorieen.length === 0" class="text-danger">
+        Selecteer ten minste één categorie.
+      </div>
     </div>
-    
+
+    <!-- Recepten -->
     <div class="mb-3">
       <label for="recepten" class="form-label">Recepten</label>
       <select

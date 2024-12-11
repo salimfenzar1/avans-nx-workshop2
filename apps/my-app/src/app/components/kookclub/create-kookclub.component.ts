@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { KookclubService } from '@avans-nx-workshop/features';
 import { IKookclub, IRecipe, KookclubCategorie } from '@avans-nx-workshop/shared/api';
@@ -56,14 +57,19 @@ export class CreateKookclubComponent implements OnInit {
     }
   }
 
-  createKookclub(): void {
+  createKookclub(form: NgForm): void {
+    if (!form.valid || this.categorieen.length === 0) {
+      alert('Vul alle verplichte velden in.');
+      return;
+    }
+  
     const newKookclub: Partial<IKookclub> = {
       naam: this.kookclubNaam,
       beschrijving: this.beschrijving,
-      categorieen: this.categorieen, // Gebruik de geselecteerde categorieën
-      recepten: this.selectedRecepten.map((id) => ({ _id: id, title: '', description: '' })), // Alleen IDs
+      categorieen: this.categorieen,
+      recepten: this.selectedRecepten.map((id) => ({ _id: id, title: '', description: '' })),
     };
-
+  
     this.kookclubService.createKookclub(newKookclub).subscribe({
       next: () => {
         alert('Kookclub aangemaakt!');
@@ -71,6 +77,7 @@ export class CreateKookclubComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error bij het aanmaken van de kookclub:', err);
+        alert('Er is een fout opgetreden bij het aanmaken van de kookclub.');
       },
     });
   }

@@ -7,6 +7,7 @@ import { IRecipe } from '@avans-nx-workshop/shared/api';
 @Component({
   selector: 'app-recipe-edit',
   templateUrl: './recipe_edit.component.html',
+  styleUrls: [],
 })
 export class RecipeEditComponent implements OnInit {
   recipe: Partial<IRecipe> = {
@@ -37,37 +38,91 @@ export class RecipeEditComponent implements OnInit {
     this.recipeService.getRecipeById(this.recipeId).subscribe({
       next: (response) => {
         this.recipe = response.results;
+        if (!this.recipe.ingredients) this.recipe.ingredients = [];
+        if (!this.recipe.steps) this.recipe.steps = [];
       },
       error: (err) => {
-        console.error('Fout bij ophalen recept:', err);
-        this.errorMessage = 'Recept kon niet worden geladen.';
+        console.error('Error loading recipe:', err);
+        this.errorMessage = 'Failed to load the recipe.';
       },
     });
   }
 
+  addIngredient(): void {
+    if (!this.recipe.ingredients) {
+      this.recipe.ingredients = [];
+    }
+    this.recipe.ingredients.push({ name: '', amount: '' });
+  }
+
+  removeIngredient(index: number): void {
+    if (this.recipe.ingredients) {
+      this.recipe.ingredients.splice(index, 1);
+    }
+  }
+
+  addStep(): void {
+    if (!this.recipe.steps) {
+      this.recipe.steps = [];
+    }
+    this.recipe.steps.push({ instruction: '' });
+  }
+
+  removeStep(index: number): void {
+    if (this.recipe.steps) {
+      this.recipe.steps.splice(index, 1);
+    }
+  }
+
   updateRecipe(): void {
-    this.recipeService.updateRecipe(this.recipeId, this.recipe as IRecipe).subscribe({
+    if (!this.recipe.title || !this.recipe.description || !this.recipe.cookingTime || !this.recipe.category) {
+      this.errorMessage = 'Please ensure all required fields are filled.';
+      return;
+    }
+  
+    const formattedIngredients = (this.recipe.ingredients || []).map((ingredient) => ({
+      name: ingredient.name || '',
+      amount: ingredient.amount || '',
+    }));
+  
+    const formattedSteps = (this.recipe.steps || []).map((step) => ({
+      instruction: step.instruction || '',
+    }));
+  
+    const updatedRecipe: IRecipe = {
+      ...this.recipe,
+      title: this.recipe.title!, // Force non-undefined value
+      description: this.recipe.description!,
+      cookingTime: this.recipe.cookingTime!,
+      category: this.recipe.category!, // Force non-undefined value for category
+      ingredients: formattedIngredients,
+      steps: formattedSteps,
+      imageUrl: this.recipe.imageUrl || '', // Optional field
+    };
+  
+    this.recipeService.updateRecipe(this.recipeId, updatedRecipe).subscribe({
       next: () => {
-        this.syncRecipes(); // Call sync function after update
-        this.successMessage = 'Recept succesvol bijgewerkt en gesynchroniseerd!';
+        this.syncRecipes(); // Call sync function
+        this.successMessage = 'Recipe successfully updated and synchronized!';
         setTimeout(() => {
-          this.router.navigate(['/recipes']);
+          this.router.navigate([`/recipes/${this.recipeId}`]);
         }, 2000); // Redirect after 2 seconds
       },
       error: (err) => {
-        console.error('Fout bij bijwerken recept:', err);
-        this.errorMessage = 'Recept kon niet worden bijgewerkt.';
+        console.error('Error updating recipe:', err);
+        this.errorMessage = 'Failed to update the recipe.';
       },
     });
   }
+  
 
   syncRecipes(): void {
     this.neo4jRecipeService.syncRecipes().subscribe({
       next: (response) => {
-        console.log('Synchronisatie succesvol:', response);
+        console.log('Synchronization successful:', response);
       },
       error: (err) => {
-        console.error('Fout tijdens synchronisatie:', err);
+        console.error('Error during synchronization:', err);
       },
     });
   }

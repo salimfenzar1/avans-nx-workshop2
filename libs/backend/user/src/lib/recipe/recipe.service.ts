@@ -23,7 +23,7 @@ async findAll(): Promise<(Recipe & { averageRating: number })[]> {
       const averageRating = await this.reviewService.getAverageRating(recipeId);
       return {
         ...recipe.toObject(),
-        averageRating, // Voeg de gemiddelde beoordeling toe
+        averageRating,
       };
     })
   );

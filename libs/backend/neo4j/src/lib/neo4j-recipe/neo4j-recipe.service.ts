@@ -13,7 +13,7 @@ export class RecipeNeo4jService {
   // Synchroniseer recepten en favorieten naar Neo4j
   async syncRecipes(): Promise<void> {
     const recipes = await this.mongoRecipeService.findAll();
-    const users = await this.mongoUserService.findAll(); // Haal alle gebruikers op
+    const users = await this.mongoUserService.findAll(); 
   
     for (const recipe of recipes) {
       // Voeg recepten toe aan Neo4j
