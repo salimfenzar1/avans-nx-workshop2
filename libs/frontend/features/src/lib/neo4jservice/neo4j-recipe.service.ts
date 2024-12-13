@@ -31,4 +31,10 @@ export class Neo4jRecipeService {
     const headers = this.createAuthHeaders();
     return this.http.post<{ message: string }>(`${this.neo4jApiUrl}/sync`, {}, { headers });
   }
+
+  deleteRecipe(recipeId: string): Observable<{ message: string }> {
+    const headers = this.createAuthHeaders();
+    return this.http.delete<{ message: string }>(`${this.neo4jApiUrl}/${recipeId}`, { headers });
+  }
+  
 }

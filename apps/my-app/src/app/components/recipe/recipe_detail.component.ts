@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RecipeService } from '@avans-nx-workshop/features';  // Zorg ervoor dat de service goed is geïmporteerd
+import { Neo4jRecipeService, RecipeService } from '@avans-nx-workshop/features';  // Zorg ervoor dat de service goed is geïmporteerd
 import { IRecipe, IReviewResponse } from '@avans-nx-workshop/shared/api';
 import { AuthService } from '@avans-nx-workshop/features'; 
 import { ReviewService } from '@avans-nx-workshop/features'; 
@@ -25,7 +25,8 @@ export class RecipeDetailComponent implements OnInit {
     private router: Router, 
     private authService: AuthService ,
     private recipeService: RecipeService,
-    private reviewService: ReviewService
+    private reviewService: ReviewService,
+    private neo4jRecipeService: Neo4jRecipeService
   ) {}
 
   ngOnInit(): void {
@@ -221,6 +222,7 @@ export class RecipeDetailComponent implements OnInit {
       if (confirmed) {
         this.recipeService.deleteRecipe(this.recipe._id).subscribe({
           next: () => {
+            this.syncRecipes();
             alert('Recept succesvol verwijderd!');
             this.router.navigate(['/recipes']); // Navigeer terug naar de receptenlijst
           },
@@ -233,6 +235,17 @@ export class RecipeDetailComponent implements OnInit {
     } else {
       this.errorMessage = 'Recipe ID is missing for deletion.';
     }
+  }
+
+  syncRecipes(): void {
+    this.neo4jRecipeService.syncRecipes().subscribe({
+      next: (response) => {
+        console.log('Synchronization successful:', response);
+      },
+      error: (err) => {
+        console.error('Error during synchronization:', err);
+      },
+    });
   }
 }
 

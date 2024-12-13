@@ -56,6 +56,16 @@ export class RecipeNeo4jService {
       }
     }
   }
+
+  async deleteRecipeFromNeo4j(recipeId: string): Promise<void> {
+    await this.neo4jService.write(
+      `
+      MATCH (r:Recipe {id: $recipeId})
+      DETACH DELETE r
+      `,
+      { recipeId }
+    );
+  }
   
   // Haal populairste recepten op
   async getPopularRecipes(): Promise<any[]> {
@@ -88,4 +98,5 @@ export class RecipeNeo4jService {
       recipe: record.get('r').properties,
     }));
   }
+  
 }
