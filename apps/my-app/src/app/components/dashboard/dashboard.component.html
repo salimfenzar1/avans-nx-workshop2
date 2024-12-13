@@ -7,11 +7,11 @@
           Discover, share, and manage recipes. Explore collections curated by our users or create your own. Let’s make cooking fun and collaborative!
         </p>
         <p *ngIf="isLoggedIn">
-          <a routerLink="/recipes" class="btn btn-primary my-2">Explore Recipes</a>
-          <a routerLink="/my-recipes" class="btn btn-secondary my-2">My Recipes</a>
+          <a routerLink="/recipes" class="btn btn-primary my-2">Recepten</a>
+          <a routerLink="/kookclubs" class="btn btn-secondary my-2">Kookclubs</a>
         </p>
         <p *ngIf="!isLoggedIn">
-          <a routerLink="/login" class="btn btn-primary my-2">Login to Explore Recipes</a>
+          <a routerLink="/login" class="btn btn-primary my-2">Login om gebruik te maken van onze app</a>
         </p>
       </div>
     </div>

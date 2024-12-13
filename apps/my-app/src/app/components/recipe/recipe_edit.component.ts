@@ -106,7 +106,7 @@ export class RecipeEditComponent implements OnInit {
         this.syncRecipes(); // Call sync function
         this.successMessage = 'Recipe successfully updated and synchronized!';
         setTimeout(() => {
-          this.router.navigate([`/recipes/${this.recipeId}`]);
+          this.router.navigate([`/recipes`]);
         }, 2000); // Redirect after 2 seconds
       },
       error: (err) => {
