@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import {
+    BadRequestException,
     ConflictException,
     UnauthorizedException
 } from '@nestjs/common/exceptions';
@@ -73,12 +74,15 @@ export class AuthService {
 
     async register(user: CreateUserDto): Promise<IUserIdentity> {
         this.logger.log(`Registering user: ${user.name}`);
-    
+    try{
         // Check if the user already exists
         const existingUser = await this.userModel.findOne({ emailAddress: user.emailAddress });
         if (existingUser) {
             this.logger.debug('User already exists');
             throw new ConflictException('User already exists');
+        }
+        if (!user.emailAddress || !user.password) {
+            throw new BadRequestException('Invalid data. Please check all fields.');
         }
     
         // Hash het wachtwoord
@@ -101,5 +105,26 @@ export class AuthService {
             role: createdUser.role,
             token: token
         };
+    }catch (err) {
+    if ((err as any).name === 'ValidationError') {
+        this.logger.error('Validation error:', (err as any).errors);
+
+        // Verwerk de validatiefouten
+        const errorDetails = Object.values((err as any).errors).map((error: any) => {
+            return {
+                field: error.path || 'unknown', // Gebruik 'path', of een fallback als deze ontbreekt
+                message: error.message || 'Unknown validation error', // Gebruik de foutmelding
+            };
+        });
+
+        // Gooi een gedetailleerde foutmelding
+        throw new BadRequestException({
+            message: 'Validation failed',
+            errors: errorDetails,
+        });
     }
+    throw err; // Andere fouten opnieuw gooien
+}
+
+}
 }

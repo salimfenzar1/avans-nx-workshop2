@@ -3,6 +3,7 @@ import { RecipeService } from '@avans-nx-workshop/features';
 import { Neo4jRecipeService } from '@avans-nx-workshop/features';
 import { IRecipe, RecipeCategory } from '@avans-nx-workshop/shared/api';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-recipe-add',
@@ -56,8 +57,8 @@ export class RecipeAddComponent {
     }
   }
 
-  addRecipe(): void {
-    if (!this.recipe.title || !this.recipe.description || !this.recipe.cookingTime) {
+  addRecipe(form: NgForm): void {
+    if (form.invalid || !this.recipe.title || !this.recipe.description || !this.recipe.cookingTime) {
       this.errorMessage = 'Please fill in all required fields.';
       return;
     }

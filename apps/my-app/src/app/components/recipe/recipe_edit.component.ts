@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipeService } from '@avans-nx-workshop/features';
 import { Neo4jRecipeService } from '@avans-nx-workshop/features';
@@ -74,8 +75,8 @@ export class RecipeEditComponent implements OnInit {
     }
   }
 
-  updateRecipe(): void {
-    if (!this.recipe.title || !this.recipe.description || !this.recipe.cookingTime || !this.recipe.category) {
+  updateRecipe(form: NgForm): void {
+    if (form.invalid ||!this.recipe.title || !this.recipe.description || !this.recipe.cookingTime || !this.recipe.category) {
       this.errorMessage = 'Please ensure all required fields are filled.';
       return;
     }

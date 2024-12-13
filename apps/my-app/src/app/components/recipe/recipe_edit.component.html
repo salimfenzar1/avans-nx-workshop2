@@ -1,6 +1,6 @@
 <div class="container mt-4">
   <h1>Edit Recipe</h1>
-  <form (ngSubmit)="updateRecipe()">
+  <form #form="ngForm" (ngSubmit)="updateRecipe(form)">
     <!-- Title -->
     <div class="mb-3">
       <label for="title" class="form-label">Title</label>
@@ -12,6 +12,9 @@
         class="form-control"
         required
       />
+      <div *ngIf="form.submitted && !recipe.title" class="text-danger">
+        Titel is verplicht.
+      </div>
     </div>
 
     <!-- Description -->
@@ -25,6 +28,9 @@
         rows="3"
         required
       ></textarea>
+      <div *ngIf="form.submitted && !recipe.description" class="text-danger">
+        Beschrijving is verplicht.
+      </div>
     </div>
 
     <!-- Ingredients Section -->
@@ -81,6 +87,9 @@
         class="form-control"
         required
       />
+      <div *ngIf="form.submitted && !recipe.cookingTime" class="text-danger">
+        Kooktijd is verplicht.
+      </div>
     </div>
 
     <!-- Image URL -->
@@ -107,5 +116,6 @@
     <!-- Buttons -->
     <button type="submit" class="btn btn-primary">Update Recipe</button>
     <a routerLink="/recipes" class="btn btn-secondary">Cancel</a>
+    <p *ngIf="errorMessage" class="text-danger">{{ errorMessage }}</p>
   </form>
 </div>
