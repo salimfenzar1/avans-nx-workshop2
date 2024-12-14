@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
   loadFeaturedRecipes(): void {
     this.recipeService.getRecipes().subscribe((data: RecipeListResponse) => {
       if (data && data.results && Array.isArray(data.results)) {
-        this.featuredRecipes = data.results.slice(-6); // Laat alleen de laatste 6 recepten zien
+        this.featuredRecipes = data.results.slice(-3); // Laat alleen de laatste 6 recepten zien
       } else {
         console.error('Geen recepten gevonden of verkeerde structuur');
       }
@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit {
   loadKookclubs(): void {
     this.kookclubService.getAllKookclubs().subscribe({
       next: (data) => {
-        this.kookclubs = data;
+        this.kookclubs = data.slice(-3);
       },
       error: (err) => {
         console.error('Fout bij het ophalen van kookclubs:', err);
@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit {
       next: (data: RecipeListResponse) => {
         console.log('Data received for best-rated recipes:', data);
         if (data && data.results && Array.isArray(data.results)) {
-          this.bestRatedRecipes = data.results; // Gebruik direct de resultaten
+          this.bestRatedRecipes = data.results.slice(-3); // Gebruik direct de resultaten
         } else {
           console.error('Incorrecte structuur voor best beoordeelde recepten.');
         }

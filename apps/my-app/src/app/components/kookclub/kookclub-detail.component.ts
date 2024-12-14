@@ -38,6 +38,7 @@ export class KookclubDetailComponent implements OnInit {
   getKookclubDetail(id: string): void {
     this.kookclubService.getKookclubById(id).subscribe({
       next: (data) => {
+        console.log(data)
         this.kookclub = data;
         this.checkOwnership();
         this.checkMembership();

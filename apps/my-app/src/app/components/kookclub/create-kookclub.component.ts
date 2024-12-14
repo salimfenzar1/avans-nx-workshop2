@@ -67,7 +67,7 @@ export class CreateKookclubComponent implements OnInit {
       naam: this.kookclubNaam,
       beschrijving: this.beschrijving,
       categorieen: this.categorieen,
-      recepten: this.selectedRecepten.map((id) => ({ _id: id, title: '', description: '' })),
+      recepten: this.selectedRecepten.map((id) => ({ _id: id, title: '', description: '' , imageUrl:''})),
     };
   
     this.kookclubService.createKookclub(newKookclub).subscribe({

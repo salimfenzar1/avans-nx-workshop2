@@ -1,128 +1,146 @@
 <main>
-  <section class="py-5 text-center container">
-    <div class="row py-lg-5">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <h1 class="fw-bold display-4">Welkom bij de Recepten App!</h1>
-        <p class="lead text-muted">
-          Ontdek, deel en beheer de lekkerste recepten! Blader door inspirerende collecties van onze community of voeg jouw eigen creaties toe. Samen maken we koken leuker en nog makkelijker!
-        </p>
-        <p *ngIf="isLoggedIn">
-          <a routerLink="/recipes" class="btn btn-primary my-2">Recepten</a>
-          <a routerLink="/kookclubs" class="btn btn-secondary my-2">Kookclubs</a>
-        </p>
-        <p *ngIf="!isLoggedIn">
-          <a routerLink="/login" class="btn btn-primary my-2">Login om gebruik te maken van onze app</a>
-        </p>
+  <!-- Hero Section -->
+  <section class="py-5 text-center">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 text-start">
+          <h1 class="display-4 fw-bold text-primary mb-3">De plek voor de lekkerste recepten!</h1>
+          <p class="lead text-muted mb-4">
+            Ontdek unieke recepten, sla je favorieten op en deel jouw eigen creaties met onze community. Koken is nog nooit zo leuk en interactief geweest!
+          </p>
+          <div *ngIf="!isLoggedIn">
+            <a routerLink="/register" class="btn btn-primary btn-lg me-3">
+              <i class="bi bi-pencil-square me-2"></i>Registreer Nu
+            </a>
+            <a routerLink="/about" class="btn btn-outline-secondary btn-lg">
+              <i class="bi bi-info-circle me-2"></i>Meer Weten
+            </a>
+          </div>
+          <div *ngIf="isLoggedIn">
+            <a routerLink="/recipes" class="btn btn-primary btn-lg me-3 mb-3">
+              <i class="bi bi-book-fill me-2"></i>Bekijk Recepten
+            </a>
+            <a routerLink="/kookclubs" class="btn btn-success btn-lg mb-3">
+              <i class="bi bi-people-fill me-2"></i>Bekijk Kookclubs
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <img src="../../../assets/hero.webp" alt="Delicious recipes" class="img-fluid rounded shadow-lg" />
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Featured Recipes Section -->
-  <div *ngIf="isLoggedIn" class="album py-3 bg-light">
-    <div class="container">
-      <div class="card shadow-lg mb-5">
-        <div class="card-header bg-primary text-white text-center">
-          <h2 class="mb-0">Featured Recipes</h2>
-        </div>
-        <div class="card-body">
-          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-            <div class="col" *ngFor="let recipe of featuredRecipes">
-              <div class="card shadow-sm h-100">
-                <img
-                  [src]="recipe.imageUrl || '../../../../assets/default-recipe.jpg'"
-                  class="card-img-top"
-                  alt="{{ recipe.title }}"
-                  height="200"
-                  style="object-fit: cover;"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">{{ recipe.title }}</h5>
-                  <p class="card-text text-muted">
-                    {{ recipe.description | slice: 0:100 }}...
-                  </p>
-                  <a [routerLink]="['/recipes', recipe._id]" class="btn btn-primary btn-sm w-100">View</a>
-                  <br />
-                  <small class="text-muted d-block mt-2">Cooking Time: {{ recipe.cookingTime }} min</small>
-                </div>
-              </div>
-            </div>
-          </div>
+<!-- Uitgelichte Recepten -->
+<div *ngIf="isLoggedIn" class="container my-5">
+  <h2 class="text-primary fw-bold mb-4">
+    <i class="bi bi-star-fill me-2"></i>Uitgelichte Recepten
+  </h2>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div *ngFor="let recipe of featuredRecipes" class="col">
+      <div class="card shadow border-0 h-100">
+        <img
+          [src]="recipe.imageUrl || '../../../../assets/default-recipe.jpg'"
+          class="card-img-top"
+          alt="{{ recipe.title }}"
+          height="200"
+          style="object-fit: cover;"
+        />
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title text-primary fw-bold">
+            <i class="bi bi-bookmark-heart-fill me-2"></i>{{ recipe.title }}
+          </h5>
+          <p class="card-text text-muted">
+            {{ recipe.description | slice: 0:100 }}...
+          </p>
+          <button class="btn btn-outline-primary mt-auto" [routerLink]="['/recipes', recipe._id]">
+            <i class="bi bi-arrow-right-circle me-2"></i>Bekijk Recept
+          </button>
         </div>
       </div>
+    </div>
+  </div>
+</div>
 
-      <!-- Best Rated Recipes Section -->
-      <div class="card shadow-lg mb-5">
-        <div class="card-header bg-success text-white text-center">
-          <h2 class="mb-0">Best Rated Recipes</h2>
-        </div>
-        <div class="card-body">
-          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-            <div class="col" *ngFor="let recipe of bestRatedRecipes">
-              <div class="card shadow-sm h-100">
-                <img
-                  [src]="recipe.recipe.imageUrl || '../../../../assets/default-recipe.jpg'"
-                  class="card-img-top"
-                  alt="{{ recipe.recipe.title }}"
-                  height="200"
-                  style="object-fit: cover;"
-                />
-                <div class="card-body">
-                  <h4 class="card-title">{{ recipe.recipe.title }}</h4>
-                  <p class="card-text">{{ recipe.recipe.description | slice: 0:100 }}...</p>
-                  <p class="text-warning">
-                    <span style="font-size: 1.2rem;" *ngIf="recipe.recipe.averageRating !== undefined; else noRating">
-                      Rating: {{ recipe.recipe.averageRating.toFixed(1) }}/5
-                      <span *ngFor="let i of [1, 2, 3, 4, 5]">
-                        <i
-                          class="bi"
-                          [ngClass]="{
-                            'bi-star-fill': i <= (recipe.recipe.averageRating || 0),
-                            'bi-star': i > (recipe.recipe.averageRating || 0)
-                          }"
-                        ></i>
-                      </span>
-                    </span>
-                    <ng-template #noRating>
-                      <span class="text-muted">Nog geen beoordelingen</span>
-                    </ng-template>
-                  </p>
-                  <a [routerLink]="['/recipes', recipe.recipe.id]" class="btn btn-primary btn-sm w-100">View</a>
-                </div>
-              </div>
-            </div>
-          </div>
+<!-- Best Beoordeelde Recepten -->
+<div *ngIf="isLoggedIn" class="container my-5">
+  <h2 class="text-success fw-bold mb-4">
+    <i class="bi bi-trophy-fill me-2"></i>Best Beoordeelde Recepten
+  </h2>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div *ngFor="let recipe of bestRatedRecipes" class="col">
+      <div class="card shadow border-0 h-100">
+        <img
+          [src]="recipe.recipe.imageUrl || '../../../../assets/default-recipe.jpg'"
+          class="card-img-top"
+          alt="{{ recipe.recipe.title }}"
+          height="200"
+          style="object-fit: cover;"
+        />
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title text-success fw-bold">
+            <i class="bi bi-award-fill me-2"></i>{{ recipe.recipe.title }}
+          </h5>
+          <p class="card-text text-muted">
+            {{ recipe.recipe.description | slice: 0:100 }}...
+          </p>
+          <p class="small mb-2 text-warning">
+            <strong>Rating:</strong> {{ recipe.recipe.averageRating.toFixed(1) }}/5
+          </p>
+          <button class="btn btn-outline-success mt-auto" [routerLink]="['/recipes', recipe.recipe._id]">
+            <i class="bi bi-arrow-right-circle me-2"></i>Bekijk Recept
+          </button>
         </div>
       </div>
+    </div>
+  </div>
+</div>
 
-      <!-- Kookclubs Section -->
-      <div class="card shadow-lg">
-        <div class="card-header bg-info text-white text-center">
-          <h2 class="mb-0">Kookclubs</h2>
-        </div>
-        <div class="card-body">
-          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-            <div class="col" *ngFor="let kookclub of kookclubs">
-              <div class="card shadow-sm h-100">
-                <div class="card-body">
-                  <h4 class="card-title">{{ kookclub.naam }}</h4>
-                  <p class="card-text text-muted">
-                    {{ kookclub.beschrijving | slice: 0:100 }}...
-                  </p>
-                  <p>
-                    <strong>Eigenaar:</strong> {{ getEigenaarNaam(kookclub.eigenaar) }}
-                  </p>
-                  <p>
-                    <strong>Leden:</strong> {{ kookclub.leden.length }}
-                  </p>
-                  <button class="btn btn-info btn-sm w-100" (click)="viewKookclub(kookclub._id)">
-                    View
-                  </button>
-                </div>
-              </div>
+
+    <!-- Kookclubs Section -->
+    <div>
+      <h2 class="text-info mb-4">
+        <i class="bi bi-people-fill me-2"></i>Kookclubs
+      </h2>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div *ngFor="let kookclub of kookclubs" class="col">
+          <div class="card shadow border-0 h-100">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title text-info fw-bold">
+                <i class="bi bi-house-heart-fill me-2"></i>{{ kookclub.naam }}
+              </h5>
+              <p class="card-text text-muted">
+                {{ kookclub.beschrijving | slice: 0:100 }}...
+              </p>
+              <p class="small mb-2">
+                <strong>Eigenaar:</strong> {{ getEigenaarNaam(kookclub.eigenaar) }}
+              </p>
+              <p class="small">
+                <strong>Aantal Leden:</strong> {{ kookclub.leden.length }}
+              </p>
+              <button class="btn btn-outline-info mt-auto" (click)="viewKookclub(kookclub._id)">
+                <i class="bi bi-arrow-right-circle me-2"></i>Bekijk Kookclub
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  
+
+  <!-- Content for Logged Out Users -->
+  <ng-template #loggedOutContent>
+    <section class="bg-light py-5 text-center">
+      <div class="container">
+        <h2 class="display-4 fw-bold">Ontdek, deel en geniet!</h2>
+        <p class="lead text-muted">
+          Word lid van onze community en ervaar de vreugde van samen koken.
+        </p>
+        <a routerLink="/register" class="btn btn-primary btn-lg mt-3">
+          <i class="bi bi-person-plus-fill me-2"></i>Registreer Nu
+        </a>
+      </div>
+    </section>
+  </ng-template>
 </main>

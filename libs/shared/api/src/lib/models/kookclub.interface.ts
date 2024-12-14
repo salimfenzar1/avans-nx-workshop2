@@ -6,7 +6,7 @@ export interface IKookclub {
     categorieen: KookclubCategorie[];
     eigenaar: { _id: string; name: string } | string; 
     leden: string[];
-    recepten: { title: string; description: string; _id: string }[]; // Verfijnd type
+    recepten: { title: string; description: string; _id: string; imageUrl:string }[]; // Verfijnd type
 
     createdAt: Date;
   }

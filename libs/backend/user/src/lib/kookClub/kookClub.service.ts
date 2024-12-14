@@ -19,7 +19,7 @@ export class KookclubService {
       .find()
       .populate('eigenaar', 'name')
       .populate('leden', 'name') 
-      .populate('recepten', 'title description') 
+      .populate('recepten', 'title description imageUrl') 
       .exec();
   }
   
@@ -28,7 +28,7 @@ export class KookclubService {
     const kookclub = await this.kookclubModel
       .findById(id)
       .populate('eigenaar', '_id name') // Populeer eigenaar als object met _id en name
-      .populate('recepten', 'title description')
+      .populate('recepten', 'title description imageUrl')
       .exec();
   
     if (!kookclub) {

@@ -1,94 +1,110 @@
-<div class="container my-4">
-    <!-- Titel en beschrijving -->
-    <div class="text-center mb-4">
-      <h1 class="display-4">{{ kookclub?.naam }}</h1>
-      <p class="lead text-muted">{{ kookclub?.beschrijving }}</p>
-    </div>
-  
-    <!-- Eigenaar en ledeninformatie -->
-    <div class="row mb-4">
-      <div class="col-md-6">
-        <p style="font-size: 1.3em;">
-          <strong>Eigenaar:</strong>
-          <span class="badge bg-info text-dark">
-            {{ kookclub?.eigenaar ? getEigenaarNaam(kookclub?.eigenaar) : 'Onbekend' }}
-          </span>
-        </p>
-      </div>
-      <div class="col-md-6">
-        <p style="font-size: 1.3em;" >
-          <strong>Aantal leden:</strong>
-          <span class="badge bg-success">{{ kookclub?.leden?.length || 0 }}</span>
-        </p>
-      </div>
-    </div>
-  
-    <!-- Categorieën -->
-    <div class="mb-4">
-      <h4>Categorieën</h4>
-      <div>
-        <span
-          *ngFor="let categorie of kookclub?.categorieen"
-          class="badge bg-primary me-2"
-        >
-          {{ categorie }}
+<div class="container my-5">
+  <!-- Titel en beschrijving -->
+  <div class="text-center mb-5">
+    <h1 class="display-4 text-primary fw-bold">
+      <i class="bi bi-people-fill me-2"></i>{{ kookclub?.naam }}
+    </h1>
+    <p class="lead text-muted">{{ kookclub?.beschrijving }}</p>
+  </div>
+
+  <!-- Eigenaar en ledeninformatie -->
+  <div class="row mb-5 text-center">
+    <div class="col-md-6">
+      <p class="fs-5">
+        <i class="bi bi-person-circle me-2 text-info"></i>
+        <strong>Eigenaar:</strong>
+        <span class="badge bg-info text-dark">
+          {{ kookclub?.eigenaar ? getEigenaarNaam(kookclub?.eigenaar) : 'Onbekend' }}
         </span>
-      </div>
+      </p>
     </div>
-  
-    <!-- Recepten -->
-    <div class="mb-4">
-      <h4>Recepten</h4>
-      <div class="row row-cols-1 row-cols-md-2 g-4">
-        <div *ngFor="let recept of kookclub?.recepten" class="col">
-          <div class="card h-100">
-            <div class="card-body">
-              <h5 class="card-title">{{ recept.title }}</h5>
-              <p class="card-text text-muted">{{ recept.description }}</p>
-            </div>
-            <div class="card-footer text-end">
-                <button
-                  class="btn btn-sm btn-outline-primary"
-                  [routerLink]="['/recipes', recept._id]"
-                >
-                  Bekijk Recept
-                </button>
-              </div>
+    <div class="col-md-6">
+      <p class="fs-5">
+        <i class="bi bi-people-fill me-2 text-success"></i>
+        <strong>Aantal leden:</strong>
+        <span class="badge bg-success">{{ kookclub?.leden?.length || 0 }}</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Categorieën -->
+  <div class="mb-5">
+    <h4 class="text-primary fw-bold">
+      <i class="bi bi-tags-fill me-2"></i>Categorieën
+    </h4>
+    <div>
+      <span
+        *ngFor="let categorie of kookclub?.categorieen"
+        class="badge bg-primary me-2"
+      >
+        {{ categorie }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Recepten -->
+  <div class="mb-5">
+    <h4 class="text-primary fw-bold">
+      <i class="bi bi-book-fill me-2"></i>Recepten
+    </h4>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <div *ngFor="let recept of kookclub?.recepten" class="col">
+        <div class="card h-100 shadow-sm border-0">
+          <img
+            *ngIf="recept.imageUrl"
+            [src]="recept.imageUrl"
+            alt="{{ recept.title }}"
+            class="card-img-top rounded-top"
+            style="height: 150px; object-fit: cover;"
+          />
+          <div class="card-body">
+            <h5 class="card-title text-primary fw-bold">
+              {{ recept.title }}
+            </h5>
+            <p class="card-text text-muted">{{ recept.description | slice: 0:100 }}...</p>
+          </div>
+          <div class="card-footer text-end bg-light">
+            <button
+              class="btn btn-sm btn-outline-primary"
+              [routerLink]="['/recipes', recept._id]"
+            >
+              <i class="bi bi-arrow-right-circle me-1"></i>Bekijk Recept
+            </button>
           </div>
         </div>
       </div>
     </div>
-  
-    <!-- Acties -->
-    <div class="mt-4 text-center">
-      <button
-        *ngIf="isOwner"
-        class="btn btn-warning me-2"
-        (click)="editKookclub()"
-      >
-        Bewerken
-      </button>
-      <button
-        *ngIf="isOwner"
-        class="btn btn-danger me-2"
-        (click)="deleteKookclub()"
-      >
-        Verwijderen
-      </button>
-      <button
-        *ngIf="!isOwner && !kookclub?.leden?.includes(userId)"
-        class="btn btn-primary me-2"
-        (click)="joinKookclub()"
-      >
-        Deelnemen
-      </button>
-      <button
-        *ngIf="!isOwner && kookclub?.leden?.includes(userId)"
-        class="btn btn-secondary me-2"
-        (click)="leaveKookclub()"
-      >
-        Verlaten
-      </button>
-    </div>
   </div>
-  
+
+  <!-- Acties -->
+  <div class="text-center mt-5">
+    <button
+      *ngIf="isOwner"
+      class="btn btn-warning me-2"
+      (click)="editKookclub()"
+    >
+      <i class="bi bi-pencil-fill me-1"></i>Bewerken
+    </button>
+    <button
+      *ngIf="isOwner"
+      class="btn btn-danger me-2"
+      (click)="deleteKookclub()"
+    >
+      <i class="bi bi-trash-fill me-1"></i>Verwijderen
+    </button>
+    <button
+      *ngIf="!isOwner && !kookclub?.leden?.includes(userId)"
+      class="btn btn-primary me-2"
+      (click)="joinKookclub()"
+    >
+      <i class="bi bi-person-plus-fill me-1"></i>Deelnemen
+    </button>
+    <button
+      *ngIf="!isOwner && kookclub?.leden?.includes(userId)"
+      class="btn btn-secondary me-2"
+      (click)="leaveKookclub()"
+    >
+      <i class="bi bi-person-dash-fill me-1"></i>Verlaten
+    </button>
+  </div>
+</div>

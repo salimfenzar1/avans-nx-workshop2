@@ -1,26 +1,35 @@
-<div *ngIf="recipe; else loading" class="container mt-5">
+<div *ngIf="recipe; else loading" class="container my-5">
   <!-- Title Section -->
-  <div class="row mb-4">
+  <div class="row align-items-center mb-4">
     <div class="col-md-8">
-      <h1 class="display-4">{{ recipe.title }}</h1>
+      <h1 class="display-4 text-primary fw-bold">
+        <i class="bi bi-book-fill me-2"></i>{{ recipe.title }}
+      </h1>
       <p class="lead text-muted">{{ recipe.description }}</p>
     </div>
-    <div class="col text-end" *ngIf="isOwner">
-      <!-- Edit and Delete Buttons -->
-      <button class="btn btn-warning me-2" (click)="editRecipe()">Edit</button>
-      <button class="btn btn-danger" (click)="deleteRecipe()">Delete</button>
-    </div>
-    <div class="col text-end" *ngIf="!isOwner">
-      <button
-        class="btn"
-        [ngClass]="{
-          'btn-danger': isFavorite,
-          'btn-primary': !isFavorite
-        }"
-        (click)="toggleFavorite()"
-      >
-        {{ isFavorite ? 'Remove from Favorites' : 'Add to Favorites' }}
-      </button>
+    <div class="col-md-4 text-end">
+      <!-- Conditional Buttons -->
+      <div *ngIf="isOwner">
+        <button class="btn btn-warning me-2" (click)="editRecipe()">
+          <i class="bi bi-pencil-fill me-1"></i>Edit
+        </button>
+        <button class="btn btn-danger" (click)="deleteRecipe()">
+          <i class="bi bi-trash-fill me-1"></i>Delete
+        </button>
+      </div>
+      <div *ngIf="!isOwner">
+        <button
+          class="btn"
+          [ngClass]="{ 'btn-danger': isFavorite, 'btn-primary': !isFavorite }"
+          (click)="toggleFavorite()"
+        >
+          <i
+            class="bi"
+            [ngClass]="{ 'bi-heart-fill': isFavorite, 'bi-heart': !isFavorite }"
+          ></i>
+          {{ isFavorite ? 'Remove from Favorites' : 'Add to Favorites' }}
+        </button>
+      </div>
     </div>
   </div>
 
@@ -32,7 +41,7 @@
         [src]="recipe.imageUrl"
         alt="Recipe Image"
         class="img-fluid rounded shadow-sm"
-        style="height: 15rem; object-fit: cover;"
+        style="height: 20rem; object-fit: cover;"
       />
     </div>
   </div>
@@ -40,8 +49,10 @@
   <!-- Category Section -->
   <div class="row mb-4">
     <div class="col">
-      <h3 class="h4 text-primary">Categorie</h3>
-      <p>{{ recipe.category }}</p>
+      <h3 class="h4 text-primary">
+        <i class="bi bi-tags me-2"></i>Categorie
+      </h3>
+      <p class="text-muted">{{ recipe.category }}</p>
     </div>
   </div>
 
@@ -49,8 +60,10 @@
   <div class="row mb-4">
     <!-- Ingredients Section -->
     <div class="col-md-4">
-      <h3 class="h4 text-primary">Ingredienten</h3>
-      <ul class="list-group">
+      <h3 class="h4 text-primary">
+        <i class="bi bi-basket-fill me-2"></i>Ingredienten
+      </h3>
+      <ul class="list-group shadow-sm">
         <li *ngFor="let ingredient of recipe.ingredients" class="list-group-item">
           {{ ingredient.amount }} {{ ingredient.name }}
         </li>
@@ -59,8 +72,10 @@
 
     <!-- Steps Section -->
     <div class="col-md-8">
-      <h3 class="h4 text-primary">Stappen</h3>
-      <ol class="list-group list-group-numbered">
+      <h3 class="h4 text-primary">
+        <i class="bi bi-list-ol me-2"></i>Stappen
+      </h3>
+      <ol class="list-group list-group-numbered shadow-sm">
         <li *ngFor="let step of recipe.steps" class="list-group-item">
           {{ step.instruction }}
         </li>
@@ -71,36 +86,36 @@
   <!-- Reviews Section -->
   <div class="row mb-4">
     <div class="col">
-      <h3 class="h4 text-primary">Beoordelingen</h3>
+      <h3 class="h4 text-primary">
+        <i class="bi bi-star-fill me-2"></i>Beoordelingen
+      </h3>
 
       <!-- Average Rating Section -->
-      <div class="mb-3 text-center">
+      <div class="mb-4 text-center">
         <h4 class="text-warning">Gemiddelde Beoordeling</h4>
-        <div>
-          <span class="fs-4 text-warning">
-            <!-- Render stars based on average rating -->
-            <ng-container *ngFor="let i of [1, 2, 3, 4, 5]">
-              <i
-                class="bi"
-                [ngClass]="{
-                  'bi-star-fill': i <= averageRating,
-                  'bi-star': i > averageRating
-                }"
-              ></i>
-            </ng-container>
-          </span>
-          <p class="text-muted mt-1">
-            {{ averageRating ? averageRating.toFixed(1) : 'Geen beoordelingen' }} / 5
-          </p>
-        </div>
+        <span class="fs-4 text-warning">
+          <!-- Render stars based on average rating -->
+          <ng-container *ngFor="let i of [1, 2, 3, 4, 5]">
+            <i
+              class="bi"
+              [ngClass]="{
+                'bi-star-fill': i <= averageRating,
+                'bi-star': i > averageRating
+              }"
+            ></i>
+          </ng-container>
+        </span>
+        <p class="text-muted mt-2">
+          {{ averageRating ? averageRating.toFixed(1) : 'Geen beoordelingen' }} / 5
+        </p>
       </div>
 
       <!-- Individual Reviews -->
       <div *ngIf="reviews.length > 0; else noReviews">
-        <div *ngFor="let review of reviews" class="card mb-3 shadow-sm">
+        <div *ngFor="let review of reviews" class="card mb-3 shadow-sm border-0">
           <div class="card-body">
             <h5 class="card-title d-flex align-items-center">
-              <i class="bi bi-person-circle me-2"></i>
+              <i class="bi bi-person-circle me-2 text-primary"></i>
               {{ review.user?.name || 'Anonymous' }}
             </h5>
             <p class="text-warning mb-1">
@@ -125,7 +140,10 @@
 
       <!-- No Reviews Template -->
       <ng-template #noReviews>
-        <p class="text-muted text-center">Er zijn nog geen beoordelingen voor dit recept.</p>
+        <p class="text-muted text-center">
+          <i class="bi bi-emoji-frown fs-1"></i>
+          <br />Er zijn nog geen beoordelingen voor dit recept.
+        </p>
       </ng-template>
     </div>
   </div>
@@ -133,8 +151,10 @@
   <!-- Add Review Section -->
   <div class="row mb-4">
     <div class="col">
-      <h3 class="h4 text-primary">Voeg een beoordeling toe</h3>
-      <form (ngSubmit)="addReview()" #reviewForm="ngForm" class="shadow p-4 rounded">
+      <h3 class="h4 text-primary">
+        <i class="bi bi-pencil-square me-2"></i>Voeg een beoordeling toe
+      </h3>
+      <form (ngSubmit)="addReview()" #reviewForm="ngForm" class="shadow p-4 rounded bg-light">
         <div class="mb-3">
           <label for="rating" class="form-label">Rating</label>
           <select
@@ -159,19 +179,20 @@
             required
           ></textarea>
         </div>
-        <button type="submit" class="btn btn-primary" [disabled]="!reviewForm.valid">
-          Voeg beoordeling toe
+        <button type="submit" class="btn btn-primary w-100" [disabled]="!reviewForm.valid">
+          <i class="bi bi-send-fill me-1"></i>Voeg beoordeling toe
         </button>
       </form>
     </div>
   </div>
 </div>
 
+<!-- Loading State -->
 <ng-template #loading>
-  <div class="text-center">
+  <div class="text-center my-5">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
-    <p class="mt-2">Loading recipe details...</p>
+    <p class="mt-3">Receptdetails worden geladen...</p>
   </div>
 </ng-template>

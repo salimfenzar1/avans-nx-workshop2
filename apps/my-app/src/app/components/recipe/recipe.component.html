@@ -1,4 +1,5 @@
-<div class="container mt-4">
+<div class="container my-4">
+  <!-- Loader -->
   <div *ngIf="isLoading" class="text-center my-5">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
@@ -6,25 +7,38 @@
     <p class="mt-3">Recepten worden geladen...</p>
   </div>
 
-<div *ngIf="!isLoading" class="container mt-4">
+  <!-- Pagina inhoud -->
+  <div *ngIf="!isLoading">
+    <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <h1>Recipes</h1>
-      <a routerLink="/recipes/add" class="btn btn-primary mb-3">Add Recipe</a>
+      <h1 class="text-primary fw-bold">
+        <i class="bi bi-journal-text me-2"></i>Recipes
+      </h1>
+      <a routerLink="/recipes/add" class="btn btn-success">
+        <i class="bi bi-plus-circle me-2"></i>Add Recipe
+      </a>
     </div>
-    
+
+    <!-- Filters -->
     <div class="row mb-4">
       <div class="col-md-6">
         <!-- Search Bar -->
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Search Recipes..."
-          [(ngModel)]="searchQuery"
-          (ngModelChange)="filterRecipes()"
-        />
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-search"></i>
+          </span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search Recipes..."
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="filterRecipes()"
+          />
+        </div>
       </div>
 
       <div class="col-md-3">
+        <!-- Category Filter -->
         <select 
           [(ngModel)]="selectedCategory" 
           (change)="filterRecipes()" 
@@ -35,31 +49,35 @@
           </option>
         </select>
       </div>
+
       <div class="col-md-3">
-        <!-- Filters (example filter for cooking time) -->
+        <!-- Cooking Time Filter -->
         <select class="form-select" [(ngModel)]="selectedTimeFilter" (ngModelChange)="filterRecipes()">
           <option value="">Filter op tijd</option>
-          <option value="30">Tot 30 minutes</option>
+          <option value="30">Tot 30 minuten</option>
           <option value="60">Tot 60 minuten</option>
           <option value="120">Tot 120 minuten</option>
         </select>
       </div>
     </div>
-  
+
+    <!-- Receptenlijst -->
     <div class="row">
       <div *ngFor="let recipe of filteredRecipes" class="col-md-4">
-        <div class="card mb-3 shadow-sm">
+        <div class="card mb-3 shadow-sm border-0 h-100">
           <img
             *ngIf="recipe.imageUrl"
             [src]="recipe.imageUrl"
-            class="card-img-top"
+            class="card-img-top rounded"
             alt="{{ recipe.title }}"
             style="height: 200px; object-fit: cover;"
           />
-          <div class="card-body">
-            <h4 class="card-title">{{ recipe.title }}</h4>
-            <p class="card-text">{{ recipe.description | slice: 0:100 }}...</p>
-            <p class="text-warning">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title text-primary fw-bold">
+              <i class="bi bi-bookmark-star-fill me-2"></i>{{ recipe.title }}
+            </h5>
+            <p class="card-text text-muted">{{ recipe.description | slice: 0:100 }}...</p>
+            <p class="text-warning mb-3">
               <span style="font-size: 1.5rem;" *ngIf="recipe.averageRating !== undefined; else noRating">
                 Rating: {{ recipe.averageRating.toFixed(1) }}/5
                 <span *ngFor="let i of [1, 2, 3, 4, 5]">
@@ -76,11 +94,12 @@
                 <span class="text-muted">Nog geen beoordelingen</span>
               </ng-template>
             </p>
-            
-            <a style [routerLink]="['/recipes', recipe._id]" class="btn btn-primary btn-sm w-100">View</a>
+            <a [routerLink]="['/recipes', recipe._id]" class="btn btn-outline-primary mt-auto">
+              <i class="bi bi-arrow-right-circle me-2"></i>View Details
+            </a>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>
