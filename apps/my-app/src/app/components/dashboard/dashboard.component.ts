@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit {
       if (data && data.results && Array.isArray(data.results)) {
         this.featuredRecipes = data.results.slice(-3); 
       } else {
-        console.error('Geen recepten gevonden of verkeerde structuur ');
+        console.error('Geen recepten gevonden of verkeerde structuur');
       }
     });
   }
