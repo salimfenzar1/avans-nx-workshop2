@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
     // Abonneer je op wijzigingen in de gebruikersinformatie
     this.authService.getUserObservable().subscribe((user) => {
       if (user) {
-        this.userName = user.name || 'Gebruiker';
+        this.userName = user.name || 'Gebruikerr';
         this.userProfileImgUrl = user.profileImgUrl || '../../../../assets/recipelogo.png';
       } else {
         this.userName = null;
