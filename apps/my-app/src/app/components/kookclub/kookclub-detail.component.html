@@ -1,7 +1,7 @@
 <div class="container my-5">
   <!-- Titel en beschrijving -->
   <div class="text-center mb-5">
-    <h1 class="display-4 text-primary fw-bold">
+    <h1 class="display-4 text-info fw-bold">
       <i class="bi bi-people-fill me-2"></i>{{ kookclub?.naam }}
     </h1>
     <p class="lead text-muted">{{ kookclub?.beschrijving }}</p>
@@ -20,22 +20,22 @@
     </div>
     <div class="col-md-6">
       <p class="fs-5">
-        <i class="bi bi-people-fill me-2 text-success"></i>
+        <i class="bi bi-people-fill me-2 text-info"></i>
         <strong>Aantal leden:</strong>
-        <span class="badge bg-success">{{ kookclub?.leden?.length || 0 }}</span>
+        <span class="badge bg-info">{{ kookclub?.leden?.length || 0 }}</span>
       </p>
     </div>
   </div>
 
   <!-- Categorieën -->
   <div class="mb-5">
-    <h4 class="text-primary fw-bold">
+    <h4 class="text-info fw-bold">
       <i class="bi bi-tags-fill me-2"></i>Categorieën
     </h4>
     <div>
       <span
         *ngFor="let categorie of kookclub?.categorieen"
-        class="badge bg-primary me-2"
+        class="badge bg-info me-2"
       >
         {{ categorie }}
       </span>
@@ -44,7 +44,7 @@
 
   <!-- Recepten -->
   <div class="mb-5">
-    <h4 class="text-primary fw-bold">
+    <h4 class="text-info fw-bold">
       <i class="bi bi-book-fill me-2"></i>Recepten
     </h4>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -55,7 +55,7 @@
             [src]="recept.imageUrl"
             alt="{{ recept.title }}"
             class="card-img-top rounded-top"
-            style="height: 150px; object-fit: cover;"
+            style="height: 200px; object-fit: cover;"
           />
           <div class="card-body">
             <h5 class="card-title text-primary fw-bold">

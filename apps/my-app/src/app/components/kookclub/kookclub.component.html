@@ -1,7 +1,7 @@
 <div class="container my-4">
   <!-- Header -->
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="text-primary fw-bold">
+    <h1 class="text-info fw-bold">
       <i class="bi bi-people-fill me-2"></i>Kookclubs
     </h1>
     <!-- Alleen tonen als de gebruiker is ingelogd -->
@@ -16,7 +16,7 @@
       <div *ngFor="let kookclub of kookclubs" class="col">
         <div class="card shadow border-0 h-100">
           <div class="card-body d-flex flex-column">
-            <h5 class="card-title text-primary fw-bold">
+            <h5 class="card-title text-info fw-bold">
               <i class="bi bi-house-heart-fill me-2"></i>{{ kookclub.naam }}
             </h5>
             <p class="card-text text-muted">{{ kookclub.beschrijving }}</p>
@@ -27,7 +27,7 @@
               <strong>Aantal Leden:</strong> {{ kookclub.leden.length }}
             </p>
             <!-- Navigeren naar detailpagina -->
-            <button class="btn btn-outline-primary mt-auto" (click)="viewKookclub(kookclub._id)">
+            <button class="btn btn-outline-info mt-auto" (click)="viewKookclub(kookclub._id)">
               <i class="bi bi-arrow-right-circle me-2"></i>Bekijk Details
             </button>
           </div>
