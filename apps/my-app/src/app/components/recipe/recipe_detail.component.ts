@@ -162,6 +162,7 @@ export class RecipeDetailComponent implements OnInit {
       .addReview(userId, this.recipe._id, this.newReview.rating, this.newReview.comment)
       .subscribe({
         next: () => {
+          this.syncRecipes();
           alert('Added review!');
           if (this.recipe && this.recipe._id) {
             this.loadReviews(this.recipe._id); 

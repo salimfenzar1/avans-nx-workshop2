@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Neo4jService } from 'nest-neo4j';
 import { RecipeService, UserService } from '@avans-nx-workshop/backend/user';
+import { ReviewService } from 'libs/backend/user/src/lib/review/review.service';
 
 @Injectable()
 export class RecipeNeo4jService {
@@ -8,6 +9,7 @@ export class RecipeNeo4jService {
     private readonly neo4jService: Neo4jService,
     private readonly mongoRecipeService: RecipeService,
     private readonly mongoUserService: UserService,
+    private readonly mongoReviewService: ReviewService
   ) {}
 
   // Synchroniseer recepten en favorieten naar Neo4j
@@ -35,7 +37,27 @@ export class RecipeNeo4jService {
           averageRating: recipe.averageRating || 0, // Standaard 0 als geen rating beschikbaar is
         }
       );
+      const reviews = await this.mongoReviewService.getReviewsForRecipe(recipe._id.toString());
+      for (const review of reviews) {
+        await this.neo4jService.write(
+          `
+          MATCH (r:Recipe {id: $recipeId})
+          MERGE (u:User {id: $userId})
+          MERGE (u)-[rev:REVIEWED]->(r)
+          SET rev.rating = $rating, 
+              rev.comment = $comment
+          `,
+          {
+            recipeId: recipe._id.toString(),
+            userId: review.user.toString(),
+            rating: review.rating,
+            comment: review.comment || '',
+          }
+        );
+      }
     }
+
+    
   
     // Voeg favorieten relaties toe
     for (const user of users) {
