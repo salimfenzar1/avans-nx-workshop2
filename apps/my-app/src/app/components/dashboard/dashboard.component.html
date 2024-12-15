@@ -9,10 +9,10 @@
             Ontdek unieke recepten, sla je favorieten op en deel jouw eigen creaties met onze community. Koken is nog nooit zo leuk en interactief geweest!
           </p>
           <div *ngIf="!isLoggedIn">
-            <a routerLink="/register" class="btn btn-primary btn-lg me-3">
-              <i class="bi bi-pencil-square me-2"></i>Registreer Nu
+            <a routerLink="/register" class="btn btn-primary btn-lg me-3 mb-3">
+              <i class="bi bi-pencil-square me-2"></i>Registreer Nu 
             </a>
-            <a routerLink="/about" class="btn btn-outline-secondary btn-lg">
+            <a routerLink="/about" class="btn btn-outline-secondary btn-lg mb-3">
               <i class="bi bi-info-circle me-2"></i>Meer Weten
             </a>
           </div>
@@ -99,7 +99,7 @@
 
 
     <!-- Kookclubs Section -->
-    <div>
+  <div *ngIf="isLoggedIn" class="container my-5">
       <h2 class="text-info mb-4">
         <i class="bi bi-people-fill me-2"></i>Kookclubs
       </h2>
@@ -126,7 +126,7 @@
           </div>
         </div>
       </div>
-    </div>
+  </div>
   
 
   <!-- Content for Logged Out Users -->
