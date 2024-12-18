@@ -6,6 +6,7 @@ import { RecipeNeo4jController } from './neo4j-recipe.controller';
 import { Recipe, RecipeSchema, ReviewModule } from '@avans-nx-workshop/backend/user';
 import { User, UserSchema } from '@avans-nx-workshop/backend/user';
 import { RecipeService, UserService } from '@avans-nx-workshop/backend/user';
+import { AuthModule } from '@avans-nx-workshop/backend/auth';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { RecipeService, UserService } from '@avans-nx-workshop/backend/user';
       { name: Recipe.name, schema: RecipeSchema },
       { name: User.name, schema: UserSchema },
     ]),
-    ReviewModule
+    ReviewModule,
+    AuthModule
   ],
   controllers: [RecipeNeo4jController],
   providers: [RecipeNeo4jService, RecipeService, UserService],
