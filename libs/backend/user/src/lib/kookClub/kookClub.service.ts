@@ -27,7 +27,7 @@ export class KookclubService {
   async findById(id: string): Promise<KookclubDocument & { eigenaar: { _id: string; name: string } }> {
     const kookclub = await this.kookclubModel
       .findById(id)
-      .populate('eigenaar', '_id name') // Populeer eigenaar als object met _id en name
+      .populate('eigenaar', '_id name') 
       .populate('recepten', 'title description imageUrl')
       .exec();
   
@@ -52,7 +52,6 @@ export class KookclubService {
 async leaveKookclub(kookclubId: string, userId: string): Promise<Kookclub> {
   const kookclub = await this.findById(kookclubId);
 
-  // Zorg ervoor dat `lid` als string wordt vergeleken
   kookclub.leden = kookclub.leden.filter((lid) => lid.toString() !== userId);
 
   return kookclub.save();
@@ -82,7 +81,6 @@ async leaveKookclub(kookclubId: string, userId: string): Promise<Kookclub> {
   async updateKookclub(kookclubId: string, userId: string, data: Partial<Kookclub>): Promise<Kookclub> {
     const kookclub = await this.findById(kookclubId);
   
-    // Controleer eigenaarschap
     if (typeof kookclub.eigenaar === 'object') {
       if (kookclub.eigenaar._id.toString() !== userId) {
         throw new UnauthorizedException('Alleen de eigenaar kan de kookclub bewerken');
@@ -92,7 +90,6 @@ async leaveKookclub(kookclubId: string, userId: string): Promise<Kookclub> {
     }
     
   
-    // Update de velden
     if (data.naam !== undefined) kookclub.naam = data.naam;
     if (data.beschrijving !== undefined) kookclub.beschrijving = data.beschrijving;
     if (data.categorieen !== undefined) kookclub.categorieen = data.categorieen;

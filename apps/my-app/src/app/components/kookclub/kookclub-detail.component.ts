@@ -140,14 +140,14 @@ export class KookclubDetailComponent implements OnInit {
   }
   getEigenaarNaam(eigenaar: string | { name: string; _id: string } | undefined): string {
     if (!eigenaar) {
-      return 'Onbekend'; // Indien eigenaar `undefined` of `null` is
+      return 'Onbekend'; 
     }
     if (typeof eigenaar === 'object' && eigenaar.name) {
-      return eigenaar.name; // Als eigenaar een object is met een `name` veld
+      return eigenaar.name; 
     }
     if (typeof eigenaar === 'string') {
-      return eigenaar; // Als eigenaar een string-ID is
+      return eigenaar; 
     }
-    return 'Onbekend'; // Default fallback
+    return 'Onbekend'; 
   }
 }

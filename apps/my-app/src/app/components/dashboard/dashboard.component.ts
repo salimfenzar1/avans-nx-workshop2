@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isLoggedIn = this.authService.getToken() !== null; // Controleer de inlogstatus
+    this.isLoggedIn = this.authService.getToken() !== null;
     if (this.isLoggedIn) {
       this.loadFeaturedRecipes();
       this.loadBestRatedRecipes();

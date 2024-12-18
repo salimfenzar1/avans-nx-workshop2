@@ -15,8 +15,8 @@ export class RecipeAddComponent {
     title: '',
     description: '',
     category: undefined,
-    ingredients: [], // Altijd een lege array
-    steps: [], // Altijd een lege array
+    ingredients: [], 
+    steps: [], 
     cookingTime: 0,
     imageUrl: ''
   };
@@ -27,13 +27,13 @@ export class RecipeAddComponent {
 
   constructor(
     private recipeService: RecipeService,
-    private neo4jRecipeService: Neo4jRecipeService, // Inject Neo4j service
+    private neo4jRecipeService: Neo4jRecipeService,
     private router: Router
   ) {}
 
   addIngredient(): void {
     if (!this.recipe.ingredients) {
-      this.recipe.ingredients = []; // Initialiseer als lege array
+      this.recipe.ingredients = []; 
     }
     this.recipe.ingredients.push({ name: '', amount: '' });
   }
@@ -46,7 +46,7 @@ export class RecipeAddComponent {
 
   addStep(): void {
     if (!this.recipe.steps) {
-      this.recipe.steps = []; // Initialiseer als lege array
+      this.recipe.steps = [];
     }
     this.recipe.steps.push({ instruction: '' });
   }
@@ -88,11 +88,11 @@ export class RecipeAddComponent {
     this.recipeService.createRecipe(formattedRecipe).subscribe({
       next: (response) => {
         console.log('Recipe added successfully:', response);
-        this.syncRecipes(); // Call sync function
+        this.syncRecipes();
         this.successMessage = 'Recipe added and synchronized successfully!';
         setTimeout(() => {
           this.router.navigate(['/recipes']);
-        }, 2000); // Redirect after 2 seconds
+        }, 2000); 
       },
       error: (err) => {
         console.error('Error adding recipe:', err);

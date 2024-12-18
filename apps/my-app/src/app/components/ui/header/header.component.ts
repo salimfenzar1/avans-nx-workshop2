@@ -14,10 +14,9 @@ export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    // Abonneer je op wijzigingen in de gebruikersinformatie
     this.authService.getUserObservable().subscribe((user) => {
       if (user) {
-        this.userName = user.name || 'Gebruikerr';
+        this.userName = user.name || 'Gebruiker';
         this.userProfileImgUrl = user.profileImgUrl || '../../../../assets/recipelogo.png';
       } else {
         this.userName = null;
@@ -26,19 +25,16 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  // Controleer of de gebruiker is ingelogd
   isLoggedIn(): boolean {
-    return !!this.authService.getToken(); // Gebruik AuthService om token te checken
+    return !!this.authService.getToken();
   }
 
-  // Uitloggen
   logout(): void {
-    this.authService.clearToken(); // Verwijder het token via AuthService
-    this.router.navigate(['/login']); // Redirect naar de loginpagina
+    this.authService.clearToken(); 
+    this.router.navigate(['/login']); 
   }
 
-  // Wijzig profiel
   editProfile(): void {
-    this.router.navigate(['/profile']); // Redirect naar de profielpagina
+    this.router.navigate(['/profile']); 
   }
 }

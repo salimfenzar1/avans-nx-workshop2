@@ -30,7 +30,6 @@ export class RecipeDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Haal het ID op uit de URL-parameter
     const recipeId = this.route.snapshot.paramMap.get('id')!;
     if (recipeId) {
       this.getRecipeDetail(recipeId);
@@ -44,9 +43,9 @@ export class RecipeDetailComponent implements OnInit {
     this.recipeService.getRecipeById(id).subscribe({
       next: (data) => {
         if (data && data.results) {
-          this.recipe = data.results; // Recept instellen
-          this.checkOwnership(); // Controleer eigendom
-          this.checkIfFavorite(id); // Controleer of het een favoriet is
+          this.recipe = data.results; 
+          this.checkOwnership(); 
+          this.checkIfFavorite(id); 
         } else {
           this.errorMessage = 'Recipe not found';
         }
@@ -59,7 +58,6 @@ export class RecipeDetailComponent implements OnInit {
   }
   
   editRecipe(): void {
-    // Navigeer naar de edit-pagina voor dit recept
     if (this.recipe?._id) {
       this.router.navigate([`/recipes/edit/${this.recipe._id}`]);
     } else {
@@ -102,24 +100,22 @@ export class RecipeDetailComponent implements OnInit {
     if (!userId || !this.recipe?._id) return;
   
     if (this.isFavorite) {
-      // Verwijder uit favorieten
       this.recipeService.removeFavorite(userId, this.recipe._id).subscribe({
         next: () => {
           this.isFavorite = false;
           console.log(`Recipe ${this.recipe?._id} removed from favorites`);
-          this.updateFavoritesList(); // Update favorietenlijst
+          this.updateFavoritesList(); 
         },
         error: (err) => {
           console.error('Error removing favorite:', err);
         },
       });
     } else {
-      // Voeg toe aan favorieten
       this.recipeService.addFavorite(userId, this.recipe._id).subscribe({
         next: () => {
           this.isFavorite = true;
           console.log(`Recipe ${this.recipe?._id} added to favorites`);
-          this.updateFavoritesList(); // Update favorietenlijst
+          this.updateFavoritesList(); 
         },
         error: (err) => {
           console.error('Error adding favorite:', err);
@@ -180,13 +176,12 @@ export class RecipeDetailComponent implements OnInit {
   loadReviews(recipeId: string): void {
     this.reviewService.getReviews(recipeId).subscribe({
       next: (data: IReviewResponse) => {
-        // Zorg dat je toegang hebt tot het `results` object
         const results = data?.results;
         if (results) {
-          this.reviews = results.reviews || []; // Haal reviews uit results
-          this.averageRating = results.averageRating || 0; // Haal gemiddelde beoordeling uit results
+          this.reviews = results.reviews || []; 
+          this.averageRating = results.averageRating || 0; 
         } else {
-          this.reviews = []; // Als results ontbreekt, zet een lege array
+          this.reviews = []; 
           this.averageRating = 0;
         }
       },
@@ -199,7 +194,7 @@ export class RecipeDetailComponent implements OnInit {
 
 
  addToFavorites(): void {
-    const userId = this.authService.getLoggedInUserId(); // Zorg dat je deze methode hebt
+    const userId = this.authService.getLoggedInUserId();
     if (!this.recipe?._id || !userId) {
         this.errorMessage = 'Recipe ID or User ID is missing.';
         return;
@@ -225,7 +220,7 @@ export class RecipeDetailComponent implements OnInit {
           next: () => {
             this.syncRecipes();
             alert('Recept succesvol verwijderd!');
-            this.router.navigate(['/recipes']); // Navigeer terug naar de receptenlijst
+            this.router.navigate(['/recipes']); 
           },
           error: (err) => {
             console.error('Error deleting recipe:', err);

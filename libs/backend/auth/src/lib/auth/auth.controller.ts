@@ -14,7 +14,7 @@ import {
 import { CreateUserDto } from '@avans-nx-workshop/backend/dto';
 import { UserExistGuard } from '@avans-nx-workshop/backend/user';
 
-@ApiTags('Authentication') // Voeg een categorie toe in Swagger UI
+@ApiTags('Authentication') 
 @Controller('auth')
 export class AuthController {
     private readonly logger = new Logger(AuthController.name);

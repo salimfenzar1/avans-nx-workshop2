@@ -10,12 +10,12 @@ class Ingredient {
   name: string = '';
 
   @Prop({ required: true })
-  amount: string = ''; // Hoeveelheid in gram, ml, etc.
+  amount: string = ''; 
 }
 
 class Step {
   @Prop({ required: true })
-  instruction: string = ''; // Beschrijving van de stap
+  instruction: string = '';
 }
 
 @Schema()
@@ -44,7 +44,7 @@ export class Recipe {
   steps: Step[] | undefined;
 
   @Prop({ required: true })
-  cookingTime: number = 0; // Tijd in minuten
+  cookingTime: number = 0; 
 
   @Prop({ default: Date.now })
   createdAt: Date = new Date();

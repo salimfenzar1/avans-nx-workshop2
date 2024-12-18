@@ -31,21 +31,21 @@ export class RecipeController {
   }
 
   @Put(':id')
-  @UseGuards(AuthGuard) // Beveilig de update-methode
+  @UseGuards(AuthGuard)
   async update(
     @Param('id') id: string,
     @Body() recipeData: Partial<Recipe>,
-    @Request() req: AuthenticatedRequest // Gebruik het aangepaste request-type
+    @Request() req: AuthenticatedRequest
   ): Promise<Recipe | null> {
     const userId = req.user.user_id;
     return this.recipeService.update(id, recipeData, userId);
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard) // Beveilig de delete-methode
+  @UseGuards(AuthGuard) 
   async delete(
     @Param('id') id: string,
-    @Request() req: AuthenticatedRequest // Gebruik het aangepaste request-type
+    @Request() req: AuthenticatedRequest 
   ): Promise<boolean> {
     const userId = req.user.user_id;
     return this.recipeService.delete(id, userId);

@@ -92,22 +92,22 @@ export class RecipeEditComponent implements OnInit {
   
     const updatedRecipe: IRecipe = {
       ...this.recipe,
-      title: this.recipe.title!, // Force non-undefined value
+      title: this.recipe.title!, 
       description: this.recipe.description!,
       cookingTime: this.recipe.cookingTime!,
-      category: this.recipe.category!, // Force non-undefined value for category
+      category: this.recipe.category!, 
       ingredients: formattedIngredients,
       steps: formattedSteps,
-      imageUrl: this.recipe.imageUrl || '', // Optional field
+      imageUrl: this.recipe.imageUrl || '', 
     };
   
     this.recipeService.updateRecipe(this.recipeId, updatedRecipe).subscribe({
       next: () => {
-        this.syncRecipes(); // Call sync function
+        this.syncRecipes(); 
         this.successMessage = 'Recipe successfully updated and synchronized!';
         setTimeout(() => {
           this.router.navigate([`/recipes`]);
-        }, 2000); // Redirect after 2 seconds
+        }, 2000); 
       },
       error: (err) => {
         console.error('Error updating recipe:', err);

@@ -30,7 +30,7 @@ export class RecipesComponent implements OnInit {
       if (data && data.results && Array.isArray(data.results)) {
         this.recipes = data.results.map((recipe) => ({
           ...recipe,
-          averageRating: recipe.averageRating || 0, // Voeg de gemiddelde rating toe
+          averageRating: recipe.averageRating || 0, 
         }));
         this.filteredRecipes = [...this.recipes]; 
       } else {

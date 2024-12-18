@@ -14,7 +14,7 @@ import { IUserCredentials, IUserIdentity } from '@avans-nx-workshop/shared/api';
 import { CreateUserDto } from '@avans-nx-workshop/backend/dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import * as bcrypt from 'bcrypt'; // bcrypt toegevoegd
+import * as bcrypt from 'bcrypt'; 
 
 @Injectable()
 export class AuthService {
@@ -30,9 +30,9 @@ export class AuthService {
         this.logger.log('validateUser');
         const user = await this.userModel.findOne({
             emailAddress: credentials.emailAddress
-        }).select('+password'); // Zorg ervoor dat het wachtwoord wordt opgehaald
+        }).select('+password');
 
-        if (user && await bcrypt.compare(credentials.password, user.password)) { // Vergelijk gehashte wachtwoorden
+        if (user && await bcrypt.compare(credentials.password, user.password)) { 
             return user;
         }
 
@@ -45,10 +45,10 @@ export class AuthService {
             .findOne({
                 emailAddress: credentials.emailAddress
             })
-            .select('+password') // Haal het wachtwoord op voor vergelijking
+            .select('+password') 
             .exec()
             .then(async (user) => {
-                if (user && await bcrypt.compare(credentials.password, user.password)) { // Vergelijk gehashte wachtwoorden
+                if (user && await bcrypt.compare(credentials.password, user.password)) { 
                     const payload = {
                         user_id: user._id,
                         name: user.name,
@@ -75,7 +75,6 @@ export class AuthService {
     async register(user: CreateUserDto): Promise<IUserIdentity> {
         this.logger.log(`Registering user: ${user.name}`);
     try{
-        // Check if the user already exists
         const existingUser = await this.userModel.findOne({ emailAddress: user.emailAddress });
         if (existingUser) {
             this.logger.debug('User already exists');
@@ -85,19 +84,15 @@ export class AuthService {
             throw new BadRequestException('Invalid data. Please check all fields.');
         }
     
-        // Hash het wachtwoord
         const hashedPassword = await bcrypt.hash(user.password, this.saltRounds);
-        user.password = hashedPassword; // Sla het gehashte wachtwoord op
+        user.password = hashedPassword;
     
-        // Create the user in the database
         this.logger.debug('User not found, creating new user');
         const createdUser = await this.userModel.create(user);
     
-        // Generate a JWT token for the user
         const payload = { user_id: createdUser._id.toString(), name: createdUser.name, profileImgUrl: createdUser.profileImgUrl };
         const token = this.jwtService.sign(payload);
     
-        // Return the created user with the token
         return {
             name: createdUser.name,
             emailAddress: createdUser.emailAddress,
@@ -109,21 +104,19 @@ export class AuthService {
     if ((err as any).name === 'ValidationError') {
         this.logger.error('Validation error:', (err as any).errors);
 
-        // Verwerk de validatiefouten
         const errorDetails = Object.values((err as any).errors).map((error: any) => {
             return {
-                field: error.path || 'unknown', // Gebruik 'path', of een fallback als deze ontbreekt
-                message: error.message || 'Unknown validation error', // Gebruik de foutmelding
+                field: error.path || 'unknown', 
+                message: error.message || 'Unknown validation error',
             };
         });
 
-        // Gooi een gedetailleerde foutmelding
         throw new BadRequestException({
             message: 'Validation failed',
             errors: errorDetails,
         });
     }
-    throw err; // Andere fouten opnieuw gooien
+    throw err; 
 }
 
 }

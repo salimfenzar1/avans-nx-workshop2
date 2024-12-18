@@ -1,6 +1,7 @@
-import { Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { RecipeNeo4jService } from './neo4j-recipe.service';
+import { AuthGuard } from '@avans-nx-workshop/backend/auth';
 
 @ApiTags('Neo4j Recipes') 
 @Controller('neo4j/recipes')
@@ -27,7 +28,9 @@ export class RecipeNeo4jController {
   }
 
   @ApiOperation({ summary: 'Verwijder een recept uit Neo4j' })
+  
   @Delete(':id')
+  @UseGuards(AuthGuard) 
   async deleteRecipe(@Param('id') id: string) {
     await this.recipeNeo4jService.deleteRecipeFromNeo4j(id);
     return { message: `Recept met ID ${id} verwijderd uit Neo4j` };

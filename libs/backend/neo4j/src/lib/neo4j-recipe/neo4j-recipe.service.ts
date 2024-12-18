@@ -12,13 +12,11 @@ export class RecipeNeo4jService {
     private readonly mongoReviewService: ReviewService
   ) {}
 
-  // Synchroniseer recepten en favorieten naar Neo4j
   async syncRecipes(): Promise<void> {
     const recipes = await this.mongoRecipeService.findAll();
     const users = await this.mongoUserService.findAll(); 
   
     for (const recipe of recipes) {
-      // Voeg recepten toe aan Neo4j
       await this.neo4jService.write(
         `
         MERGE (r:Recipe {id: $recipeId})
@@ -32,9 +30,9 @@ export class RecipeNeo4jService {
           recipeId: recipe._id.toString(),
           title: recipe.title,
           description: recipe.description,
-          imageUrl: recipe.imageUrl || 'default-image-url.jpg', // Voeg een standaardafbeelding toe als er geen is
+          imageUrl: recipe.imageUrl || 'default-image-url.jpg', 
           category: recipe.category,
-          averageRating: recipe.averageRating || 0, // Standaard 0 als geen rating beschikbaar is
+          averageRating: recipe.averageRating || 0, 
         }
       );
       const reviews = await this.mongoReviewService.getReviewsForRecipe(recipe._id.toString());
@@ -57,9 +55,6 @@ export class RecipeNeo4jService {
       }
     }
 
-    
-  
-    // Voeg favorieten relaties toe
     for (const user of users) {
       if (user.favorites && Array.isArray(user.favorites)) {
         for (const recipeId of user.favorites) {
@@ -88,8 +83,7 @@ export class RecipeNeo4jService {
       { recipeId }
     );
   }
-  
-  // Haal populairste recepten op
+
   async getPopularRecipes(): Promise<any[]> {
     const query = `
       MATCH (r:Recipe)<-[:FAVORITES]-(u:User)
@@ -105,7 +99,6 @@ export class RecipeNeo4jService {
     }));
   }
 
-  // Haal best beoordeelde recepten op
   async getBestRatedRecipes(): Promise<any[]> {
     const query = `
       MATCH (r:Recipe)

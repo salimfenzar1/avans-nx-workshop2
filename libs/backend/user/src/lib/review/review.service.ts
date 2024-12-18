@@ -9,13 +9,11 @@ export class ReviewService {
     @InjectModel(Review.name) private reviewModel: Model<ReviewDocument>,
   ) {}
 
-  // Add a review
   async addReview(userId: string, recipeId: string, rating: number, comment: string) {
     const review = new this.reviewModel({ user: userId, recipe: recipeId, rating, comment });
     return review.save();
   }
 
-  // Get all reviews for a recipe
   async getReviewsForRecipe(recipeId: string) {
     return this.reviewModel
       .find({ recipe: recipeId })
@@ -23,7 +21,6 @@ export class ReviewService {
       .exec();
   }
 
-  // Get average rating for a recipe
   async getAverageRating(recipeId: string) {
     const result = await this.reviewModel.aggregate([
         { $match: { recipe: new Types.ObjectId(recipeId) } },
